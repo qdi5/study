@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>video视频</title>
+		<style type="text/css">
+			video {
+			  background: #000;
+			  border: 1px solid red;
+			  display: block;
+			  margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body>
+		<video src="lz.mp4" width="500" height="500px" id="video" poster="poster.jpg">
+			您的浏览器不支持video标签
+		</video>
+		<button id="btn">播放</button>
+		<script>
+			let oVideo = document.getElementById('video')
+			let btn = document.getElementById('btn')
+			let mark = false
+			btn.onclick = function () {
+				mark ? (oVideo.pause(), 1)&& (this.innerHTML = '播放') : oVideo.play() && (this.innerHTML = '暂停')
+				mark = !mark				
+			}
+			console.log(oVideo.currentTime, oVideo.duration, oVideo.volume, oVideo.muted, oVideo.paused, oVideo.ended, oVideo.currentStr)
+		</script>
+	</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>lodash类型判断</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="./src/css/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="./src/js/lodash.full.js"></script>
+</head>
+<body style="height: 1500px;width: 100%;">
+
+<script src="./src/js/jquery.js"></script>
+<script>
+//lodash中的类型判断
+//1、isArguments(value) 判断是否是一个arguments对象
+console.log("是否是arguments:",_.isArguments(function(){return arguments}));
+
+//2、isArray(value) 判断是否是数组类型
+console.log("[1,2,3]是不是数组：",_.isArray([1,2,3]));
+_.isArray("document.body.children是不是数组：",document.body.children);
+
+//3、isArrayLike(value) 检查值是否是类似数组，如果它不是一个函数，而且有length属性且值大于0且小于js数值的有效范围,可以看作是类数组的值。
+console.log('[1,2,3]是不是类数组：',_.isArrayLike([1,2,3]));
+console.log('"abc"是不是类数组', _.isArrayLike('abc'));
+console.log('document.body.children是不是类数组：', _.isArrayLike(document.body.children));
+    //isArrayLikeObject 与isArrayLike类似，但是它同时会检测值是不是对象
+
+ //4、isBoolean
+ console.log('NaN是不是布尔值：',_.isBoolean(NaN));
+
+ //5、isDate(value) 检查是不是Date 对象
+ console.log('new Date是不是日期：',_.isDate(new Date));
+ console.log('Mon April 23 2012是不是日期', _.isDate('Mon April 23 2012'));
+
+//6、isElement(value) 检查是否可能是DOM元素
+console.log('document.body是不是一个dom元素：', _.isElement(document.body));
+console.log('"<body>"是不是一个dom元素：', _.isElement('<body>'));
+
+//7、isEmpty(value) 检查值是不是一个空对象，空集合，空map或者空的set对象;如果一个对象没有自身可枚举的键属性，则可以被认为是empty的。
+_.isEmpty(null);
+_.isEmpty(true);
+_.isEmpty(1);
+_.isEmpty([1,2,3]);
+_.isEmpty({ 'a': 1});
+
+//8、isEqual(value, other) 比较对象的时候只比较他们本身，不会比较集成的可枚举的属性；函数和dom节点在严格模式下比较
+//
+var obj = {'a': 1},
+    other = {'a': 1};
+
+    console.log(_.isEqual(obj, other));
+
+//9、isFinite(value) 检查值是否是一个有效的数字
+console.log('检测数字是否有效：',_.isFinite(3));
+console.log('Number.MIN_VALUE是否是有效数字：', Number.MIN_VALUE);
+console.log('Infinity是不是有效数字：',_.isFinite(Infinity));
+console.log('"3"是不是有效数字', _.isFinite('3'));
+//10、isFunction(value)
+console.log('"_"是不是函数',_.isFunction(_));
+
+//11、isInteger(value)
+console.log('3是不是整数：',_.isInteger(3));
+//12、isMatch(object, source) 在object和source之间执行部分深比较，判断对象是否包含等价的属性值。
+var object = { 'a': 1, 'b': 2 };
+console.log('{"a": 1, "b": 2}是否包含{"b":2}', _.isMatch(object, {'b':2}));
+console.log('{"a": 1, "b": 2}是否包含{"b":1}' ,_.isMatch(object, { 'b': 1 }));
+//13、isNaN(value)
+console.log('NaN对象是不是NaN：', _.isNaN(NaN));
+console.log('new Number(NaN)', new Number(NaN));
+console.log('undefined是不是NaN', _.isNaN(undefined));
+//14、isNative(value) 检查值是不是原始的本地函数
+
+//15、isNil(value) 检查值是null或者undefined
+console.log('isNil检测null:', _.isNil(null));
+console.log('isNil检测void 0', _.isNil(void 0));
+console.log('isNil检测NaN', _.isNil(NaN));
+//16、isNull(value)
+console.log('检测null：', _.isNull(null));
+console.log('检测void 0:', _.isNull(void 0));
+//17、isNumber(value)
+console.log('检测3333是不是数字：' ,_.isNumber(3333));
+//18、isObject(value) 检测是不是对象(包括 arrays、functions、objects、regexs、new Number(0),new String(''))
+console.log('{}是不是对象：', _.isObject({}));
+console.log('[1,2,3]是不是对象：', _.isObject([1,2,3,4,5]));
+console.log('_.noop是不是对象：', _.isObject(_.noop));
+console.log('null是不是对象：', _.isObject(null));
+//19、isObjectLike(value) 是不是类对象;如果它不是null并且它的typeof的值是object，则被看作是类对象
+console.log('{}是不是类对象：', _.isObjectLike({}));
+console.log('[1,2,3]是不是类对象：', _.isObjectLike([1,2,3]));
+console.log(_.isObjectLike(new Function()));
+//20、isPlainObject(value) 检测一个值是不是一个纯净的对象；也就是，一个对象是由Object构造器创建的或者它的prototype是null
+function Foo() {
+    this.a = 1;
+}
+console.log('new Foo是不是一个纯净的对象：', _.isPlainObject(new Foo));
+console.log('[1,2,3]是不是一个纯净的对象：', _.isPlainObject([1,2,3]));
+console.log('{"x": 0, "y": 0}是不是一个纯净的对象：',_.isPlainObject({ 'x': 0, 'y': 0}));
+console.log('Object.create是不是一个纯净的对象：', _.isPlainObject(Object.create(null)));
+console.log('{}是不是一个纯净的对象：', _.isPlainObject({}));
+//21、isRegExp(value) 检查一个值是不是被归类为正则对象
+console.log('/abc/是不是正则对象：',_.isRegExp(/abc/));
+console.log('"/abc/"是不是一个正则对象：', _.isRegExp('/abc/'));
+//22、isSet(value)
+console.log('new Set是不是一Set对象：', _.isSet(new Set));
+//23、isString(value) 检测是否是原始的字符串或者对象
+console.log('"abc"是不是字符串：', _.isString('abc'));
+console.log('1是不是字符串:', _.isString(1));
+//24、isUndefined(value)
+console.log('void 0是不是undefined',_.isUndefined(void 0));
+console.log('null是不是undefined', _.isUndefined(null));
+//25、toArray(value) 转换值未数组
+console.log("{'a': 1,'b': 2}转换为数组：", _.toArray({'a': 1,'b': 2}));
+console.log("1转换为数组：", _.toArray(1));
+//26、toFinite(value)将值转换为一个有效的数字
+console.log("将3.2转换为有效的数字", _.toFinite(3.2));
+console.log("将Infinity转换为有效的数字", _.toFinite(Infinity));
+console.log("将字符串'3.2'转换为有效的数字", _.toFinite('3.2'));
+//27、toInteger(value);
+console.log('将3.2转换为整数', _.toInteger(3.2));
+console.log('Number.MIN_VALUE转换为整数', _.toInteger(Number.MIN_VALUE));
+//28、toNumber(value)
+
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动态组件</title>
+	</head>
+	<body>
+		<p>
+		  Vue提供了一个特殊的元素<component>用来动态地挂载不同地组件，使用is特性来选择要挂载的组件。
+		</p>
+		<div id="app">
+			<component :is="currentView"></component>
+			<button @click="handleChangeView('A')">切换到A</button>
+			<button @click="handleChangeView('B')">切换到B</button>
+			<button @click="handleChangeView('C')">切换到C</button>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				components: {
+					comA: {
+						template: '<div>组件A</div>'
+					},
+					comB: {
+						template: '<div>组件B</div>'
+					},
+					comC: {
+						template: '<div>组件C</div>'
+					}
+				},
+				data: {
+					currentView: 'comA'
+				},
+				methods: {
+					handleChangeView (component) {
+					  this.currentView = 'com' + component
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

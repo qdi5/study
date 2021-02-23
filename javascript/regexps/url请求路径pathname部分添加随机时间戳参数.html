@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>请求路径添加随机数</title>
+	</head>
+	<body>
+		<script>
+			// 给请求地址添加随机时间戳
+			function addRandomTimeToUrl(pathname) {
+				/**
+				 * timestamp
+				 * 1、abc：添加？和gberptimestamp
+				 * 2、/abc 添加？和gberptimestamp
+				 * 3、/abc?d=xxx 添加&和gberptimestamp
+				 * 4、/abc?d=xxx&e=xxx 添加&和gberptimestamp
+				 * 5、abc#anchor 需要在#号前添加?和gberptimestamp
+				 * 6、/abc?d=xxx&e=xxx#hash 需要在#号前添加&和gberptimestamp
+				 * 
+				 * 
+				 * 小结：有#号 —— 问号？没有问号？
+				 *      没有#号 —— 问号？没有问号？
+				 */
+				// 是否有?号
+				let hasQuestionMark = isIndexExist(pathname.lastIndexOf('?'))
+				// 是否有&号？
+				let hasAmpersand = isIndexExist(pathname.lastIndexOf('&'))
+				// 时间戳
+				let hashIndex = pathname.lastIndexOf('#')
+				let hasHash = isIndexExist(hashIndex)
+				let timestamp = (Date.now && Date.now()) || new Date().getTime()
+				function isIndexExist(index) {
+					return index >= 0 ? true : false
+				}
+				// 在请求链接里新增的属性名
+				let paramName = 'gberptimestamp'
+				
+				// 没有#号的情况
+				if (!hasHash) {
+					if (!hasQuestionMark) {
+						// 没有问号的情况
+						pathname += '?' + paramName + '=' + timestamp
+					} else {
+						// 只有问号 以及 同时有问号和和好
+						pathname += '&' + paramName + '=' + timestamp
+					}
+				} else {
+					// 有#号的情况
+					if (!hasQuestionMark) {
+						// 没有问号的情况
+						pathname = pathname.replace(createBeforeCharReg('#'), '?' + paramName + '=' + timestamp)
+					} else {
+						// 只有问号 以及 同时有问号和和好
+						pathname = pathname.replace(createBeforeCharReg('#'), '&' + paramName + '=' + timestamp)
+					}					
+				}
+				return pathname
+			}
+			// 创建一个匹配指定字符之前的位置的正则
+			function createBeforeCharReg (str) {
+				debugger;
+				if (!(str && String(str).trim())) {
+					return
+				}
+				let regexp = new RegExp('(?=' + str + ')')
+				console.log('regexp:', regexp)
+				return regexp
+			} 
+			// 测试
+			console.log('save:', addRandomTimeToUrl('save'))
+			console.log('/save:', addRandomTimeToUrl('/save'))
+			console.log('/save?wuzhe=666:', addRandomTimeToUrl('/save?wuzhe=666'))
+			console.log('/save?wuzhe=666&nice=true:', addRandomTimeToUrl('/save?wuzhe=666&nice=true'))
+			console.log('save#anchor:', addRandomTimeToUrl('save#anchor'))
+			console.log('/save#anchor:', addRandomTimeToUrl('/save#anchor'))
+			console.log('/save?wuzhe=666&nice=true#anchor:', addRandomTimeToUrl('/save?wuzhe=666&nice=true#anchor'))
+			
+			
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>数字输入框组件</title>
+		<link rel="stylesheet" href="./input-number.css">
+	</head>
+	<body>
+		<p>1、只能输入数字，且有两个快捷按钮，可以直接减1或加1</p>
+		<p>2、可以设置初始值、最大值、最小值</p>
+		<p>3、在数值改变时，触发一个自定义事件来通知父组件</p>
+		<input type="text" value="123" disabled>
+		<div id="app">
+			<!-- v-model可以看作是v-bind和v-on的结合 -->
+			<!-- 这里可以看作是 :value="value" @input="function (newValue) { this.value = newValue}" -->
+			<!-- 这里的@input可以看作是监听了一个自定义的事件input，子组件通过$emit触发这个input事件，传递新的数据过来 -->
+			<input-number v-model="value" :max="10" :min="0"></input-number>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="./input-number.js"></script>
+		<script src="./index.js"></script>
+	</body>
+</html>

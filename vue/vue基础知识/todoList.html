@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>工作清单</title>
+    <script src="./js/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<style>
+    #app {
+        margin-top: 30px;
+    }
+
+    .name {
+        font-size: 20px;
+        font-weight: bold;
+        color: #FFAA33;
+    }
+
+    .isFinish {
+        color: #FF3333;
+    }
+</style>
+<body>
+    <div id="app" class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="form-group">
+                    <label for="" class="name">添加工作事项</label>
+                    <input type="text" class="form-control" placeholder="输入事件名称" v-model="newItem" @keyup.enter="addItem">
+                </div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        工作清单：
+                    </a>
+                    <a href="#" class="list-group-item" v-for="(item, index) in itemList">
+                        <span>{{index + 1}}</span>
+                        {{item.title}}
+                        <span class="badge" @click="removeItem(index)">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </span>
+                        <span class="badge" :class="{isFinish: item.isFinish}" @click="toggleItem(item)">
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //立即执行函数封装，储存输入的数据
+        var LBC = (function () {
+            return {
+                add(value) {
+                    localStorage.setItem('todoList', JSON.stringify(value))
+                },
+                get() {
+                    return JSON.parse(localStorage.getItem('todoList'))
+                },
+                remove() {
+                    localStorage.removeItem('todoList')
+                }
+            }
+        })()
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                newItem: '',
+                itemList: LBC.get() || [],
+            },
+            methods: {
+                //添加工作事项
+                addItem() {
+                    var item = {
+                        id: this.itemList.length + 1,
+                        title: this.newItem,
+                        isFinish: false,
+                    }
+                    this.itemList.push(item)
+                    LBC.add(this.itemList)
+                    this.newItem = ''
+                },
+                //绑定点击事件，工作是否完成
+                toggleItem(item) {
+                    item.isFinish = !item.isFinish;
+                    LBC.add(this.itemList)
+                },
+                //绑定点击事件，清除已完成工作
+                removeItem(index) {
+                    this.itemList.splice(index, 1);
+                    LBC.add(this.itemList)
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

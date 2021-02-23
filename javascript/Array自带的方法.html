@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Array自带的一套方法</title>
+	</head>
+	<body>
+		<script>
+			// 1.array.concat(item)
+			var a = ['a', 'b', 'c']
+			var b = ['x', 'y', 'z']
+			var c = a.concat(b, true)
+			console.log('c:', c)
+			
+			// 2.array.join()
+			a.push('d')
+			var c = a.join('')
+			console.log('c:', c)
+			
+			// 3.array.pop() 移除array中最后一个元素并返回该元素
+			var c = a.pop()
+			console.log('c:', c)
+			console.log('a:', a)
+			
+			// 4.array.reverse() 反转array里的元素的顺序,并返回array本身
+			var c = a.reverse() // 现在 a和c都是反转之后的数组
+			console.log(a, c)
+			
+			// 5.array.shift() 移除array中的第一个元素并返回该元素.shift通常比pop慢的多
+			var c = a.shift()
+			console.log('c:', c,'a:', a)
+			
+			// 6.array.slice(start, end) 对array中的一段做浅复制
+			var d = [1,2,3, {name: '吴哲', age: '26'}]
+			var e = d.slice(0)
+			console.log(d, e, d[3] === e[3])
+			
+			// 7.array.sort(comparefn) comparefn比较函数接受两个参数,并且如果这两个参数相等则返回0,
+			// 如果第一个参数应该排列在前面,则返回一个负数,如果第2个参数应该排列在前面,则返回一个正数.
+			var m = ['aa', 'bb', 'a', 4, 8, 15, 16, 23, 42]
+			m.sort(function (a, b) {
+				if(a === b) return 0
+				 if (typeof a === typeof b) {
+					 return a < b ? -1 : 1
+				 }
+				 return typeof a < typeof b ? -1 : 1
+			})
+			
+			console.log('m:',m)
+			// sort排序是不稳定的(排序的稳定性是指排序后数组中的相等值的相对位置没有发生改变，而不稳定排序则会改变相等值的相对位置)
+			
+			// 8.array.splice(start, deleteCount, item) splice方法从array中移除一个或多个元素,并用新的item替换它们
+			// 参数start是从数组array中移除元素的开始位置.参数deleteCount是要移除的元素个数.如果有额外的参数,那些item会插入到
+			// 被移除元素的位置上.它返回一个被移除元素的数组
+			var a = ['a','b','c']
+			var r = a.splice(1, 1, 'ache', 'bug')
+			console.log('a:', a, 'r:', r)
+			
+			// 9.array.unshift(item) 把item插入到array的开始部分而不是尾部,它返回array的新的maxlength
+		    var r = a.unshift('?', '@')
+			console.log('a:', a, 'r:', r)
+			
+		</script>
+	</body>
+</html>

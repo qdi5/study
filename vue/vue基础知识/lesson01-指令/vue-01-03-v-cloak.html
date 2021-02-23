@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>v-cloak</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+	[v-cloak] {
+		display: none;
+	}
+</style>
+</head>
+<body>
+
+    <!-- v-once 只绑定一次，之后修改vue实例的数据不会变化 -->
+    <div id="app" v-once>
+		v-cloak指令相当于在元素上添加了一个[v-cloak]的属性，直到关联的实例结束编译。
+		官方推荐可以和css规则[v-cloak]{display: none} 一起使用，可以隐藏未编译的
+		mustache标签直到实例准备完毕
+        <!--输出data数据里的name值-->
+        <div v-cloak>
+        	{{ name }}
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: { //绑定数据到#app的实例上
+                name: "qdi5"
+            }
+        });
+
+
+
+    </script>
+</body>
+</html>

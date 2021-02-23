@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue多个元素或组件的过渡</title>
+</head>
+<body>
+  <div id="app">
+    <fade :show="show">
+      <div>封装动画啦</div>
+    </fade>
+    <button @click="show=!show">执行封装的动画</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('fade', {
+      props: ['show'],
+      template: `
+        <transition
+          @before-enter="handleBeforeEnter"
+          @enter="handleEnter"
+          @afterEnter="handleAfterEnter"
+          @before-leave="handleBeforeLeave"
+          @leave="handleLeave"
+          @afterleave="handleAfterLeave"
+        >
+          <slot v-if="show"></slot>
+        </transition>`,
+        methods: {
+          handleBeforeEnter (el) {
+            el.style.opacity = 0
+          },
+          handleEnter (el, done) {
+            // 在1500毫秒内，完成透明度0到1的变化
+            var duration = 3000
+            var attrBeginNumber = 0
+            var attrEndNumber = 1
+            // 执行频率
+            var loop = 20
+            // 每毫秒的变化值
+            var step = ((attrEndNumber - attrBeginNumber) / duration) * loop
+            var v = 0
+            console.time()
+            var index = setInterval(() => {
+              if (window.parseInt(v) >= attrEndNumber) {
+                // console.log('条件成立了')
+                done()
+                clearInterval(index)
+                console.timeEnd()
+              } else {
+                // console.log(v)
+                // console.log('条件没成立')
+                v += step
+                el.style.opacity = v
+              }
+            }, loop);
+            
+          },
+          handleAfterEnter (el) {
+            console.log('进入动画完毕')
+          },
+          handleBeforeLeave (el) {
+            el.style.opacity = 1
+          },
+          handleLeave (el, done) {
+            setTimeout(() => {
+              el.style.opacity = 0
+              setTimeout(() => {
+                done()
+              }, 1000);
+            }, 1500);
+          },
+          handleAfterLeave (el) {
+            console.log('离开动画完毕')
+          }
+        }
+    })
+    new Vue({
+      data: {
+       list: [],
+       show: false
+      },
+      el: '#app'
+    })
+  </script>
+</body>
+</html>

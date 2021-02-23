@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>动态组件与keep-alive缓存组件02</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+	.highlight {
+		color: red;
+	}
+</style>
+</head>
+<body>
+	<div id="app">
+       <ul>
+        	<li @click="currentView = 'home'" :class="{highlight: currentView === 'home'}">Home</li>
+        	<li @click="currentView = 'list'" :class="{highlight: currentView === 'list'}" >List</li>
+        	<li @click="currentView = 'detail'" :class="{highlight: currentView === 'detail'}">Detail</li>
+        </ul>
+        <component :is="currentView"></component>	
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	currentView: 'home'
+            },
+            activated () {
+            	console.log('activated');
+            },
+            components: {
+            	home: {
+            		template: `
+            			<div>
+	            			<p>home</p>
+	            			<ul>
+	            				<li v-for="item in items">{{ item }}</li>
+	            			</ul>
+	            		</div>	
+            		`,
+            		data () {
+            			return {
+            				items: []
+            			}
+            		},
+            		mounted () {
+            			console.log('home-mounted');
+            		},
+            		activate (done) {
+            			console.log(done);
+            			var that = this;
+            			
+            			setTimeout(function () {
+            				that.items = [1, 2, 3, 4, 5, 6];
+            				done();
+            			}, 1000);
+            		}
+            	},
+            	list: {
+            		template: '<div>List</div>'
+            	},
+            	detail: {
+            		template: '<div>Detail</div>'
+            	}
+            }
+        });
+    </script>
+</body>
+</html>

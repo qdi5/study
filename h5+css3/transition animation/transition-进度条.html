@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition进度条</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .box {
+      position: relative;
+      width: 0px;
+      height: 20px;
+      border-radius: 10px;
+      background-color: red;
+      transition: width 25ms linear;
+      /** linear表示匀速 **/
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <button id="start">读取进度</button>
+  <button id="stop">暂停</button>
+  <script>
+  let box = document.querySelector('.box')
+  start.onclick = function() {
+    console.log('start……')
+    progress()
+    addEvent(progress) 
+  }
+  
+  // 进度条运动的方法
+  function progress() {
+    if (box.offsetWidth >= 100) {
+      start.onclick = null
+      box.style.width = 100 + 'px'
+    } else {
+      box.style.width = ++box.offsetWidth + 'px'
+    }
+  }
+
+  let fn = function(){
+    progress()
+  }
+  
+
+  function addEvent(obj, fn) {
+    // box.addEventListener('transitionend', fn, false)
+    obj.addEventListener('webkitTransitionEnd', fn, false)
+  }
+
+  function removeEvent(obj, fn) {
+    // obj.removeEventListener('transitionend', fn, false)
+    obj.removeEventListener('webkitTransitionEnd', fn, false)
+  }
+  </script>
+</body>
+</html>

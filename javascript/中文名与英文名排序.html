@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>sort-中文名与英文名排序</title>
+	</head>
+	<body>
+		<script src="lodash.js"></script>
+		<script>
+			/* function pySegSort(arr,empty) {
+				if(!String.prototype.localeCompare) return null;
+				var letters = "*abcdefghjklmnopqrstwxyz".split('');
+				var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
+				var segs = [];
+				var curr;
+				debugger
+				letters.forEach(function(str, i){
+					console.log('this', str, i)
+					curr = {letter: str, data:[]};
+					arr.forEach(function() {
+						if((!zh[i-1] || zh[i-1].localeCompare(str) <= 0) && str.localeCompare(zh[i]) == -1) {
+							curr.data.push(str);
+						}
+					});
+					if(empty || curr.data.length) {
+						segs.push(curr);
+						curr.data.sort(function(a,b){
+							return a.localeCompare(b);
+						});
+					}
+				});
+				return segs;
+			}
+			console.log(pySegSort(['白鸽', '麻雀','黑','大象', '狗', '猫','妈妈','马', "鸡",'瘦','胖'])); */
+			let test = [
+				{
+					name: '马良'
+				},
+				{
+					name: '陈鸿宇'
+				},
+				{
+					name: '阿肆'
+				},
+				{
+					name: '郭顶'
+				},
+				{
+					name: '许巍'
+				},
+				{
+					name: '袁娅维'
+				},
+				{
+					name: 'Alan Walker'
+				},
+				{
+					name: '薛之谦'
+				},
+				{
+					name: 'Coldplay'
+				},
+				{
+					name: 'Beyond'
+				},
+				{
+					name: 'Higher Brothers'
+				},
+				{
+					name: 'G.E.M.邓紫棋'
+				}
+				]
+				let newTest = _.sortBy(test,  ['name'])
+			    console.log(newTest)
+		</script>
+	</body>
+</html>

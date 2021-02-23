@@ -1,0 +1,2 @@
+1、viewpage.vue是布局组件，使用slot标签占位,其name属性值对应着index.vue中标签里的slot属性值；
+index.vue里的组件将会替代viewpage里的slot标签；

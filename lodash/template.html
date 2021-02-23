@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>lodash tempate模板</title>
+	</head>
+	<body>
+		<script src="./lodash.js"></script>
+		<script type="text/template" id="tmpl">
+			<$ data.forEach(function(item, index){ $>
+				<div class="item-row yb-wrapper">
+					<div class="btn btn-item">
+						<input type="text" value="<$=item.meterTpyeName$>" class="fee-type" placeholder='费用类别'/>
+					</div>
+					<div class="btn btn-item">
+						编号： <input type="text" value="<$=item.meterTpyeNo$>" />
+					</div>
+				</div>
+			<$ }) $>
+		</script>
+		<script>
+		    var options = {
+					interpolate: /<\$=([\s\S]+?)\$>/g,
+					escape: /<\$-([\s\S]+?)\$>/g,
+					evaluate: /<\$([\s\S]+?)\$>/g
+				}
+				/*
+				_.templateSettings.interpolate = /<\$=([\s\S]+?)\$>/g;
+				_.templateSettings.escape = /<\$-([\s\S]+?)\$>/g;
+				_.templateSettings.evaluate = /<\$([\s\S]+?)\$>/g;
+				*/
+				var data = [
+					{
+						meterTpyeName: '吴尊',
+						meterTpyeNo: 1
+					},
+					{
+						meterTpyeName: '吴京',
+						meterTpyeNo: 2
+					},
+				]
+		    var compiled = _.template(tmpl.innerHTML, options)
+				var html = compiled({ data })
+				document.body.innerHTML=html    				
+		</script>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>回顾父组件传递数据给子组件</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<z2 :abc="name"></z2>
+		</div>
+		<script>
+			Vue.component('z2',{
+				template: '<div>我是子组件z2，这是子组件的数据：{{ name }},获取父组件的数据：{{ abc }}</div>',
+				props: ['abc'],
+				data: function(){
+					return {
+						name: '子组件的数据;'
+					}
+				}
+			});
+			
+			var app = new Vue({
+				el: '#app',
+				
+				data: {
+					name: '我是父组件的数据噢'
+				},
+				methods: {
+					
+				}
+			});
+		</script>
+	</body>
+</html>

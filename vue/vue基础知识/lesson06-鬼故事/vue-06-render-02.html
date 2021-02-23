@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>render函数</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+	.feature {
+		margin-top: 2500px;
+	}
+</style>
+</head>
+<body>
+    
+	<div id="app">
+        <anchor :level="2" title="特性" :class="feature">特性</anchor>    
+    </div>
+    <script>
+    	Vue.component('anchor', {
+    		props: {
+   
+    			level: {
+    				type: Number,
+    				required: true
+    			},
+    			title: {
+    				type: String,
+    				default: ''
+    			}
+    		},
+    		render: function (createElement) {
+    			return createElement(
+    				'h' + this.level,
+    				[
+    					createElement(
+    						'a',
+    						{
+    							domProps: {
+    								href: '#' + this.title
+    							}
+    						},
+    						this.$slots.default
+    					)
+    				]
+    				
+    			);
+    		}
+    	});
+    	var app = new Vue({
+    		el: '#app',
+    		data: {
+    			feature: 'feature'
+    		}
+    	});
+    </script>
+</body>
+</html>

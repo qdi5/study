@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+	 <table>
+		 <thead>
+		    <th>期数</th>
+		    <th>应付日期</th>
+		    <th>调整日期</th>
+		    <th>租金</th>
+		    <th>抵扣</th>
+		    <th>应付</th>
+		    <th>备注</th>
+		    <th>状态</th>
+		 </thead>
+		 <tbody id="table">
+		         	 
+		 </tbody>
+	</table>
+    <script src="./lib/xdate.js"></script>
+    <script src="./lib/lodash.min.js"></script>
+    <script type="text/template" id="divDetail">
+	  <% data.forEach(function(item) { %>
+		<tr>
+			 <td>
+				 <input type="text" size="4" name="details[<%=item.index%>].period" value="<%=item.period%>" class="input-text"/>
+			 </td>
+			 <td>
+				 <input type="text" size="8" name="details[<%=item.index%>].transactionDate" value="<%=item.transactionDate%>" onclick="WdatePicker();" class="input-text"/>
+			 </td>
+			 <td>
+				 <input type="text" size="8" name="details[<%=item.index%>].actTransactionDate" value="<%=item.actTransactionDate%>" onclick="WdatePicker();" class="input-text"/>
+			 </td>
+			 <td>
+				 <input type="text" size="6" name="details[<%=item.index%>].amt" class="input-text amtCls" value="<%=item.amt%>"/>
+			 </td>
+			 <td>
+				 <input type="text" size="6" name="details[<%=item.index%>].amtSub" value="0" class="input-text amtCls2"/>
+			 </td>
+			 <td>
+				 <input type="text" size="6" name="details[<%=item.index%>].amtTo" value="<%=item.amtTo%>" class="input-text"/>
+			 </td>
+			 <td>
+				 <input type="text" size="12" name="details[<%=item.index%>].note" class="input-text" />
+				 <input type="hidden" name="details[<%=item.index%>].ok" value="0" />
+			 </td>
+			 <td class="text-c">
+				 <a style="text-decoration:none;" class="hide" onClick="del_detail(this)" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe631;</i></a>
+			 </td>
+		</tr>
+	  <%})%>	
+    </script>
+    <script>
+	  // 计租起始日的号数
+	  var rentBeginDay = 15
+	  // 每月付租日的号数
+	  var payRentDay = 18
+	  // 合同开始日期
+	  var contractBeginDate = '2020-01-01'
+	  // 计租起始日
+	  var rentBeginDate = '2020-05-01'
+	  // 字段索引
+	  var fieldIndex = 0
+	  // 30天 代表一整月
+	  var WHOLE_MONTH_HAS_DAYS = 30
+	  // 360天 代表一整年
+	  var WHOLE_YEAR_HAS_DAYS = 12 * 30
+	  // 2月
+	  var FEBRUARY = 2
+	  
+	  // 获取一年的天数（遵循代付规则）
+	  function getPayrollYearDays(yearStr) {
+	
+	      return getCurrentMonthDays(yearStr, 2) + 30 * 11	
+	  }
+	  
+	  // 如果是2月份，还是以30天算；需要补齐剩余天数
+	  function padDays(year) {
+		  return WHOLE_MONTH_HAS_DAYS - getCurrentMonthDays(year, 2)
+	  }
+	  
+	  // 判断两个日期字符串是否相差了一整年
+	  /**
+	   * @param {年份} year
+	   * @param {Object} days
+	   * @return Boolean
+	   */
+	  function isWholeYear(beginYearStr, endYearStr) {
+		  
+	  }
+	  
+	  // 按照代付的规则，获取两个年份相差的天数
+	  function getDiffYearDays(beginYearStr, endYearStr) {
+	    var yearMonths = getMonthsCounter(beginYearStr, endYearStr, true, true)
+		var endYearArr = endYearStr.split('-')
+		var endYear = endYearArr[0]
+		var endMonth = Number(endYearArr[1])
+		var endDay = Number(endYearArr[2])
+	    var extraDays = 0
+		// 补齐每一年2月份距离30相差的天数
+		debugger
+	    for (var year in yearMonths) {
+	      var months = yearMonths[year]
+		  if (months.indexOf(FEBRUARY) > -1) {
+			if (year !== endYear) {
+				extraDays += padDays(year)
+			} else {
+				if (endDay === getCurrentMonthDays(endYear, FEBRUARY)) {
+					extraDays += padDays(year)
+				}
+			}
+		  }
+	    }
+		var calcedDays = getPayrollDiffDays(beginYearStr, endYearStr, true)
+	    return calcedDays + extraDays
+	  }
+	  console.log('getDiffYearDays:', getDiffYearDays('2020-03-26', '2021-01-10'))
+	  
+	  /**
+	   * 判断是不是整月
+	   */
+	  function isWholeMonth(beginDateStr, endDateStr) {
+		debugger
+		var beginStrAry = beginDateStr.split('-')
+		var beginYear = beginStrAry[0]
+		var beginMonth = Number(beginStrAry[1])
+		var beginDay = Number(beginStrAry[2])
+		var endStrAry = endDateStr.split('-')
+		var endYear = endStrAry[0]
+		if (beginYear !== endYear) {
+			return
+		}
+		var calcedDays = getPayrollDiffDays(beginDateStr, endDateStr)
+		var extraDays = 0
+		if (isFebruary(beginMonth)) {
+		    extraDays = padDays(beginMonth)
+		}
+		return calcedDays + extraDays - WHOLE_MONTH_HAS_DAYS >= 0
+	  }
+	  
+	  // console.log('isWholeMonth：', isWholeMonth('2020-03-18', '2020-04-18'))
+	  
+	  // 计算计租起始日
+	  /**
+	   * @param {日期字符串,String} dateStr
+	   * @param {免租天数,Number} noRentDay
+	   */
+	  function calcBeginRentDate(dateStr,noRentDay) {
+		//   
+		return new XDate(dateStr).addDays(noRentDay).toString('yyyy-MM-dd')
+	  }
+	  console.log('计租起始日：', calcBeginRentDate('2020-01-11', 30))
+	  
+	  
+      // 判断闰年
+      function isLeapYear(year) {
+        return !(year % (year % 100 ? 4 : 400));
+      }
+
+      // 补零
+      function padZero(num, targetLength) {
+        if (targetLength === void 0) {
+          targetLength = 2;
+        }
+        var str = num + "";
+        while (str.length < targetLength) {
+          str = "0" + str;
+        }
+        return str;
+      }
+	  
+     /**
+	   * 依赖loadash.js
+	   * tmplStr: 模板字符串
+	   * dataObj: 渲染的数据对象。如：{result: data}
+	   * data是需要传入的数据，result就是在模板字符串中使用的变量（其值是对象或者是数组）
+	   */
+	  function render(tmplStr, dataObj) {
+		var compiled = _.template(tmplStr)
+		return compiled(dataObj)
+	  }
+	  
+	  // 判断是不是2月
+	  function isFebruary(month) {
+		  return month * 1 === 2
+	  }
+	  
+	  // 是否是大月
+	  function isBigMonth(month) {
+		 // 大月
+		 const bigMonth = [1,3,5,7,8,10,12]
+		 return  bigMonth.indexOf(month) > -1
+	  }
+
+      
+      /**
+	   * 获取免租期内，代付明细
+       * @param {合同开始日期} cBeginDate
+       * @param {起始计租日} rentBeginDate
+       */
+      function getNorentDaysPayrollDetail (
+        cBeginDate,
+        rentBeginDate
+      ) {
+		var manyMonths = getMonthsCounter(cBeginDate, rentBeginDate, true)
+		var data = composizeData(manyMonths)
+		generateNorentDayDom(data)
+      }
+	  
+      getNorentDaysPayrollDetail(contractBeginDate, rentBeginDate);
+      
+	  // 生成从合同开始日期到起始计租日之间的dom结构
+      function generateNorentDayDom(data) {
+        var html = render(document.getElementById('divDetail').innerHTML, {data: data})
+		var $table = document.getElementById('table')
+		$table.innerHTML = html
+      }
+	  
+	  function getRandom(min, max) {
+		  return Math.floor(Math.random() * (max - min)) + min
+	  }
+	  
+	  // 与2月份最大天数比较
+	  function compareToFebruaryDays(year, day) {
+		var februaryDays = getCurrentMonthDays(year, 2)
+		var result = day - februaryDays > 0
+		return {
+		    isGreaterThan: result,
+			februaryDays: februaryDays
+		}
+	  }
+	  
+	  // 根据获取的对象，准备dom模板需要的数据
+	  function composizeData(yearMonthData) {
+		  debugger
+	  	  var data = []
+		  var i = 0
+		  // 用于标识首年的索引
+		  var outerIndex = 0
+		  for (var year in yearMonthData) {
+			// 应付日期字符串：除了 第一个月，应付日期是合同开始日期以外，其余的都是按照计租起始日来设置
+			var transactionDate = ''
+			// 调整日期字符串
+			var actTransactionDate = ''
+			var months = yearMonthData[year]
+			months.forEach(function (month, innerIndex) {
+				// 存储单个对象
+				var obj = {
+				  amt: 0,
+				  amtTo: 0,
+				} 
+				obj['period'] = innerIndex + 1
+				if (outerIndex === 0 && innerIndex === 0) {
+				    transactionDate = contractBeginDate
+					obj['transactionDate'] =  transactionDate
+					actTransactionDate = contractBeginDate
+					obj['actTransactionDate'] = actTransactionDate
+				} else {
+					var rentBeginDayTemp = rentBeginDay
+					var payRentDayTemp = payRentDay
+					if (isFebruary(month)) {
+						var result = compareToFebruaryDays(year, rentBeginDay)
+						if (result.isGreaterThan) {
+							rentBeginDayTemp = result.februaryDays
+						}
+						var resultTwo = compareToFebruaryDays(year, payRentDay)
+						if (resultTwo.isGreaterThan) {
+							payRentDayTemp = resultTwo.februaryDays
+						}
+					}
+					obj['transactionDate'] =  [year,month,rentBeginDayTemp].join('-')
+					obj['actTransactionDate'] = [year,month,payRentDayTemp].join('-')
+				}
+				obj['index'] = fieldIndex++
+				data.push(obj)
+			})
+			outerIndex++
+		  }
+		  return data
+	  }
+	  
+	  // 获取当年当月总共有多少天
+	  function getCurrentMonthDays(year, month) {
+	    var d = new Date(year, month, 0)
+	    return d.getDate()
+	  }
+	  
+	  // 计算起始日期当月剩余天数（不算起始天）
+	  /**
+	   * @param {时间字符串} dateStr
+	   * @param {是否包含起始日，布尔值} include
+	   */
+	  function getRemainDays(dateStr, include) {
+		  // debugger
+		  var ary = dateStr.split('-')
+		  var currentMonthDays = Number(getCurrentMonthDays(ary[0], ary[1]))
+		  var result = currentMonthDays - Number(ary[2])
+		  if (include) {
+		    result++ 		
+		  }
+		  return result
+	  }
+	 
+	  /**
+	   * 返回一个数组，结束日期到开始日期，每个年份对应有多少个月份·
+	   * @param {开始日期字符串} beginDateStr
+	   * @param {结束日期字符串} endDateStr
+	   * @param {是否包含起始天的月份} isIncludeStart
+	   * @param {是否包含结束天的月份} isIncludeEnd
+	   * @return 对象，属性为年份，值为包含的月份数组
+	   */
+	  function getMonthsCounter(beginDateStr, endDateStr, isIncludeStart, isIncludeEnd) {
+	    var beginDateArray = beginDateStr.split('-')
+	    var beginYear = Number(beginDateArray[0])
+	    var beginMonth = Number(beginDateArray[1])
+	    var beginDay = Number(beginDateArray[2])
+	    var endDateArray = endDateStr.split('-')
+	    var endYear = Number(endDateArray[0])
+	    var endMonth = Number(endDateArray[1])
+	    var endDay = Number(endDateArray[2])
+		// 存储月份的数组
+	    var monthList = []
+	    // 数组结果
+	    var result = {}
+	    // 同年份
+	    if (beginYear === endYear) {
+			var i = isIncludeStart ? beginMonth : beginMonth + 1;
+			for (; i < endMonth; i++) {
+				monthList.push(i)
+			} 
+			result[beginYear] = JSON.parse(JSON.stringify(monthList))
+	    } else {
+			// 不同年份
+			for (var j = beginYear; j <= endYear; j++) {
+				var k = 1
+				monthList = []
+				if (j === beginYear) {
+					var k = isIncludeStart ? beginMonth : beginMonth + 1
+					 for (; k <= 12; k++) {
+						monthList.push(k)
+					 }
+				} else if (j === endYear) {
+					endMonth = isIncludeEnd ? endMonth + 1 : endMonth
+					for (; k < endMonth; k++) {
+						monthList.push(k)
+					}
+				} else {
+					for (; k <= 12; k++) {
+						monthList.push(k)
+					}
+				}
+				result[j] = JSON.parse(JSON.stringify(monthList))
+			}
+	    }
+		return result
+	  }
+	  
+	  // 计算免租天数
+	  /**
+	   * @param {免租开始日期} beginDateStr
+	   * @param {结束日期（计租日）} endDateStr
+	   */
+	  function calcNorentDays(beginDateStr, endDateStr, include) {
+		 // debugger
+		return getPayrollDiffDays(beginDateStr, endDateStr, include)
+	  }
+	  
+	  // 获取两个时间字符串相差的天数（遵循代付规则）
+	  function getPayrollDiffDays(beginDateStr, endDateStr, include) {
+	    var endDateArray = endDateStr.split('-')
+	    var endYear = endDateArray[0]
+	    var endMonth = Number(endDateArray[1])
+	    var endDay = Number(endDateArray[2])
+	    var sumDays = 0
+	    var result = getMonthsCounter(beginDateStr, endDateStr)
+	    // debugger
+	    // 计算首年首月剩余天数和尾年尾月加起来的天数
+	    sumDays = getRemainDays(beginDateStr, include) + endDay
+	    // 是否是大月
+	    if (isBigMonth(parseInt(beginDateStr.split('-')[1]))) {
+			sumDays--
+	    }
+	    // 尾年尾月，如果是31号，则需要减去一（因为除了二月份，其他月份总天数都按照30天算）
+	    if (endDay === 31) {
+	    	sumDays-- 
+	    }
+		if (result && Object.keys(result).length) {
+			for (var key in result) {
+				var months = result[key]
+				months.forEach(function(item, index) {
+				  if (isBigMonth(parseInt(item))) {
+					sumDays += 30
+				   } else {
+					sumDays += getCurrentMonthDays(Number(key), Number(item))
+				   }
+				 })
+			}
+		}
+	    return sumDays
+	  }
+	  
+	  console.log('获取这两个日期之间有多少个月份：', getMonthsCounter('2020-01-11', '2021-02-14', true, true))
+	  // 计算起始计租日
+	  /* generateNorentDayDom()
+	  console.log(`计算免租期：${calcNorentDays('2020-02-13', '2020-5-18')}天免租期`)
+	  var start = new XDate('2020-02-01')
+	  var end = new XDate('2020-04-01') */
+	  // console.log('2020-02-01到2020-04-01之间有：--XDate', start.diffDays(end))
+	  // console.log('获取两个日期相差多少天：', calcNorentDays('2021-01-26','2021-02-25', true))
+	  var data = [
+		  {
+			// 期数  
+			period: 1,
+			// 应付日期
+			transactionDate: '2020-02-01',
+			// 调整日期
+			actTransactionDate: '2020-03-01',
+			// 租金
+			amt: 4500,
+			// 应付
+			amtTo: 4500,
+			// 索引
+			index: 0
+			
+		  },
+		  {
+			// 期数  
+			period: 2,
+			// 应付日期
+			transactionDate: '2020-03-15',
+			// 调整日期
+			actTransactionDate: '2020-05-25',
+			// 租金
+			amt: 5000,
+			// 应付
+			amtTo: 5000,
+			// 索引
+			index: 1
+		  },
+		  {
+			// 期数  
+			period: 3,
+			// 应付日期
+			transactionDate: '2020-04-15',
+			// 调整日期
+			actTransactionDate: '2020-05-25',
+			// 租金
+			amt: 5000,
+			// 应付
+			amtTo: 5000,
+			// 索引
+			index: 2
+		  }
+	  ]
+	  
+    </script>
+  </body>
+</html>

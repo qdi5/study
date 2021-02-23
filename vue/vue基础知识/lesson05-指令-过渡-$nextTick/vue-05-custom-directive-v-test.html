@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>输出自定义指令的各个参数的内容</title>
+		<link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.css" />
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+	</head>
+	<body>
+		<div id="app">
+			<div v-test:msg.a.b="message"></div>
+			<!-- 自定义指令传递多个值 -->
+			<div v-test="{msg: 'hello', name: 'wuzhe'}"></div>
+		</div>
+		<script>
+			Vue.directive('test', {
+				bind: function (el, binding, vnode) {
+					var keys = [];
+					for (var i in vnode) {
+						keys.push(i);						
+					}
+					el.innerHTML = `
+						name: ${binding.name}<br>
+						value: ${JSON.stringify(binding.value)}<br>
+						expression: ${binding.expression}<br>
+						argument: ${binding.arg}<br>
+						modifiers: ${JSON.stringify(binding.modifiers)}<br>
+						vnode keys: ${keys.join(', ')}
+					`;
+				}
+			});
+			var app = new Vue({
+				el: '#app',
+				
+				data: {
+					message: 'some text'
+				},
+				methods: {
+					handleClick(){
+						console.log(arguments);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

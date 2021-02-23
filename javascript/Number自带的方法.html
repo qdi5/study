@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Number自带的方法</title>
+	</head>
+	<body>
+		<script>
+			// 1. number.toExponential(fractionDigits)
+			// toExponential 方法把这个number 转换成一个指数形式的字符串.可选参数 fractionDigits 控制其小数点后的数字位数.它的值必须在0 ~ 20
+			console.log('toExponential():', Math.PI.toExponential(0))
+			console.log('toExponential():', Math.PI.toExponential(2))
+			
+			// 2. number.toFixed(fractionDigits) 把这个number转换成一个十进制数形式的字符串.
+			console.log('toFixed:', Math.PI.toFixed(2))
+			
+			// 3.number.toPrecision(precision)
+			// toPrecision 方法把这个 number 转换成一个十进制数形式的字符串.可选参数precision控制数字的精度
+			console.log('toPrecision:', Math.PI.toPrecision(16))
+			
+			// 4.number.toString(radix) radix控制基数.它的值必须在2~36之间.默认的radix是以10未基数.
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			const object = {}
+			Object.defineProperty(object, 'name', {
+				value: 42,
+				writable: false
+			})
+			object.name = 77
+			console.log(`object.name:${object.name}`)
+			
+			// 为了确认保留属性描述符的默认值，在设置前，可能需要冻结Object.prototype
+			// 明确指定所有的选项，或者通过Object.create(null)将__proto__属性指向null
+			var obj = {}
+			var descriptor = Object.create(null)
+			descriptor.value = 'static'
+			Object.defineProperty(obj, 'key', descriptor)
+			console.log(obj)
+			console.log(`obj:\r\n`)
+			
+			// 显式
+			Object.defineProperty(obj, 'key2', {
+				enumerable: false,
+				configurable: false,
+				writable: false,
+				value: 'relative'
+			})
+			
+			// 循环使用同一对象
+			function withValue(value) {
+				var d = withValue.d || (withValue.d = {
+					enumerable: false,
+					writable: false,
+					configurable: false,
+					value: null
+				})
+				d.value = value
+				return d
+			}
+			var descriptor01 = withValue(122)
+			var descriptor02 = withValue(134)
+			console.log(descriptor01 === descriptor02)
+			Object.defineProperty(obj, "key3", withValue("absolute"))
+			
+			// 如果 freeze 可用， 防止后续代码添加或删除对象原型的属性
+			var __pro = Object.prototype
+			__pro.wz = '哈哈'
+			console.log(__pro)
+			const pro = (Object.freeze || Object)(__pro)
+			pro.xx = '嘿嘿'
+			console.log(pro)
+			console.log(`被冻结的对象：${pro.xx}`)
+			
+			// Writable 属性（是否可被重新赋值）
+			var o = {}
+			Object.defineProperty(o, 'a', {
+				value: 37,
+				writable: false
+			})
+			console.log(`o.a：${o.a}`)
+			o.a = 25
+			console.log(o.a)
+			// Enumerable 属性 （是否可被枚举）
+			var o2 = {}
+			Object.defineProperty(o2, 'a', { value: 1, enumerable: true })
+			Object.defineProperty(o2, 'b', { value: 2, enumerable: false })
+			Object.defineProperty(o2, 'c', { value: 3 })
+			o2.d = 4
+			Object.defineProperty(o2, Symbol.for('e'), {
+				value: 5,
+				enumerable: true
+			})
+			Object.defineProperty(o2, Symbol.for('f'), {
+				value: 6,
+				enumerable: false
+			})
+			for (var i in o2) {
+				debugger
+				console.log(i)
+			}
+			console.log(o2.propertyIsEnumerable(Symbol.for('e')))
+			console.log(o2.propertyIsEnumerable(Symbol.for('f')))
+			// Configurable 属性 （是否可被删除，除value和writable之外的特性是否可被修改）
+			var o3 = {}
+			Object.defineProperty(o3, 'a', {
+				get() { return 1 },
+				configurable: false
+			})
+			
+			Object.defineProperty(o3, 'a', {
+				configurable: true
+			})
+			
+			Object.defineProperty(o3, 'a', {
+				enumerable: true
+			})
+			
+			Object.defineProperty(o3, 'a', {
+				set() { console.log('给o3设置值') }
+			})
+			
+			Object.defineProperty(o3, 'a', {
+				get() { return 1 }
+			})
+			
+			Object.defineProperty(o3, 'a', {
+				value: 12
+			})
+			
+			console.log(o3.a)
+			delete o3.a
+			console.log(`o3:${o3.a}`)
+		</script>
+	</body>
+</html>

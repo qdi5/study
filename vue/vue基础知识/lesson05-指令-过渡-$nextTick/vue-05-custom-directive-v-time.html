@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>开发自定义的时间转换指令</title>
+		<link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.css" />
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<p>本示例所用的时间戳都是毫秒级的</p>
+			<p>分析一下时间转换的逻辑：</p>
+			<pre>
+				1、1分钟以前，显示"刚刚";
+				2、1分钟~1小时之间，显示"xx分钟前"
+				3、1小时~1天之间，显示"xx小时前"
+				4、1天~一个月(31天)之间，显示"xx天前"
+				5、大于1个月，显示"xx年xx月xx日"
+			</pre>
+			<div v-time="timeNow"></div>
+			<div v-time="timeBefore"></div>
+		</div>
+		<script>
+			var Time = {
+				// 获取当前时间戳
+				getUnix: function () {
+					var now = new Date();
+					return now.getTime();
+				},
+				// 获取今天0点0分0秒的时间戳
+				getTodayUnix: function () {
+					var now = new Date();
+					now.setHours(0);
+					now.setMinutes(0);
+					now.setSeconds(0);
+					now.setMilliseconds(0);
+					return now.getTime();
+				},
+				// 获取今年1月1日0点0分0秒的时间戳(今年第一天零点的时间戳)
+				getYearUnix: function () {
+					var now = new Date();
+					now.setMonth(0);
+					now.setDate(1);
+					now.setHours(0);
+					now.setMinutes(0);
+					now.setSeconds(0);
+					now.setMilliseconds(0);
+					return now.getTime();
+				},
+				// 获取标准年月日
+				getStandardDate: function (time) {
+					var now = new Date(time);
+					var month = now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
+					var day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
+					return now.getFullYear() + '-' + month + '-' + day;
+				},
+				// 转换时间
+				getFormatTime: function (timestamp) {
+					var now = this.getUnix(); // 当前时间戳
+					var today = this.getTodayUnix(); // 今天0点时间戳
+					var year = this.getYearUnix(); // 今年第一天0点时间戳
+					// 转换为秒级时间戳
+					var timer = (now - timestamp) / 1000;
+					var tip = ' ';
+					
+					if (timer <= 0) { // timer小于0的情况：本地时间被调到过去某一个时间了，导致timer为负数
+						tip = '刚刚';
+					} else if (Math.floor(timer/60) <= 0) {
+						tip = '刚刚';
+					} else if (timer < 3600) { // 相差时间小于1小时
+						tip = Math.floor(timer/60) + '分钟前';
+					} else if (timer >= 3600 && timestamp - today >= 0) { // timestamp - today >=0确保时间戳是今天的时间
+						tip = Math.floor(timer/3600) + '小时前';
+					} else if (timer/86400 <= 31) {
+						tip = Math.ceil(timer/86400) + '天前';
+					} else {
+						tip = this.getStandardDate(timestamp);
+					}
+					
+					return tip;
+				}
+			};
+			
+			Vue.directive('time', {
+				bind: function (el, binding, vnode) {
+					el.innerHTML = Time.getFormatTime(binding.value);
+					el.__timeout__ = setInterval(function () {
+						el.innerHTML = Time.getFormatTime(binding.value);
+					}, 60000);
+				},
+				update: function () {
+					// console.log(arguments);
+				},
+				unbind: function (el, binding) {
+					clearInterval(el.__timeout__);
+					delete el.__timeout__;
+				}
+			});
+			
+			
+			var app = new Vue({
+				el: '#app',
+				
+				data: {
+					timeNow: (new Date()).getTime(),
+					timeBefore: 1488930695721
+				},
+				methods: {
+					
+				}
+			});
+		</script>
+	</body>
+</html>

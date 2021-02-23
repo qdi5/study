@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			html {
+				font-size: 20px;
+				font-size: 5.33333vw;
+			}
+			
+			
+			@media screen and (min-width: 1080px) {
+				html {
+					font-size: 57.6px;
+				}
+			}
+			
+			@media screen and (min-width: 540px) {
+				html {
+				    font-size: 28.8px;
+				}
+			}
+			
+			@media screen and (max-width: 320px) {
+				html {
+					font-size: 17.06667px;
+				}
+			}
+				
+			
+			
+		</style>
+		<script>
+			/*
+			html {
+				font-size: 5.33333vw;
+			}
+			
+			@media screen and (max-width: 320px) {
+				html {
+					font-size: 17.06667px;
+				}
+			}
+			
+			@media screen and (min-width: 540px) {
+				html {
+					font-size: 28.8px;
+				}
+			}
+
+			*/
+			
+			/* 1vw = window.clientWidth / 100
+			1vh = window.clientHeight / 100
+			1rem = (设备宽度 / 100) * 5 +  'px'
+			/5 * 100  */
+		/*我发现了京东的适配方案大概是这样子：
+		把 html的font-size值设置为 5.33333vw,
+		@deviceWidth = 750 (设计稿宽度)
+		1rem = 5.33333vw = 5.33333 * (@deviceWidth / 100) 'px'
+		1rem = 5.33333 * (@deviceWidth / 100) 'px'
+		1px = 1 / 5.33333 * 100 / @deviceWidth 'rem'
+		
+		再用sass写个px2rem函数：
+		// 传入像素，转换位rem单位 
+		@function px2rem ($px) {
+		  @return $px / 5.333333 * 100 / @deviceWidth * 1rem
+		}
+		一般设计稿是750px，写样式的时候，全部用px，然后调用px2rem转换为rem单位。
+		这也许就是rem适配方案的改装版，以前都是用js计算根元素的font-size，用了vw，这样就不用js手动计算了。*/
+		</script>
+	</head>
+	<body style="height: 1000px">
+		<div style="height: 10000px">
+			wuzhe
+		</div>
+		<script>alert(document.documentElement.clientHeight)</script>
+	</body>
+</html>

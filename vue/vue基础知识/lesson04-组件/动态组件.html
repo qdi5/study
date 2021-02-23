@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动态组件</title>
+	</head>
+	<body>
+		<p>
+		  Vue允许将组件定义为一个工厂函数，动态地解析组件。\n
+		  Vue只在组件需要渲染时触发工厂函数，并且把结果缓存起来，用于后面的再次渲染。
+		</p>
+		<div id="app">
+			<child-component></child-component>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script>
+			Vue.component('child-component', (resolve, reject) => {
+				window.setTimeout(() => {
+					resolve({
+						template: '<div>我是异步渲染的组件哟！</div>'
+					})
+				}, 2000)
+			})
+			var app = new Vue({
+			  el: '#app'
+			})
+		</script>
+	</body>
+</html>

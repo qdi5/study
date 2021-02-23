@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>slot</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<child-component>
+				<div>分发的内容</div>
+				<p>更多分发的内容</p>
+			</child-component>
+			
+			<!-- 子组件里没有内容时，显示slot里面的内容 -->
+			<child-component></child-component>
+		</div>
+		<script>
+			
+			/* slot 当子组件没有内容的时候显示(备用内容) */
+			Vue.component('child-component',{
+				template: '<div>\
+						       <slot>如果父组件没有插入的内容,我将作为默认出现</slot>\
+						   </div>',
+				data: function(){
+					return {
+						name: '子组件的数据;'
+					}
+				}
+			});
+			
+			var app = new Vue({
+				el: '#app'
+			});
+		</script>
+	</body>
+</html>

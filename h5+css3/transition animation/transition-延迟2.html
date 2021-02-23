@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition延迟2</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .wrap {
+      width: 500px;
+      height: 500px;
+      border: 2px solid red;
+    }
+    .box {
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 100px;
+      height: 100px;
+      background-color: green;
+      /** 属性的第三个参数表示延迟的时间 **/
+      transition: left 1s, top 1s 1s;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="wrap">
+      <div class="box"></div>
+  </div>
+  <script>
+    let wrap = document.querySelector('.wrap')
+    let box = document.querySelector('.box')
+    let borderWidth = window.getComputedStyle(wrap).getPropertyValue('border-width')
+    console.log('borderWidth', borderWidth)
+    box.addEventListener('click', function(e) {
+      e.stopPropagation()
+      borderWidth = window.parseInt(borderWidth, 10)
+      this.style.left = 500 - borderWidth + 'px'
+      this.style.top = 500 - borderWidth + 'px'
+    }, false)
+  </script>
+</body>
+</html>

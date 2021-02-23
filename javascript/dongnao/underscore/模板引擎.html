@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>underscore模板引擎</title>
+</head>
+<body>
+  <script src="underscore.js"></script>
+  <script>
+    var compiled = _.template("hello: <%= name %>")
+    console.log(compiled({name: 'moe'}))
+
+    var template = _.template("<b><%- value %></b>")
+    console.log(template({value: '<script>'}))
+
+    var compiled02 = _.template("<% print('Hello' + epithet) %>")
+    console.log(compiled02({epithet: "stooge"}))
+
+    var compiled03 = _.template("hello: <% alert(123) %>")
+    var html = compile()
+    console.log(html)
+
+    (function(_){
+      _.templateSettings = {
+        interpolate: /\{\{(.+?)\}\}/g
+      }
+      var template02 = _.template("hello {{ name }}!")
+      console.log(template02({name: "Mustache"}))
+
+    })(_);
+   
+    // template默认通过with语句 来取得data所有的值。当然，您也可以在variable设置里制定一个变量名。
+    // 这样能显著提升模板的渲染速度
+    console.log(_.templateSettings)
+    console.log(_.template("Using 'with': <%= data.answer %>", {variable: 'data'})({answer: 'no'}))
+    
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>给Function.prototype增加方法使得该方法对所有函数可用</title>
+	</head>
+	<body>
+		<input type="text" id="t">
+		<script>
+			Function.prototype.method = function (name, func) {
+				if (!this.prototype[name]) {
+					this.prototype[name] = func
+				}
+				return this
+			}
+			
+			Number.method('integer', function () {
+				return Math[this < 0 ? 'ceil' : 'floor'](this)
+			})
+			
+			document.writeln((-10 / 3).integer())
+			
+			String.method('trim', function () {
+				return this.replace(/^\s+|\s+$/g, '')
+			})
+			
+			t.value = ' wu zhe    '.trim()
+			
+			String.method('deentityify', function () {
+				var entity = {
+					quot: '"',
+					lt: '<',
+					gt: '>'
+				}
+				
+				return function () {
+					return this.replace(/&([^&;]+);/g, function (a, b) {
+						console.log(a, b)
+						var r = entity[b]
+						return typeof r === 'string' ? r : a
+					})
+				}
+			}())
+			
+			document.writeln('&lt;哈哈&quot;你最厉害&gt;了'.deentityify())
+			console.log(/&([^&;]+);/g.test('&lt;哈哈&quot;你最厉害&gt;了'))
+			
+			Function.method('curry', function () {
+				var slice = Array.prototype.slice,
+					args = slice.call(arguments),
+				    that = this
+					
+				return function () {
+					return that.apply(null, args.concat(slice.call(arguments)))
+				}
+			})
+			
+			console.log(Function.curry())
+		</script>
+	</body>
+</html>

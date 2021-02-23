@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>lodash常用方法</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="./src/css/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="./src/js/lodash.full.js"></script>
+<script>
+    function show(ele, text) {
+
+        var element = document.createElement(ele),
+            textNode = document.createTextNode('result: ' + text);
+         element.appendChild(textNode);
+         document.body.append(element);
+    }
+</script>
+</head>
+<body>
+<h1>lodash常用的方法</h1>
+<!-- <h2>一、操作数组的方法</h2> -->
+<h3><b>1、times(n, function, bindThis)</b></h3>
+<pre>
+    <code>_.times(n, function, bindThis)</code>
+    <blockquote>调用function n次，并返回每个调用产生的值组成的数组。</blockquote>
+</pre>
+<script>
+    var test = {
+        buy: function(index) {
+            return ++index*9;
+        }
+    };
+    var ary_times = _.times(3, function(n) {
+        return test.buy(n);
+    });
+
+
+    show('p', ary_times);
+
+    var test = {
+        buy: function(index) {
+            return ++index*9;
+        }
+    };
+    var ary_times = _.times(3, function(n) {
+        return test.buy(n);
+    });
+
+
+    show('p', ary_times);
+</script>
+<h3><b>2、map(collection, iteratee, bindThis);在lodash中是处理集合的方法</b></h3>
+<pre>
+    <p>_.map()</p>
+    <code>
+        _.map([2,3,4,5,6,7,8], function(value, index, collection){
+        return Math.pow(value);
+        })
+    </code>
+    <blockquote>将collection里面的每个值，传递给迭代器函数iteratee，返回每个函数处理后的结果组成的数组</blockquote>
+    <script>
+        var ary_map = _.map([2,3,4,5,6,7,8], function(n, index, collection) {
+            return Math.pow(n, 2);
+        });
+
+        show('div', ary_map);
+    </script>
+    <code>
+        var users = [
+            { 'user': 'barney' },
+            { 'user': 'fred' },
+            { 'name': '过滤'}
+        ];
+        var ary_map = _.map(users, 'user');
+    </code>
+    <code>_.map(users, 'user')</code>
+    <blockquote>将users里面所有属性为 'user'的值提取出来，组成一个数组并返回；</blockquote>
+    </pre>
+    <script>
+    var users = [
+            { 'user': 'barney' },
+            { 'user': 'fred' },
+            { 'name': '过滤'}
+        ];
+
+    var ary_map = _.map(users, 'user');
+
+    show('div', ary_map);
+</script>
+<h3><b>3、partial()</b></h3>
+<pre>
+    <code>_.times(6, _.partial(_.uniqueId), 'wz_')</code>
+    <blockquote>给_.uniqueId方法预置一个参数'wz_'</blockquote>
+</pre>
+<script>
+    var ary_partial = _.times(6, _.partial(_.uniqueId, 'wz_'));
+    show('div', ary_partial);
+</script>
+<h3><b>4、cloneDeep(value, customizer)</b></h3>
+<pre>
+    <code>
+        var users = [
+            {'user': 'barney'},
+            {'user': 'fred'}
+        ]
+    </code>
+    <blockquote>
+        深拷贝一个对象
+    </blockquote>
+</pre>
+<script>
+    var users = [
+        {
+            'user': 'barney'
+        },
+        {
+            'user': 'fred'
+        }
+    ];
+
+    var deep = _.cloneDeep(users);
+    console.log(JSON.stringify(deep));
+    console.log(deep === users);
+</script>
+<h3><b>5、random(min, max, isFloat)</b></h3>
+<pre>
+    <code>
+        var i = 1;
+        do {
+        var i = 0;
+        _.random(15, 20);
+        i++;
+    } while(i < 100);
+    _.random(5, true); //产生一个大于0小于5的浮点数
+    _.random(1.2, 5.0);
+    </code>
+    <blockquote>
+        在指定范围内生成一个随机数，第三个参数可以决定是否返回浮点数
+    </blockquote>
+</pre>
+<script>
+     var i = 1;
+        do {
+
+            console.log(_.random(15, 20));
+            //console.log(_.random(1.2, 5.0));
+            console.log(_.random(5, true));
+            i++;
+
+        }while(i < 3);
+
+
+</script>
+<h3>6、assign(objA, objB)</h3>
+<pre>
+    <code>
+        var objA = {
+                    "name": "colin",
+                    "car": "suzuki"
+                },
+            objB = {
+                "name": "james",
+                "age": 17
+            };
+
+        console.log(_.assign(objA, objB));
+    </code>
+    <blockquote>
+    将两个对象合并起来，如有重复的属性，objB覆盖objA
+    </blockquote>
+</pre>
+<script>
+    var objA = {
+                    "name": "colin",
+                    "car": "suzuki"
+                },
+            objB = {
+                "name": "james",
+                "age": 17
+            };
+
+        console.log(_.assign(objA, objB));
+</script>
+<h3>
+7、omit(objA, str|array);
+omitBy(objA, compareFn);通过比较器函数来决定是否删除，比较器返回true，则删除</h3>
+<pre>
+    <code>
+        var objA = {
+                    "name": "colin",
+                    "car": "suzuki",
+                    "age": 18,
+                    "salary": 20000
+                };
+
+        console.log(_.omit(objA, "car"));
+
+        console.log(_.omit(objA, _.isNumber));
+    </code>
+    <blockquote>
+    移除对象中的某个属性，并返回一个新的对象;
+    </blockquote>
+</pre>
+<script>
+    var objC = {
+                    "name": "colin",
+                    "car": "suzuki",
+                    "age": 18,
+                    "salary": 20000
+                };
+    objC = _.omit(objC, ['name', 'age']);
+    console.log(objC);
+    objC = _.omitBy(objC, _.isNumber);
+    console.log(objC);
+</script>
+<h3>8、pick(object, string|array);
+    pickBy(object, compareFn);
+    从对象中选择指定的属性组装成新的对象;返回一个新的对象；
+</h3>
+<pre>
+    <code>
+        var objA = {
+                    "name": "colin",
+                    "car": "suzuki",
+                    "age": 18,
+                    "salary": 20000
+                };
+
+        console.log(_.pick(objA, "car"));
+
+        console.log(_.pickBy(objA, _.isNumber));
+    </code>
+    <blockquote>
+    移除对象中的某个属性，并返回一个新的对象;
+    </blockquote>
+</pre>
+<script>
+    var objA = {
+                    "name": "colin",
+                    "car": "suzuki",
+                    "age": 18,
+                    "salary": 20000
+                };
+
+        console.log(_.pick(objA, "car"));
+
+        console.log(_.pickBy(objA, _.isNumber));
+</script>
+<h3>9、attempt();尝试调用一个函数；若出错，会返回一个ERROR对象</h3>
+
+<pre>
+    <code>
+        _.attempt(JSON.parse.bind(null, '{wuzhe: 123}'));
+    </code>
+    <blockquote>
+
+    </blockquote>
+</pre>
+<script>
+     console.log(_.attempt(JSON.parse.bind(null, '{"wuzhe": 123}')));
+</script>
+<script>
+    //1、对于数据类型的判断
+    //2、对于数组、对象以及集合的处理方法
+    //3、函数的性能优化
+
+
+</script>
+</body>
+</html>

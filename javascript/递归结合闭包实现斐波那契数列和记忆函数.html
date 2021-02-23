@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>斐波那契数列</title>
+	</head>
+	<body>
+		<script>
+			var index = 0
+			var fibonacci = function (n) {
+				index++
+				return n < 2 ? n: fibonacci(n - 1) + fibonacci(n - 2)
+			}
+			/* for (var i = 0; i <= 10; i++) {
+				document.writeln('// ' + i + ': ' + fibonacci(i))
+			} */
+			// console.log('index:', index)
+			
+			// 使用柯里化优化斐波那契数列	
+			var fibonacci02 = function a() {
+				var memo = [0, 1]
+				var index = 0
+				var fib = function (n) {
+					var result = memo[n]
+					index++
+					if (typeof result !== 'number') {
+						result = fib(n - 1) + fib(n -2)
+						memo[n] = result
+						
+					}
+					return result
+				}
+				return {fib, getIndex() {
+					return index
+				}}
+			}()
+			
+			
+			// console.log('index',fibonacci02.getIndex())
+			
+			/*
+			创建一个带有记忆功能的函数
+			memoizer函数取得一个初使的memo数组和formula函数。它返回一个管理memo存储
+			和在需要时调用formula函数的recur函数。我们把这个recur函数和它的参数传递给formula函数
+			*/
+			var memoizer = function (memo, formula) {
+				var recur = function (n) {
+				    var result = memo[n]
+				    if (typeof result !== 'number') {
+				    	result = formula(recur, n)
+						memo[n] = result
+				    }
+					return result
+				}
+				return recur
+			}
+			
+			// 斐波那契数列
+			var fibonacci = memoizer([0, 1], function (recur, n){
+				return recur(n -1) + recur(n - 2)
+			})
+			for (var i = 0; i <= 10; i++) {
+				document.write(i + '的斐波那契数列: ' + fibonacci(i) + '<br>')
+			}
+			
+			// 阶乘
+			var factorial = memoizer([1, 1], function (recur, n) {
+				return n * recur(n-1)
+			})
+			
+			for (var i = 1; i <= 10; i++) {
+				document.write(i + '的阶乘: ' + factorial(i) + '<br>')
+			}
+		</script>
+	</body>
+</html>

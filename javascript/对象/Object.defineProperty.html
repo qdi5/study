@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Object.defineProperty内置的观察者模式</title>
+	</head>
+	<body>
+		<script>
+			var obj = {
+				name: 'max',
+				age: 30
+			}
+			obj.name = '吴哲'
+			/* // 监听obj对象的name属性
+			obj.__defineGetter__('name', function () {
+				// console.log('设置属性值：', val)
+				return val
+			})
+			
+			obj.__defineSetter__('name', function (val) {
+				return val
+			}) */
+			// 
+			
+			Object.defineProperty(obj, 'name', {
+				get () {
+					return '呵呵哒！'
+				},
+				set () {
+					
+				}
+			})
+			console.log(obj.name)
+			
+			/* 
+			 vue mvvm 结构
+			 observer 模块： 对data对象中所有的属性进行监听，通知订阅者
+			 compile 模块： 解析指令
+			 watcher 接收通知，回调指令中相应的函数，更新视图
+			 */
+		</script>
+	</body>
+</html>

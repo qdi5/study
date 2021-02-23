@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>slot</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<abc>
+				<div>12356</div>
+				<h1 slot="header">456789</h1>
+			</abc>
+		</div>
+		<script>
+			
+			/* slot 当子组件没有内容的时候显示(备用内容) */
+			Vue.component('abc',{
+				template: '<div>\
+							  <slot></slot>\
+							  <slot name="header"><p>这里是子组件slot</p></slot>\
+						   </div>',
+				data: function(){
+					return {
+						name: '子组件的数据;'
+					}
+				}
+			});
+			
+			var app = new Vue({
+				el: '#app',
+				
+				data: {
+					name: '我是父组件的数据噢'
+				},
+				methods: {
+					handleClick(){
+						console.log(arguments);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

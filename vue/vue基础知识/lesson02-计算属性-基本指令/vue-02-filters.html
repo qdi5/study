@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div v-once>今日美元兑换人民币的汇率为：{{ rate }}</div>
+		<div>
+			<h3>我要换美元</h3>
+			<div>请输入金额(元)：<input type="text" v-model="rmb" /></div>
+			<div>兑换为美元的金额：{{ rmb | formatPrice(rate, 1) }}</div>
+		</div>
+		<div>
+			<h3>我要换人民币</h3>
+			<div>请输入金额(美元)：<input type="text" v-model="dollar" /></div>
+			兑换为人民币的金额：<span v-html='$options.filters.formatPrice(dollar, rate, 0)'></span>
+		</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+            	rate: 6.3589,
+            	rmb: 0,
+            	dollar: 0
+            },
+            //过滤器
+            filters: {
+            	formatPrice: (price, rate,isRMB) => {
+            		let suffix = '$',
+            			calcNum = 0;
+            		if (!isRMB) {
+            			suffix = '&yen;';
+            		} else {
+            			rate = (1/rate).toFixed(4);
+            		}
+            		calcNum = price*rate;
+            		return parseFloat(calcNum).toFixed(2) + ' ' +suffix;
+            	}
+            }
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

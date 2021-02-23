@@ -1,0 +1,194 @@
+@charset 'utf-8';
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ul li {
+    list-style: none;
+}
+.icon {
+    padding: 0 3px;
+}
+html {
+    font-size: 62.5%;
+}
+html,body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    color: #222;
+
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    flex: 1; /* 如果页面有剩余空间，则占据所有剩余空间。实现紧贴底部的页脚关键代码 */
+}
+
+main aside {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 40px;
+    align-items: stretch;
+
+    /* 当子元素是纵向排列时候，设置的是上下间距；反之，则是横向间距 */
+    justify-content: space-around;
+    font-size: 2.4em;
+    background: #f2f2f2;
+
+}
+
+main aside a {
+    text-align: center;
+    color: #222;
+}
+
+main aside a:hover,
+main aside a:active {
+    color: #222;
+}
+
+main section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main section>header {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 280px;
+    padding: 40px;
+    background-color: #4e4e4e;
+
+}
+
+section .music-brand {
+    flex-basis: 100px;
+    flex-shrink: 0;
+}
+
+.music-list {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 15px 15px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+main section>.music-list li {
+    display: flex;
+    min-height: 50px;
+    padding: 0 20px;
+}
+
+main section>.music-list li span {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 25%;
+    padding: 15px 0;
+    font-size: 1.4em;
+}
+
+main section>.music-list li:nth-child(even) {
+    background: #f2f2f2;
+}
+
+
+.music-description {
+    flex: 1 0 auto;
+    padding-left: 50px;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: space-around;
+    color: #fff;
+
+}
+.music-description .detail {
+    margin-bottom: auto;
+    font-size: 1.4em;
+}
+
+.music-description .detail h1 {
+    font-size: 2.07em;
+    padding: 5px 0;
+    margin: 0 0 5px;
+}
+
+.music-description .detail p {
+    padding: 5px 0;
+}
+
+.music-description>footer {
+    font-size: 1.4em
+}
+
+.music-description>footer>span + span {
+    margin-left: 10px;
+}
+
+.themes {
+    text-align: center;
+    flex-basis: 35px;
+    font-size: 2.4em;
+    flex-shrink: 0;
+}
+
+.music-list li small {
+    border: 1px solid black;
+    padding: 3px;
+    font-size: 0.6857em;
+}
+
+body>footer {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    /* 貌似跟设置最小高度很像 */
+    flex-basis: 90px;
+    padding: 10px;
+    background-color: rgba(61, 100, 158, .9);
+}
+
+footer .play-left {
+    display: flex;
+    margin-right: auto;
+}
+
+footer .play-left img {
+    width: 100px;
+}
+
+footer .play-left>div {
+    padding-left: 10px;
+}
+
+footer .play-left p {
+    color: #fff;
+    font-size: 1.2em;
+    padding: 10px 0;
+}
+
+footer .play-control {
+    display: flex;
+    width: 50%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+footer .play-control a {
+    flex-basis: 25%;
+    font-size: 1.8em;
+    color: #fff;
+}
+

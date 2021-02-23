@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+
+/* input:disabled[type="button"] {
+	cursor: not-allowed;
+	background: red;
+} */
+
+input[type="button"][disabled] {
+	cursor: not-allowed;
+	background: red;
+}

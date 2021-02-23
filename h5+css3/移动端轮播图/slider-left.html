@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,user-scalable=no"/>
+		<title>移动端轮播图</title>
+		<link rel="stylesheet" href="./css/index.css">
+		<script>
+			(function() {
+				autoRem()
+				window.onresize = function () {
+					autoRem()
+				}
+				function autoRem() {
+					var html = document.querySelector('html')
+					var width = html.getBoundingClientRect().width
+					if (width > 540) {
+						width = 540
+					}
+					html.style.fontSize = width / 10 + 'px'
+				}
+				
+			})()
+			document.addEventListener('touchmove', function (e) {
+				e.preventDefault()
+			}, false)
+		</script>
+	</head>
+	<body>
+		<div style="height: 300px;background: red;">
+			占位div
+		</div>
+		<div class="slide">
+		    <ul>
+		        <li><img src="img/slide1.jpg" width="100%" height="100%" alt=""></li>
+		        <li><img src="img/slide2.jpg" width="100%" height="100%" alt=""></li>
+		        <li><img src="img/slide3.jpg" width="100%" height="100%" alt=""></li>
+		    </ul>
+		    <div class="dot">
+		        <span></span><span></span><span></span>
+		    </div>
+		</div>
+		<script>
+			let oSlide = document.querySelector('.slide')
+			let oUl = oSlide.querySelector('ul')
+			let aLi = oUl.querySelector('li')
+			let oDot = document.querySelector('.dot')
+			let aSpan = oDot.querySelectorAll('span')
+			// 手指距离整个文档左边沿的距离
+			let startPoint = 0
+			// 记录ul元素相对于父元素的水平距离
+			let startX = 0
+			
+			// 默认将第一个小圆点加上激活样式
+			aSpan[0].classList.add('on')
+			
+			oSlide.addEventListener('touchstart', function (e) {
+				// changedTouches:这个TouchList对象列出了和这个触摸事件对应的TOUCH对象
+				/*
+					对于touchstart事件，这个TouchList对象列出在此次事件中新增加的触点
+					对于touchmove事件，列出和上一次事件相比较，发生了变化的触点
+					对于touchend事件，列出离开触摸平面的触点（这些触点对应已经不接触触摸平面的手指）
+				*/
+				startPoint = e.changedTouches[0].pageX
+				// ul容器左边框距离父元素的长度,相当于jquery的position()方法;如果超出父元素的宽度,则可能是负值
+				startX = oUl.offsetLeft
+				console.log('start startX', startX)
+				oUl.style.transition = ''
+			})
+			
+			oSlide.addEventListener('touchmove', function (e) {
+				e.preventDefault()
+				// touch.pageX 触点相对于HTML文档左边沿的X坐标,
+				// 这个值是相对于整个HTML文档的坐标,和用户滚动位置无关
+				// 因此当存在水平滚动的偏移时,这个值包含了水平滚动的偏移
+				let newPoint = e.changedTouches[0].pageX
+				// 手指滑动后，轮播图最外层元素位于文档的最新位置
+				let disX = newPoint - startPoint + startX
+				oUl.style.left = disX + 'px'
+			}, false)
+			
+			oSlide.addEventListener('touchend', function () {
+				let l = oUl.offsetLeft
+				// 四舍五入,当ul拖动的距离大于等于.slide元素宽度的一半时,num的值就会向上取整,刚好可以当作小圆点的索引
+				let num = Math.round(-l/oSlide.offsetWidth)
+				l = -num * oSlide.offsetWidth
+				oUl.style.transition = '0.8s'
+				oUl.style.left = l + 'px'
+				for (let i = 0; i < aSpan.length; i++) {
+					if (aSpan[i].classList.contains('on')) {
+						aSpan[i].classList.remove('on')
+						break
+					}				
+				}
+				aSpan[num].classList.add('on')
+				console.log(num)
+			})	
+		</script>
+	</body>
+</html>

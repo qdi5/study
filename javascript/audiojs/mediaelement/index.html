@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./mediaelementplayer.min.css">
+  <link rel="stylesheet" href="./mediaelementplayer-legacy.min.css">
+
+</head>
+<body>
+  <video width="848" 
+  height="480" preload="auto" src="http://img.qdi5.com/10%EF%BC%9A%E6%8A%95%E8%B5%84%E5%85%AC%E5%8B%9F%E5%9F%BA%E9%87%91%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E7%82%B9%E5%91%A2%EF%BC%9F.mp4"></video>
+  <audio src="http://img.qdi5.com/1%E3%80%81%E5%8F%91%E5%88%8A%E8%AF%8D%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AD%A6%E4%BA%86%E8%BF%99%E4%B9%88%E5%A4%9A%E7%9F%A5%E8%AF%86%EF%BC%8C%E5%8D%B4%E4%BE%9D%E7%84%B6%E8%BF%87%E4%B8%8D%E5%A5%BD%E8%BF%99%E4%B8%80%E7%94%9F%EF%BC%9F.mp3"></audio>
+  <script src="./jquery.js"></script>
+  <script src="./mediaelement-and-player.min.js"></script>
+  <script>
+    $('video, audio').mediaelementplayer({
+	// Do not forget to put a final slash (/)
+	pluginPath: 'https://cdnjs.com/libraries/mediaelement/',
+	// this will allow the CDN to use Flash without restrictions
+	// (by default, this is set as `sameDomain`)
+	shimScriptAccess: 'always'
+	// more configuration
+});
+  </script>
+</body>
+</html>

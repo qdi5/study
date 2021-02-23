@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>js事件</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	</head>
+	<body>
+		<div>01</div>
+		<div>02</div>
+		<script>
+			if (document.addEventListener) {
+				this.addEvent = function (elem, type, fn) {
+					elem.addEventListener(type, fn, false)
+					return fn
+				}
+				this.removeEvent = function (elem, type, fn) {
+					elem.removeEventListener(type, fn, false)
+				}
+			} else if (document.attachEvent) {
+				this.addEvent = function (elem, type, fn) {
+					var bound = function () {
+						return fn.apply(elem, arguments)
+					}
+					elem.attachEvent('on' + type, bound)
+					return bound
+				}
+				
+				this.removeEvent = function (elem, type, fn) {
+					elem.detachEvent('on' + type, fn)
+				}
+			}
+			
+			window.addEvent(window, 'load', function () {
+				var elems = document.getElementsByTagName('div')
+				for (var i = 0; i < elems.length; i++) {
+					(function (elem) {
+						var handler = window.addEvent(elems[i], 'click', function () {
+							console.log('i:', elems[i])
+							this.style.backgroundColor = this.style.backgroundColor == '' ? 'green' : '',
+							window.removeEvent(elem, 'click', handler)
+						})
+					})(elems[i])
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>fileReader读取java实体类文件</title>
+		<style>
+			.progress {
+				position: relative;
+				width: 500px;
+				height: 25px;
+				border: 1px solid red;
+				border-radius: 10px;
+				background: #fff;
+				
+			}
+			.progress-inner {
+				position: absolute;
+				left: 0;
+				height: 100%;
+				background: red;
+				border-radius: 10px;
+				text-align: center;
+				color: #fff;
+				line-height: 25px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="progress">
+			<div class="progress-inner" id="progress"></div>
+		</div>
+		<input type="file" id="file">
+		<script>
+			let fileEle = document.getElementById('file')
+			fileEle.addEventListener('change', function(e) {
+				console.log('file', this.files[0])
+				readTxt(this.files[0], function(data){
+					data.forEach((item, index) => {
+						if (index < 1) {
+							console.log(item)
+							// 解析全国数据.json的思路
+							// 每一条数据下的省、市，县、街都设置一个groupId(也就是组id),这个groupId就是最外层数据的索引
+							// 每条数据还应该包括以下三个数据,用于确定当前数据在哪一个层级
+							/**
+							 * groupId(组id，当前所在数据都有的id) 
+							 * parentId(父id)
+							 *  level(所在层级)
+							 *  currentId(当前id)
+							 *  根据当前level减去1得到上一层的层级，再根据parentId的值查找那个层级相同的currentId
+							 */
+						}
+						
+					})
+				}, function(error) {
+					
+				}, true)
+			}, false)
+			
+			var readTxt = (function(w) {
+				//常量
+				var __DEFAULT__ = {
+					exp: {
+						trim: /\s/, //匹配空格
+						rn: /\r\n/g //匹配换行
+					},
+				errorMsg: {
+				readError: "读取文件出错！",
+				interruptError: "读取文件异常中断！"
+					  }
+				};
+
+				//保存txt解析后的数据
+				 var ary = [],
+
+				//存储对象keys的数组
+				attrs = [],
+
+				//存储所有行的数据的数组
+				 vals = [];
+
+				function read(file, successFn, beforeFn, isShowProgress) {
+
+				var reader = new FileReader();
+
+				//开始读取数据之前触发
+				 reader.onloadstart = function() {
+					console.time();
+					beforeFn && beforeFn();
+				};
+
+				//读取中触发(读取进度)
+				 reader.onprogress = function(e) {
+					if(typeof isShowProgress === 'boolean' && isShowProgress) {
+					var loaded = e.loaded,
+					total = e.total,
+					percent = parseFloat(loaded/total).toFixed(2);
+					showProgress(percent);
+				}
+				};
+
+				function showProgress(p) {
+					progress.style.display = 'block';
+					progress.style.width = p*100 +'%';
+					progress.innerHTML = p*100 +'%';
+				}
+				//文件读取出错
+				 reader.onerror = function() {
+				//提示错误  
+				alert(__DEFAULT__.errorMsg.readError);
+				};
+
+				//文件读取中断触发
+				reader.onabort = function() {
+				  alert(__DEFAULT__.errorMsg.interruptError);
+				};
+
+				//文件读取完成后调用，不管读取成功还是失败
+				reader.onloadend = function() {
+					reader = null;
+					console.timeEnd();
+				};
+
+				//文件成功读取触发
+				reader.onload = function(){
+					var txtData = this.result;
+					console.log('txtData:', txtData)
+					debugger
+					// let javaDataTypeExp = /\/\/\s*([\u4e00-\u9fa5]+)\r\n\s+\w+\s*(?:String|Long|Integer|Double|Date|byte|short|int|boolean|char|BigDecimal)\s+([$_a-zA-Z]\w+)/gi
+					// 中文+字母+数字
+					// let chinese =  /\/\/\s*([\u4e00-\u9fa5]+\w*)(\r|\n)*/
+					// 匹配注解
+					// let notation = /((@.+\s*(\r|\n)*)+)*/
+					// 匹配实体声明
+					//let entity = /\s+\w+\s*(?:String|Long|Integer|Double|Date|byte|short|int|boolean|char|BigDecimal)\s+([$_a-zA-Z]\w+)/gi
+					// 匹配前两部分
+					//let regTowPart = /\/\/\s*([\u4e00-\u9fa5]+\w*)(\r|\n|\t)*(@\w+[\r\n\t]*\s*)*/gi
+					
+					// 匹配java实体类
+					//let javaDataTypeExp = /\/\/\s*([\u4e00-\u9fa5]+\w*)(\r|\n)*((@.+\s*(\r|\n)*)+)*\s+\w+\s*(?:byte|short|int|long|float|double|boolean|char|String|Integer|Date|Character|BigDecimal)\s+([$_a-zA-Z]\w+)/gi
+					// let notify = /@(?:.+\s*)(?:\r|\n)*/g
+					
+					// 匹配java实体类的声明部分
+					let javaModelExp =/\/\/[\s\t]*([\u4e00-\u9fa5]+\w*)[\r\n\t]*(?:@\w+[\r\n\t]*\s*)*\s*\w+\s*(?:byte|short|int|long|float|double|boolean|char|String|Integer|Date|Character|BigDecimal)[\s\t]+([$_a-zA-Z]\w+)/gim
+					
+					let expResult
+					console.log('exec执行结果：')
+					let result = []
+					
+					while ((expResult = javaModelExp.exec(txtData)) !== null) {
+						let temp = {}
+						// 获取分组一和分组二的值;(分别对应 实体中文名 和实体英文名)
+						console.log(expResult[1], expResult[2])
+						temp[expResult[2]] = expResult[1]
+						result.push(temp)
+					}
+					console.log('result:', result)
+					// let matched = txtData.match(javaDataTypeExp)
+					
+					/* matched.forEach(item => {
+						let temp = {}
+						let ary = item.split(/\r\n/)
+						temp[ary[1]] = ary[0]
+						result.push(temp)
+					})
+					console.log(result) */
+					//matched.split(/\r\n/)
+					// console.log('matched:', matched)
+					//let data = JSON.parse(txtData)
+					// console.log('txtData', typeof JSON.parse(txtData))
+					// successFn && successFn();
+				};
+					reader.readAsText(file, "utf-8");
+				}
+
+				//是否是数组
+				read.isArray = function(ary) {
+				return typeof ary === 'object' && typeof ary.length !== "undefined" && ary instanceof Array;
+				};
+
+				
+				return read;
+			})(window);
+		</script>
+	</body>
+</html>

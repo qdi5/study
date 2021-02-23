@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title></title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+    <!-- v-html 输出带有html标签的内容(例如文章详情页需要输出各种html标签) -->
+    <div id="app" v-html="name">
+
+        <!--输出data数据里的name值-->
+        {{ name }}
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: { //绑定数据到#app的实例上
+                name: "<div style='color: pink;'>qdi5</div>"
+            }
+        });
+
+
+
+    </script>
+</body>
+</html>

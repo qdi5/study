@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition分开属性</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .box {
+      width: 100px;
+      height: 100px;
+      transition-property: width height;
+      /* 动画持续时间 */
+      transition-duration: 0.5s 1s;
+      /* 延迟多少时间开始动画 */
+      transition-delay: 0s 1s;
+      /* 运动函数 */
+      transition-timing-function: ease-in-out;
+      background-color: green;
+      /** linear表示匀速 **/
+      transition: width 1s linear, height 1s 1s linear;
+    }
+    .box:hover {
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+</body>
+</html>

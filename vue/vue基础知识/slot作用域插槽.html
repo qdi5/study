@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>slot作用域插槽</title>
+	</head>
+	<body>
+		<p>
+		  作用域插槽是一种特殊的slot，使用一个可以复用的模板替换已渲染元素。
+		  作用域插槽的使用场景就是既可以复用子组件的slot，又可以使slot内容不一致。
+		</p>
+		<div id="app">
+			<child-component>
+				<!-- template内可以通过临时变量props访问来自子组件插槽的数据msg -->
+				<template scope="props">
+					<p>来自父组件的内容</p>
+					<p>{{ props.msg }}</p>
+				</template>
+			</child-component>
+			
+			<my-list :books="books">
+				<template slot="book" scope="props">
+					<li>{{ props.bookName }}</li>
+				</template>
+			</my-list>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script>
+			Vue.component('child-component', {
+				template: '\
+				<div class="container">\
+					<slot msg="来自子组件的内容"></slot>\
+				</div>'
+			})
+			
+			Vue.component('my-list', {
+				props: {
+					books: {
+						type: Array,
+						default: function () {
+							return []
+						}
+					}
+				},
+				template: '\
+				<ul>\
+					<slot name="book" v-for="book in books" :book-name="book.name"></slot>\
+				</ul>'
+			})
+			var app = new Vue({
+				el: '#app',
+				data: {
+				  books: [
+					  {name: '《Vue.js实战》'},
+					  {name: '《Javascript语言精粹》'},
+					  {name: '《Javascript高级程序设计》'}
+				  ]  	
+				}
+			})
+		</script>
+	</body>
+</html>

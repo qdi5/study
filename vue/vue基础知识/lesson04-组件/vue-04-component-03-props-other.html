@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>业务中需要改变prop的情况</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<my-component :init-count="parentData"></my-component>
+		
+		<!-- 在子组件中自定义属性最好不要与html元素已有的属性名一样 -->
+		<my-component-2 :styles="style"></my-component-2>
+	</div>
+    <script>
+    	/*
+    	 需要改变prop的情况一：
+    	    父组件传递初始值过来，子组件将它作为初始值保存起来，在自己的作用域下
+    	 可以随意使用和修改。这种情况可以在组件data内再声明一个数据，引用父组件的prop；   
+    	 * 
+    	 * */
+    	Vue.component('my-component', {
+    		props: ['initCount'],
+    		template: '<div>{{ count }} <input type="text" v-model="count" /></div>',
+    		data: function () {
+    			return {
+    				count: this.initCount
+    			}
+    		}
+    	});
+    	
+    	/*
+    	 另一种情况就是prop作为需要被转变的原始值传入。这种情况用计算属性就可以了;
+    	 用css传递宽度要带单位(px)，但是每次都写太麻烦，而且数值计算一般是不带单位的，
+    	 所以统一在组件内使用计算属性就可以了。
+    	 * */
+    	Vue.component('my-component-2', {
+    		props: ['styles'],
+    		template: '<div :style="style">组件内容</div>',
+    		computed: {
+    			style: function () {
+    				return {
+    					width: this.styles.width + 'px',
+    					color: this.styles.color,
+    					border: this.styles.border
+    				}
+    			}
+    		}
+    	});
+    	
+    	
+    	var app = new Vue({
+    		el: '#app',
+    		data: {
+    			parentData: 1,
+    			style: {
+    				color: '#e6b5a7',
+    				width: 600,
+    				border: '1px solid #e7e8e9'
+    			}
+    		}
+    	});
+    	
+    	
+    	
+    </script>
+</body>
+</html>

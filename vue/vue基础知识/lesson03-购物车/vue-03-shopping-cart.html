@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+        <div v-if="page =='login'">
+        	<h2>登录</h2>
+        	<button @click="page='shangpin'">登录</button>
+        	<button @click="page=''">注册</button>
+        </div>
+        <div v-else-if="page=='shangpin'">
+        	商品
+        	<ul>
+        		<li v-for="item in goods">
+        			<div>
+        				<label for="">
+        					{{ item.name }}
+        				</label>
+        				<span>
+        					{{ item.price | formatPrice  }}
+        				</span>
+        			</div>
+        		</li>
+        	</ul>
+        	<button @click="page = 'rate'">打分</button>
+        </div>
+        <div v-else-if="page=='rate'">
+        	填写评分: <input type="number" v-model="rate" /><br />
+        	评价: <span v-for="item in calcRate()">
+        			{{ item }}
+        		</span>
+        	<br/>
+        	<button @click="page='counter'">结算</button>
+        </div>
+        <div v-else-if="page='counter'">
+        	<h3>结算页面</h3>
+        	<ul v-for="good in goods">
+        		<li>
+        			<input type="checkbox" @click="checkedFn(good)" />
+        			商品：{{ good.name }} <br />
+        			<button @click="calcPrice(0,good)">-</button>
+        			数量： <input type="text" :value="good.num||0"/>
+        			<button @click="calcPrice(1,good)">+</button><br />
+        			单价：{{ good.price }}&nbsp;&nbsp;金额：{{ good.price * good.num | formatPrice }}
+        		</li>
+        	</ul>
+        	<p>总金额：{{calcTotalPrice | formatPrice}}</p>
+        </div>
+        <div v-else>
+        	<h2>注册</h2>
+        	<button @click="page='login'">登录</button>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: { //绑定数据到#app的实例上
+                page: 'login',
+                goods: [
+                	{name: '肥皂', price: 10},
+                	{name: '洗衣粉', price: 20},
+                	{name: '牙刷', price: 30},
+                ],
+                rate: 10
+            },
+            methods: {
+            	
+            	//计算评分
+            	calcRate: function(){
+            		var rate = this.rate,
+            			intNumber = Math.floor(rate),
+            			floatNumber = rate - intNumber,
+            			totalRate = 10,
+            			result = [];
+            			
+            			for(var i = 0; i < (intNumber>totalRate?totalRate:intNumber); i++){
+            				result.push('☀');
+            			}
+            			
+            			if(floatNumber >= 0.5){
+            				result.push('★');
+            			}
+            			
+            			var remain = totalRate - result.length;
+            			
+            			if(remain > 0){
+            				for(var i = 0; i < remain; i++){
+            					result.push(' ☆ ');
+            				}
+            			}
+            			
+            			return result;
+            	},
+            	
+            	//计算加减的金额
+            	calcPrice: function(plusRoMinus, good) {
+            		
+            		//只有在data里面的数据，vue才会监控，双向绑定才有效果
+            		//而在data的goods数据里面，没有num属性；所以需要动态给vue实例添加num属性，
+            		//让它成为vue监控的属性;
+            		if(typeof good.num === 'undefined'){
+            			this.$set(good, 'num', 0); 	
+            		}
+            		
+            		//这里改变了num属性的值，num相关的计算都会自动重新计算
+            		//如果是加
+            		if(plusRoMinus === 1 ){
+            			good.num++
+            		} else if(plusRoMinus === 0) {
+            		//如果是减
+            			good.num&&good.num--
+            		}
+            		
+            	},
+            	
+            	//勾选商品触发函数
+            	checkedFn: function(good){
+            		
+            		//避免了在没有点击加减按钮的情况下，直接勾选时，good里面木有num属性，
+            		//导致计算总价时，num为NaN，从而调用了过滤器，返回的总价为0
+            		this.calcPrice(null, good);
+            		
+            		if(typeof good.selected === 'undefined'){
+            			this.$set(good, 'selected', false);
+            		}
+					
+					good.selected = !good.selected;
+            	}
+            },
+            
+            //过滤器
+            filters: {
+            	formatPrice: function(price) {
+            			   
+            		return isNaN(price)?0:price+'元';  
+            	}
+            },
+            
+            //实时计算总价
+            computed: {
+            
+            	//method与computed里面的函数区别？computed的理解？
+            	//calcTotalPrice可以直接这样用{{ calcTotalPrice }}; method这样调用：{{ calcTotalPrice() }}
+            	//计算总价格
+            	calcTotalPrice: function(){
+            		var goods = this.goods,
+            			totalPrice = 0;
+            		
+            		for(var i = 0; i < goods.length; i++){
+            			if(goods[i].selected){
+            				totalPrice += goods[i].price * goods[i].num;
+            			}
+            		}
+            		
+            		return totalPrice;
+            	}
+            }
+        });
+
+        /*
+         * 	methods与computed里面的区别？computed的理解？
+         * 	this.$set()?
+         *  双向数据绑定的含义？
+         * 
+         * */
+		
+    </script>
+</body>
+</html>

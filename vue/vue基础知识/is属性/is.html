@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="root">
+			<table>
+				<select name="" id="">
+					<option value="" is="row">
+						
+					</option>
+				</select>
+			</table>
+		</div>
+		<script src="../vue.js"></script>
+		<script>
+			Vue.component('row', {
+				template: '<tr><td>this is a row</td></tr>'
+			})
+			new Vue({
+				el: '#root'
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			.wrapper {
+				width: 100px;
+				height: 30px;
+				display: flex;
+				flex-direction: row;
+			}
+			.a, .b {
+				flex: none;
+			}
+			.a {
+				flex-basis: 40%;
+				background: red;
+			}
+			.b {
+				flex-basis: 60%;
+				background: green;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="a"></div>
+			<div class="b"></div>
+		</div>
+	</body>
+</html>

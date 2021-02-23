@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>event</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+        <my-component></my-component>
+    </div>
+    <script>
+    	/*
+    	 * 全局定义
+    	 * 全局子组件; (组件名，组件内容，)
+    	   template: 定义html内容	
+    	 * */
+    	Vue.component('z2', {
+    		template: '<div><h1>这里是子组件2</h1><z3></z3></div>'
+    		
+    	});
+    	
+    	Vue.component('z3', {
+    		template: '<h1>这里是子组件3</h1>'
+    		
+    	});
+    	
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	price: 15,
+            	number: 0
+            },
+            
+            //实例化vue时定义子组件
+            components: {
+            	'z4': {
+            		template: '<p style="color: red">这是子组件4</p>'
+            	},
+            	'z5': {
+            		template: '<p style="color: green">子组件5</p>'
+            	}
+            }
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

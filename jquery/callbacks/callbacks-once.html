@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>callbacks设计02</title>
+</head>
+<body>
+  <script src="../jquery.js"></script>
+  <script>
+    var callbacks = $.Callbacks('once')
+    console.log(callbacks)
+    // 往回调列表 注入一个callback
+    callbacks.add(function () {
+      console.log(1)
+    });
+    callbacks.add(function () {
+      console.log(2)
+    });
+    callbacks.fire(); // 依次执行回调列表中的callback
+    callbacks.add(function () {
+      console.log(3)
+    });
+    
+  </script>
+</body>
+</html>

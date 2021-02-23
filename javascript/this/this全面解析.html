@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			
+			// 一.默认绑定到window
+			function foo () {
+				console.log(this.a)
+			}
+			var a = 1;
+			
+			(function () {
+				"use strict"
+				foo()
+			})()
+			
+			// 二.隐式绑定
+			// 当函数引用有上下文对象时,
+			// 隐式绑定规则会把函数调用中的this绑定到这个上下文对象
+			
+			function foo2 () {
+				console.log(this.a)
+			}
+			
+			var obj2 = {
+				a: 2,
+				foo2
+			}
+			
+			obj2.foo2()
+			
+			// 对象属性引用链中只有上一层或者说最后一层在调用位置中起作用
+			function foo3 () {
+				console.log(this.a)
+			}
+			
+			var obj3 = {
+				a: 42,
+				foo3
+			}
+			
+			var obj3_1 = {
+				a: 52,
+				obj3
+			}
+			obj3_1.obj3.foo3() // 42; 始终把握住一点,最终是谁调用的foo3，那么,this就指向它
+			
+			// 隐式丢失
+			// 函数引用丢失隐式的this,从而将this绑定到全局作用域,或者undefined,取决于是否是严格模式
+			function foo4 () {
+				console.log(this.a)
+			}
+			
+			var obj4 = {
+				a: 2,
+				foo4
+			}
+			
+			var bar = obj4.foo4 
+			var a = 'oops, global'
+			bar() // 'oops，global'
+			
+			// 传入回调函数,丢失隐式this绑定(跟上面情况差不多)
+			function foo4_1 () {
+				console.log(this.a)
+			}
+			
+			function doFoo (fn) {
+				// fn其实引用的是foo4_1
+				fn()
+			}
+			
+			var obj4_1 = {
+				a: 2,
+				foo4_1
+			}
+			
+			var a4_1 = 'oops, global'
+			
+			doFoo(obj4_1.foo4_1)
+			
+			// 三、显示绑定
+			
+			function foo5 () {
+				console.log(this.a)
+			}
+			
+			var obj5 = {
+				a: 2,
+				foo5
+			}
+			var a = 'wuzhe'
+			foo5.call(obj5)
+			
+			// 3.1、硬绑定
+			function foo5_1 () {
+				console.log(this.a)
+			}
+			var obj5_1 = {
+				a: 2019
+			}
+			// 硬绑定的bar不可能再修改它的this
+			var bar = function () {
+				foo5_1.call(obj5_1)
+			}
+			bar() // 2019
+			// setTimeout(bar, 100) // 2019
+			bar.call(window) // 2019
+			
+			// 3.1.1.硬绑定的应用场景是创建一个包裹函数,负责接收参数并返回值
+			function foo5_2 (something) {
+				console.log(this.a, something)
+				return this.a + something
+			}
+			
+			var obj5_2 = {
+				a: 2
+			}
+			
+			var bar5_2 = function () {
+				return foo5_2.apply(obj5_2, arguments)
+			}
+			
+			var result5_2 = bar5_2(3)
+			console.log(result5_2)
+			
+			// 3.1.2.硬绑定创建一个可以重复使用的辅助函数
+			function foo5_3 (something) {
+				
+				return this.a + something
+			}
+			
+			function bind (fn, obj) {
+				return function () {
+					return fn.apply(obj, arguments)
+				}
+			}
+			
+			var obj5_3 = {
+				a: 2020
+			}
+			
+			var bar5_3 = bind(foo5_3, obj5_3)
+			var result5_3 = bar5_3(3)
+			console.log(result5_3)
+			
+			// tips: 如果你把null或者undefined作为this的绑定对象传入call,apply,bind,这些值在调用时会被忽略,
+			// 实际应用的是默认绑定规则
+			function f () {
+				console.log('this绑定到null，实际上应用的是默认绑定：', this.n)
+			}
+			
+			var n = '无敌是多么寂寞'
+			
+			f.call(null)
+			
+			
+			
+			// 3.1.3.API调用的"上下文"
+			// 第三方库的许多函数,以及javascript语言和宿主环境中许多新的内置函数,都提供了一个可选的参数,通常被称为"上下文"(context),其作用和bind一样,
+			// 确保你的回调函数使用指定的this
+			function foo5_4 (el) {
+				console.log(el, this.id)
+			}
+			
+			var obj5_4 = {
+				id: 'awesome'
+			};
+			
+			[1,2,3].forEach(foo5_4, obj5_4)
+			
+			// 四、new绑定
+			/*
+			使用new来调用函数,或者说发生构造函数调用时,会自动执行下面的操作:
+				1.创建(或者说构造)一个全新的对象
+				2.这个新对象会被执行[[Prototype]]链接
+				3.这个新对象会绑定到函数调用的this 
+				4.如果函数没有返回其他对象,那么new表达式中的函数调用会自动返回这个新对象
+			*/
+			function foo6 (a) {
+				this.a = a
+			}
+			
+			var bar6 = new foo6(2021)
+			console.log(bar6.a)
+			
+			// 五.箭头函数的this 
+			// 箭头函数不使用this的四种标准规则,而是根据外层(函数或者全局) 作用域来决定this 
+			function foo7 () {
+				let self = this
+				console.log('箭头函数所在词法作用域的this：', self)
+				return a => {
+					console.log(self === this, this.a)
+				}
+			}
+			
+			var obj7 = {
+				a: 2022
+			}
+			
+			var obj7_1 = {
+				a: 2023
+			}
+			var bar7 = foo7.call(obj7)
+			bar7.call(obj7_1) 
+		</script>
+	</body>
+</html>

@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>transition监听事件</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .box {
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 100px;
+      height: 100px;
+      background-color: green;
+      transition: left 2s, background-color 1s;
+      /** linear表示匀速 **/
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <script>
+    let box = document.querySelector('.box')
+    box.addEventListener('click', function () {
+      this.style.left = 300 + 'px'
+    }, false)
+    end(box, change)
+    var i = 0
+    function change() {
+      console.log('动画完成' + ++i)
+      this.style.backgroundColor = 'blue'
+    }
+    function end (obj, fn) {
+      obj.addEventListener('transitionend', fn)
+    }
+
+  </script>
+</body>
+</html>

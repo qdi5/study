@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>定时器与Symbol</title>
+	</head>
+	<body>
+		<script>
+			/* 分钟和秒 */
+			/* defaultTimes: 1800秒 */ 
+			/* 30分钟 - 1秒 */
+			/* 实时返回： 30:00 29:12 28:20 */
+			class Timer {
+				constructor(fn, time) {
+					this.timer = window.setInterval(fn,time)
+					this.counter = 0
+				}
+				
+				clear() {
+					window.clearInterval(this.timer)
+				}
+				
+				beginTimer(elem) {
+					// 业务逻辑
+				}
+				
+			}
+			
+		</script>
+	</body>
+</html>

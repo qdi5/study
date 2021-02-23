@@ -1,0 +1,73 @@
+border-1px($color = #ccc, $radius = 2PX, $style = solid)
+  position: relative
+  &::after
+    content: ""
+    pointer-events: none
+    display: block
+    position: absolute
+    left: 0
+    top: 0
+    transform-origin: 0 0
+    border: 1PX $style $color
+    border-radius: $radius
+    box-sizing border-box
+    width 100%
+    height 100%
+    @media (min-resolution: 2dppx)
+      width: 200%
+      height: 200%
+      border-radius: $radius * 2
+      transform: scale(.5)
+    @media (min-resolution: 3dppx)
+      width: 300%
+      height: 300%
+      border-radius: $radius * 3
+      transform: scale(.333)
+
+border-none()
+  &::before
+    display: none
+  &::after
+    display: none
+
+flex-fix()
+  flex: 1
+  flex-basis: 0.000000001px
+  width: 1%
+
+touch-active(type = orange)
+  if (type == orange)
+    &:active
+      color: #fcc1a6
+      background-color: rgba(250, 143, 84, .04)
+  else
+    &:active
+      color: #c6c6c6
+      background-color: rgba(0, 0, 0, .04)
+
+hide-scrollbar()
+  &::-webkit-scrollbar
+    width: 0
+    height: 0
+
+bg-image($url, $ext = ".png")
+  background-image: url($url + "@2x" + $ext)
+  @media (min-resolution: 3dppx)
+    background-image: url($url + "@3x" + $ext)
+
+/* 定义一个变量functions，值为constant 和 env组成的数组，通过下标来获取 */
+/*
+函数输出目标示例：
+padding-bottom: constant(safe-area-inset-bottom); 
+padding-bottom: env(safe-area-inset-bottom); 
+
+unquote(str): 将字符串去掉引号？？？输出它本身
+s(fmt) 是stylus自带的函数，与内建函数unquote() 相似；%s是占位符号
+
+*/
+functions = constant env
+safe-area-fn(fn, position)
+  s("%s(safe-area-inset-%s)", fn, position)
+safe-area-mixin(property, position, important = false)
+  for fn in functions
+    {property} safe-area-fn(fn, position) important == true ? !important : unquote("")

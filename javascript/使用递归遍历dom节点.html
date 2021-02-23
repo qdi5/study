@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>递归函数高效处理树形结构，比如DOM</title>
+	</head>
+	<body>
+		<ul>
+			<li class="wuzhe">1</li>
+			<li class="wuzhe">2</li>
+			<li class="wuzhe">3</li>
+			<li class="wuzhe">4</li>
+			<li class="wuzhe">5</li>
+			<li class="wuzhe">6</li>
+			<li class="wuzhe">7</li>
+			<li class="wuzhe">8</li>
+			<li class="wuzhe">9</li>
+			<li class="wuzhe">10</li>
+		</ul>
+		<script>
+		  // 定义walk_the_DOM函数,它从某个指定地节点开始,按HTML源码中的顺序访问该树的每个节点
+		  // 它会调用一个函数,并依次传递每个节点给它,walk_the_DOM调用自身去处理每一个子节点
+		  var walk_the_DOM = function walk (node, func) {
+		  	func(node)
+		  	node = node.firstChild
+		  	while (node) {
+		  		walk(node, func)
+		  		node = node.nextSibling
+		  	}
+		  }
+		  
+		  // 定义getElementsByAttribute函数,它以一个属性名称字符串和一个可选的匹配值作为参数
+		  // 它调用walk_the_DOM,传递一个用来查找节点属性名的函数作为参数
+		  // 匹配的节点会累加到一个结果数组中.
+		  var getElementsByAttribute = function (att, value) {
+			  var results = []
+			  walk_the_DOM(document.body, function (node) {
+				  var actual = node.nodeType === 1 && node.getAttribute(att)
+				  console.log('actual:', actual)
+				  if (typeof actual === 'string' && (actual === value || typeof value !== 'string')) {
+						results.push(node)
+				  }
+			  })
+			  return results
+		  }
+		  
+		  console.log(getElementsByAttribute('class', 'wuzhe'))
+		</script>
+		
+	</body>
+</html>

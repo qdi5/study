@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>负margin得到更宽的子元素</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			section {
+				margin-bottom: 40px;
+			}
+			.negativeMarginLeft {
+				width: 400px;
+				border: 3px solid black;
+			}
+			.negativeMarginLeft .wide {
+				width: auto;
+				margin-left: 10px;
+				margin-right: -50px;
+				border: 1px solid red;
+			}
+			.overwrite {
+				width: 400px;
+				border: 3px solid black;
+				background-color: #000000;
+			}
+			.overwrite .wide {
+				width: 100px;
+				margin-left: 100px;
+				margin-right: 100px;
+				color: #fff;
+				border: 1px solid red;
+			}
+			.width-auto {
+				width: 400px;
+				border: 3px solid black;
+				background-color: #000000;
+				color: #fff;
+			}
+			.wide {
+				margin-left: 100px;
+				margin-right: 50px;
+				width: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<h2>1、负margin得到更宽的子元素</h2>
+			<div class="negativeMarginLeft">
+				<p class="wide">A paragraph</p>
+				<p>another paragraph</p>
+			</div>
+		</section>
+		
+		<section>
+			<h2>2、如果width，margin-left，margin-right都设置为非auto的值，则margin-right将会被重置为auto</h2>
+			<div class="overwrite">
+				<p class="wide">A paragraph</p>
+			</div>
+		</section>
+		
+		<section>
+			<h2>3、如果两个外边距都显式地设置，而width设置为auto，width值将设置为所需的某个值，从而达到需要的总宽度（即父元素的内容宽度）</h2>
+			<div class="width-auto">
+				<p class="wide">A paragraph</p>
+			</div>
+		</section>
+		
+    <section>
+      <style>
+        .nagetive-margin-left {
+          width: 400px;
+          border: 3px solid black;
+          background-color: #000000;
+          color: #fff;    
+        }
+        .nagetive-margin-left .wide {
+          margin-left: -50px;
+          width: auto;
+          margin-right: 10px;
+          border: 3px solid #fff;
+        }
+      </style>
+      <h2>4、负左外边距</h2>
+      <details>
+        <summary>
+          不仅段落会超出div的边框，还会超出浏览器窗口本身的边界！
+        </summary>
+      </details>
+      <div class="nagetive-margin-left">
+        <p class="wide">负左外边距</p>
+      </div>
+    </section>
+	</body>
+	<script>
+		/*
+			根据css规范规定，如果width，margin-left或margin-right其中有一个值是auto,其他两个值是固定值，那么值为auto的属性决定了元素的最终长度。
+			7个水平属性的总和要等于父元素的width：
+				margin-left + border-left + padding-left + width + padding-right + border-right + margin-right = 父元素的width（div的宽度）
+				10 + 0 + 0 + x + 0 + 0 - 50 = 400
+				x = 400 + 50 - 10
+				x = 440
+			所以：p.width的宽度是440px	
+			
+		*/
+	</script>
+</html>

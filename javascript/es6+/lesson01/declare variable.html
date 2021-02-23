@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es6变量声明</title>
+	</head>
+	<body>
+		<script>
+			// 1、立即执行函数的区别
+			(function() {
+				console.log('a');
+			})();
+			
+			{
+				let a = 10;
+				// var b = 5;
+				console.log(a);
+			}
+			// 2、let拥有块级作用域
+			// console.log(a); // 报错
+			// console.log('b');
+			
+			for (let i = 0; i < 10; i++) {
+				console.log(i);
+			}
+			// console.log(i); // 报错
+			
+			var arr = [];
+			for (var i = 0; i < 10; i++) {
+				arr[i] = function() {
+					console.log(i);
+				}
+			};
+			
+			for (let val of arr) {
+				console.log(val());
+			}
+			
+			arr[5](); // 在调用时，才去获取i，i此时已经是10
+			
+			for (let i = 0; i < 10; i++) {
+				// 在es6中每次运行，这里都会形成一个块级作用域
+				arr[i] = function () {
+					console.log(i);
+				}
+			}
+			// 3、let不允许重复声明同一个变量
+			var a = 0;
+			//let a = 2; // 报错
+			// 4、let没有变量定义提升
+			// console.log(b);
+			// 即使上面的函数里声明了b，这里也会报错
+			let b = 0;
+			
+			// 5、暂时性死区
+			var foo = 100;
+			
+			// ES6明确规定，如果代码块出现let、const声明，那么一旦形成了
+			// 封闭作用域，在声明之前使用就会报错
+			if (true) {
+				/*foo = "abc";
+				console.log(foo); // 报错*/ 
+				// 在let声明变量"foo"之前，都属于变量"foo"的死区
+				
+				let foo; // 在let声明之前
+			}
+			
+			// typeof wuzhe // 这里也会报错
+			let wuzhe;
+			
+			function demo (num) {
+				let num; //这里使用let声明，同样属于重复声明变量
+			}
+			
+			// 6、块级作用域可以嵌套
+			{
+				let p = 1;
+				{
+					var o = 0;
+					console.log(o);
+					console.log(p);
+				}
+			}
+			// 7、 es6允许以下声明
+			if (true) {
+				function b() {
+					
+				}
+			}
+			// let不允许全局访问局部变量
+		</script>
+	</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>柯里化极简版，帮助理解柯里化的伪代码</title>
+	</head>
+	<body>
+		<script>
+			function sub_curry (fn) {
+				return function () {
+					return fn()
+				}
+			}
+			
+			function curry (fn, length) {
+				length = length || 4
+				return function () {
+					if (length > 1) {
+						return curry(sub_curry(fn), --length)
+					} else {
+						return fn()
+					}
+				}
+			}
+			
+			var fn0 = function () {
+				return 1
+			}
+			
+			var fn1 = curry(fn0)
+			
+			var step01 = fn1()
+			console.log('step01:', step01)
+			var step02 = step01()
+			console.log('step02:', step02)
+			var step03 = step02()
+			console.log('step03:', step03)
+			var result = step03()
+			console.log('result:', result)
+		</script>
+	</body>
+</html>

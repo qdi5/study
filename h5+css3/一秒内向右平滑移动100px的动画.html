@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.box {
+				width: 100px;
+				height: 100px;
+				background: red;
+				animation: ani 1s linear;
+				/* 保持最后一帧的动画状态 */
+				animation-fill-mode: forwards;
+			}
+			@keyframes ani{
+				from{
+					transform: translateX(0)
+				}
+				to{
+					transform: translateX(100px);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			
+		</div>
+	</body>
+</html>

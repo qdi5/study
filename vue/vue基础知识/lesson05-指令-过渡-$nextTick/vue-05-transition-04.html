@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>vue过渡动画03</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.bounce-enter-active {
+				animation: bounce-in .5s;
+			}
+			.bounce-leave-active {
+				/* 将上面的动画反向播放 */
+				animation: bounce-in .5s reverse;
+			}
+			@keyframes bounce-in {
+				0% {
+					transform: scale(0);
+				}
+				50% {
+					transform: scale(1.5);
+				}
+				100% {
+					transform: scale(1);
+				}
+			}
+			.hello {
+				width: 100px;
+				height: 100px;
+				border: 1px solid red;
+				margin-top: 20%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="show = !show">toggle render</button>
+			<transition name="bounce">
+				<p v-if="show" class="hello">hello</p>
+			</transition>
+		</div>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					show: false
+				}
+			});
+		</script>
+	</body>
+</html>

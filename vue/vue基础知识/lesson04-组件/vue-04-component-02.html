@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>子组件2</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+        <my-component></my-component>
+    </div>
+    <script>
+    	Vue.component('my-component', {
+    		template: '<div @click="handleClick($event)">{{ name }}</div>',
+    		
+    		/* 子组件的data必须是一个函数  */
+    		data: function() {
+    			return {
+    				name: '子组件的数据'
+    			}
+    		},
+    		methods: {
+    			handleClick($event){
+    				$event.target.style.color = 'red';
+    				alert('子组件的click事件');
+    			}
+    		}
+    	});
+    	
+        var app = new Vue({
+
+            //选择元素
+            el: "#app"
+            
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

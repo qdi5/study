@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			function println (data) {
+				document.writeln(JSON.stringify(data))
+				document.writeln('<br/>')
+			}
+			let str = `Send personal email to ben@forta.com or ben.forta@forta.com.
+			For questions about a book use support@forta.com.
+			 If your message is urgent try ben@urgent.forta.com. 
+			 Feel free to send unsolicited email to spam@forta.com
+			 (wouldn't it be nice if it were that simple, huh?).`
+			let str02 = 'hello .ben@forta.com ismy email address'
+			let emailReg = /[\w.]+@[\w.]+\.\w+/g 
+			let result = str.match(emailReg)
+			console.log('匹配邮箱地址：\n', result) // ["ben@forta.com","ben.forta@forta.com","support@forta.com","ben@urgent.forta.com","spam@forta.com"]
+			let emailReg02 = /[\w.]+@[\w.]+\.[\w.]+/g
+			let result02 = str.match(emailReg02)
+			console.log('匹配邮箱地址02：\n', result02) // ["ben@forta.com","ben.forta@forta.com.","support@forta.com.","ben@urgent.forta.com.","spam@forta.com"] 
+			println(result)
+			println(result02)
+			let emailReg03 = /\w+[\w.]*@[\w.]+\.\w+/g
+			console.log(emailReg03.test('222@.....com'))
+			// 单词边界 
+			let boundary = 'the cat scattered his food all over the room'
+			let boundReg = /\bcat\b/g
+			console.log('单词边界：\n', boundary.match(boundReg))
+			let bound02 = 'The captain wore his cap and cape proudly as he sat listening to the recap of how his crew saved the men from a capsized vessel.'
+			console.log(bound02.match(/\b/g))
+			let testBound = bound02.replace(/\b/g, '-')
+			console.log('testBound:\n', testBound)
+			let testBoundB = bound02.replace(/\B/g, '-')
+			console.log('testBoundB:\n', testBoundB)
+			let multipleStr = `
+				<SCRIPT>
+				function doSpellcheck(form, field) {
+					// Make sure not empty 
+					if (field.value == ') {
+						return false;
+					}
+					// Init 
+					var windowName= ' spel lWindow' ;var 
+					spellCheckURL= 'spell. cfm?formname=comment&f ieldname= ' +field.name ;
+					// Done return false;}
+				<\/SCRIPT>`
+			let regComment = /^\s*\/\/.*$/gm
+			console.log('匹配多行文本：\n', multipleStr.match(regComment))
+			// 回溯引用 
+			// 去掉重复出现的单词
+			let back = 'This is a block of of text，several words here are are repeated， and and they should not be.'
+			let backReg = /[ ]+(\w+)[ ]+\1/g
+			console.log('回溯引用：\n', back.match(backReg))
+			console.log('去掉重复的单词', back.replace(backReg, ' $1'))
+			let emailBack = 'Hello, 1038764857@qq.com is my email address'
+			let emailSubexpression = /(\w+[\w\.]*@[\w\.]+\.\w+)/g
+			let emailLink = emailBack.replace(emailSubexpression, '<a href="mailto:$1">$1</a>')
+			document.writeln(emailLink)
+			
+			// 电话号码提取 (313)555-1234
+			let phoneStr = '313-555-1234'
+			let phoneReg = /(\d{3})(-)(\d{3})(-)(\d{4})/g
+			console.log('电话号码替换：\n', phoneStr.replace(phoneReg, '($1) $3-$5'))
+			
+			// 大小写转换
+			let letters = '<BODY> <H1>Welcome to my Homepage<\/H1>content is divided into two sections: <BRS<H2>Coldfusion<\/H2>Information about Macromedia Coldfusion<H2>Wireless<\/H2>Information about Bluetooth, 802.11, and more H2>This is not valid HTML<\/H3><\/BODY>'
+			let h = /(<[Hh]1>)(.*?)(<\/[Hh]1>)/g
+			let upper = letters.match(h)
+			console.log('匹配h标签：\n', upper)
+			console.log('将大写首字母转换为小写：\n', upper[0].replace(h, '$1\U$2\E$3'))
+			
+			// 前后查找
+			let lookhead = 'http://www.forta.com'
+			let lookheadExp = /.+(?=:):\/\//gi
+			console.log('正则向前查找：\n',lookhead.match(lookheadExp))
+			
+			let dollar = 'ABC01: $23.45'
+			let dollarReg = /(?<=\$)[0-9.]+/g
+			console.log('匹配美元：\n', dollar.match(dollarReg))
+			
+			let html = `<head>
+					<title>trouble is friend<\/title>
+				<\/head>`
+			let htmlReg = /(?<=\<title>).*(?=\<\/title>)/g
+			console.log(html.match(htmlReg))
+		</script>
+	</body>
+</html>

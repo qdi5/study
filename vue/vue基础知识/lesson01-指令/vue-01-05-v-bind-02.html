@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title></title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+    .box {
+        color: red;
+    }
+</style>
+</head>
+<body>
+
+    <div id="app">
+        <p :class="classname">这里是p标签</p>
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: { //绑定数据到#app的实例上
+                classname: 'box'
+            }
+        });
+
+
+
+    </script>
+</body>
+</html>

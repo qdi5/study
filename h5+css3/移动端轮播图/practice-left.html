@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>自我训练-移动端简易轮播图-left</title>
+		<meta name="viewport" content="width=device-width,user-scalable=no"/>
+		<link rel="stylesheet" href="./css/index.css">
+		<script>
+		// 适配
+		(function (root) {
+			function autoRem () {
+				// 获取文档的宽度
+				let htmlElem = document.documentElement
+				let viewWidth = htmlElem.getBoundingClientRect().width
+				if (viewWidth > 540) {
+					viewWidth = 540
+				}
+				htmlElem.style.fontSize = viewWidth / 10 + 'px'
+			}
+			let resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize'
+			window.addEventListener(resizeEvt, autoRem, false)
+			
+			// 原生js触发resize事件
+			if (Event.prototype.initEvent) {
+				const evt = window.document.createEvent('UIEvents'); 
+				evt.initUIEvent('resize', true, false, window, 0); 
+				window.dispatchEvent(evt);                    
+			}
+			else {
+				window.dispatchEvent(new Event('resize'));                    
+			}
+		})(window)
+		</script>
+	</head>
+	<body>
+		<div class="slide">
+		    <ul>
+		        <li><img src="img/slide1.jpg" width="100%" height="100%" alt=""></li>
+		        <li><img src="img/slide2.jpg" width="100%" height="100%" alt=""></li>
+		        <li><img src="img/slide3.jpg" width="100%" height="100%" alt=""></li>
+		    </ul>
+		    <div class="dot">
+		        <span></span><span></span><span></span>
+		    </div>
+		</div>
+		<script>
+			let slide = document.querySelector('.slide')
+			let ulEle = slide.querySelector('ul')
+			let liEle = ulEle.querySelectorAll('li')[0]
+			let dot = slide.querySelector('.dot')
+			let spans = dot.querySelectorAll('span')
+			console.log(slide, ulEle, liEle, dot, spans)
+			// 手指开始触摸的位置
+			let startPoint = 0
+			// 手指抬起后的位置
+			let endPoint = 0
+			let startUlOffset = 0
+			// 索引
+			let index = 0
+			
+			spans[0].classList.add('on')
+			
+			slide.addEventListener('touchstart', function (e) {
+				startPoint = e.changedTouches[0].pageX
+				ulEle.style.transition = ''
+				startUlOffset = ulEle.offsetLeft
+			}, false)
+			
+			slide.addEventListener('touchmove', function (e) {
+				e.preventDefault()
+				let nowPoint = e.changedTouches[0].pageX
+				let distance = nowPoint - startPoint
+				console.log('ul offsetLeft', ulEle.offsetLeft)
+				ulEle.style.left = startUlOffset + distance + 'px'
+				
+				
+			}, false)
+			
+			slide.addEventListener('touchend', function (e) {
+				ulEle.style.transition = '0.8s'
+				endPoint =  e.changedTouches[0].pageX
+				let distance = endPoint - startPoint
+				// 滚动方向
+				let direction = distance > 0 ? 1 : 0 // 1代表右, 0代表左
+				
+				// distance大于0,说明,手指向右滑动,轮播图向右滚动
+				if (direction) {
+					index--
+				    if (index < 0) {
+						index = spans.length - 1
+					}
+				}  else {
+					index++
+					if(index >= spans.length) {
+						index = 0
+					}
+				}
+				if (Math.abs(endPoint - startPoint) > 50) {
+					ulEle.style.left = -(index * liEle.getBoundingClientRect().width) + 'px'
+				} 
+				for (let i = 0; i < spans.length; i++) {
+					if (spans[i].classList.contains('on')) {
+						spans[i].classList.remove('on')
+						break
+					}
+				}
+				spans[index].classList.add('on')
+			}) 
+			
+		</script>
+	</body>
+</html>

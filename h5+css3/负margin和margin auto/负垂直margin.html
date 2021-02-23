@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>负垂直margin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .negative-top .neg {
+      margin-top: -50px;
+      margin-right: 10px;
+      margin-left: 10px;
+      margin-bottom: 0;
+      border: 3px solid gray;
+    }
+    section {
+      margin-bottom: 50px;
+    }
+    .negative-bottom .neg {
+      margin-bottom: -50px;
+      margin-right: 10px;
+      margin-left: 10px;
+      margin-top: 0;
+      border: 3px solid gray
+    }
+    .three ul {
+      margin-bottom: -15px;
+    }
+    .three ul li {
+      margin-bottom: 20px;
+    }
+    .three h1 {
+      margin-top: -18px;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <h2>1、负上外边距的效果</h2>
+    <div class="negative-top" style="width: 420px; background-color: silver; padding: 10px; margin-top: 50px; border: 1px solid;">
+      <p class="neg">
+        a paragraph
+      </p> A div
+    </div>
+  </section>
+  <section>
+    <h2>2、负下外边距的效果</h2>
+    <div class="negative-bottom" style="width: 420px; background-color: silver; margin-top: 50px;">
+      <p class="neg">
+        a paragraph
+      </p>
+    </div>
+    <p>
+      The next paragraph.
+    </p>
+  </section>
+  <section class="three">
+    <h2>3、正负外边距叠加(20 - 18 = 2，最终h1与ul的边距为2px)</h2>
+    <b>
+      如果垂直外边距都设置为负值，浏览器会取两个外边距绝对值的最大值；
+      如果一个正外边距与一个负外边距合并，会从正外边距减去这个负外边距的绝对值。
+    </b>
+    <ul>
+      <li>a list item</li>
+      <li>another list item</li>
+    </ul>
+    <h1>a heading-1</h1>
+  </section>
+</body>
+</html>

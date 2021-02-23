@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es7 async</title>
+	</head>
+	<body>
+		<h3>基本规则</h3>
+		1、async标识这是一个异步函数，await只能应用在这个async函数里面
+		2、await表示在这里，会等待Promise返回结果之后再继续执行
+		3、await后面跟着的应该是一个Promise对象，但是如果返回其他值，但是就不会出现异步的效果了
+		<script>
+			var sleep = function ( time ) {
+				return new Promise(function (resolve, reject) {
+					setTimeout(() => {
+						console.log('休眠结束');
+						resolve();
+					}, time);
+				});
+			}
+			
+			// async： 给方法一个标识，告诉他这是一个需要异步的函数
+			var start = async function () {
+				console.log('start loading......');
+				await sleep(3000);
+				console.log('end loading......');
+			}
+			
+			start();
+		</script>
+	</body>
+</html>

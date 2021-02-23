@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>偏函数</title>
+	</head>
+	<body>
+		<script>
+		  var _ = {}
+		  function partial(fn) {
+			  var slice = Array.prototype.slice
+			  var args = slice.call(arguments, 1)
+			  return function () {
+				  var position = 0,
+				  len = args.length,
+				  // 浅拷贝一份上级函数的参数数组
+				  newArgs = args.slice(0)
+				  for (var i = 0; i < len; i++) {
+					  if (newArgs[i] === _) {
+						   newArgs[i] =  arguments[position++]   
+					  }
+				  }
+				  while(position < arguments.length) newArgs.push(arguments[position++])
+				  return fn.apply(this, newArgs)
+			  }
+		  }
+		  var subtract = function (a, b) { return b - a }
+		  subFrom20 = partial(subtract, _, 20)
+		  console.log('5:',subFrom20(5))
+		  console.log('4', subFrom20(4))
+		  console.log('3', subFrom20(3))
+		</script>
+	</body>
+</html>

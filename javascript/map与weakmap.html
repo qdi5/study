@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 强引用
+    let obj = { name: 'Jon Snow' }
+    const target = new Map()
+    target.set(obj, 'a man from Game of Thrones')
+    obj = null
+    console.log(target) // target里面仍然还有属性
+
+    // WeakMap弱引用
+    let obj2 = { name: 'wu zhe' }
+    const target2 = new WeakMap()
+    target2.set(obj2, 'a web front-end developer')
+    obj2 = null
+    console.log(`target2:`, target2) // target2里面的属性为空了
+  </script>
+</body>
+</html>

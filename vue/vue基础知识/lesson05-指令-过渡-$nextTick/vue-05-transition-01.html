@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>vue过渡动画01</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.show-enter-active,
+			.show-leave-active {
+				transition: opacity .5s;
+			}
+			
+			/* 名字为show动画标签开始的时候的样式 */
+			.show-enter,
+			.show-leave-active {
+				opacity: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="show = !show">动画</button>
+			<transition name="show">
+				<p v-if="show">p标签</p>
+			</transition>
+		</div>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				
+				data: {
+					show: false
+				},
+				methods: {
+					handleClick(){
+						console.log(arguments);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

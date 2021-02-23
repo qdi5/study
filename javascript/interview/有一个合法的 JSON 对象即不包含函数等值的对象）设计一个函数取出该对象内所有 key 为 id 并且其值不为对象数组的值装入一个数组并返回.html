@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>有一个合法的 JSON 对象（即不包含函数等值的对象），设计一个函数，取出该对象内所有 key 为 "id" 并且其值不为对象、数组的值，装入一个数组并返回</title>
+	</head>
+	<body>
+		<script>
+		  var data = {
+		    id: 1,
+		    items: [
+			  { id: 2 }, 
+			  { 
+				item: 3, 
+				id: [ 
+				  { id: 4 },
+				  { id: 5 },
+				  [{id: 9}, {item: 10}]
+			    ],
+			  }
+		    ],
+			obj: [{id: function() {
+				console.log(1)
+			}}]
+		  }
+		  
+		  function extractIds(jsonObj) {
+			  let result = []
+			   // 1、for循环出第一层属性
+			  // 2、判断属性值是object还是array,还是其他
+			  // 3、如果是object,那么,继续执行循环
+			  // 4.如果是array,那么循环array,查找数组值为object的对象,继续执行循环
+
+			  function type(t) {
+				  let str = Object.prototype.toString.call(t).split(' ')[1]
+				  return str.substring(0, str.length - 1).toLowerCase()
+			  }
+			  
+			  function loop(data = jsonObj) {
+				 // 传过来的值是object，则循环这个对象的属性，将属性为id并且其值不为数组和对象的值装入到结果数组里；
+				 // 若属性名不为id，则继续调用判断函数判断这个属性的值的类型，根据不同类型重复调用loop函数
+				 if (type(data) === 'object') {
+				    for (var attr in data) {
+				     if (attr === 'id' && type(data[attr]) !== 'object' && type(data[attr]) !== 'array') {
+						result.push(data[attr])
+				     } else {
+						judge(data[attr], attr)
+				     }				
+				   }   	 
+				} else if (type(data) === 'array') {
+					judge(data)
+				} else {
+					result.push(data)
+				}
+			  }
+			  
+			  loop()
+			  
+			  // 判断属性的值是什么类型
+			  function judge (val, attr) {
+				 // 如果是对象
+				 if (type(val) === 'object') {
+					 loop(val)
+				 // 如果是数组
+				 } else if (type(val) === 'array') {
+				   for (let item of val) {
+				     loop(item)
+				   }
+			    } else {
+				  // 字符串.数字.函数时候.一定得属性名是id，才调用loop
+				  if (attr === 'id') {
+					  loop(val)
+				  }
+			    }
+			  }
+			  
+			  return result
+			}
+		  
+		  console.log(extractIds(data)) 
+		 // console.log(getId(data))
+		</script>
+	</body>
+</html>

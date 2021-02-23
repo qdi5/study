@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ajax封装之路02</title>
+	</head>
+	<body>
+		<button id="ajaxButton" type="button">发起请求</button>
+		<input type="text" id="show">
+		<script>
+			window.onload = function() {
+				// 去除字符串左右两边的空格
+				function trim(chars) {
+					// return (chars || '').replace(/^(\s|\u00A0)*|(\s|\u00A0)*$/g, '')
+					return (chars || '').replace(/^\s*/g, '').replace(/\s*$/g, '')
+				}
+				
+				document.getElementById('show').value = trim('  这人间    炊烟袅袅  ')
+				
+				// 解析JSON
+				function parseJSON(jsonData) {
+					if (typeof jsonData === 'object') {
+						return jsonData
+					}
+					
+					if (window.JSON && window.JSON.parse) {
+						return window.JSON.parse(jsonData)
+					}
+					
+					if (typeof jsonData === 'string') {
+						jsonData = this.trim(jsonData)
+						if (jsonData) {
+							// 利用Function的特性,构造JSON对象
+							return (new Function('return ' + jsonData))()
+						}
+					}
+				}
+				
+				function ajax(options) {
+					if (!options || !options.url) {
+						return false
+					}
+					
+					// 待传送的值
+					options.data = options.data || ''
+					
+					// 请求类型默认是GET
+					options.method = (options.method || 'GET').toUpperCase()
+					
+					// 异步或同步
+					options.async = options.async || true
+					
+					// 响应类型,如果请求的是XML文件,这默认类型是XML,否则默认为JSON
+					// JSON、XML TEXT
+					options.responseType = options.responseType || (/xml/.test(options.url) ? 'xml' : 'json')
+					
+					// 成功回调
+					options.successCall = options.successCall || false
+					
+					// 失败回调
+					options.failureCall = options.failureCall || false
+					
+					var xmlhttp = new XMLHttpRequest()
+					
+					// 监听请求状态改变事件
+					xmlhttp.onreadystatechange = function() {
+						// 请求已经完成,响应已可以使用
+						if (xmlhttp.readyState === 4) {
+							// 请求成功
+							if (xmlhttp.status === 200) {
+								if (options.successCall) {
+									// 调用成功回调
+									options.successCall(getResponseData(xmlhttp, options.responseType))
+								}
+							} else {
+								if (options.failureCall) {
+									options.failureCall(xmlhttp, xmlhttp.status)
+								}
+							}
+						}
+						
+					}
+					
+					xmlhttp.open(options.method, options.url + (options.method === 'GET' ? '?' + options.data : ''), options.async)
+					
+					if (options.method !== 'GET' && options.data) {
+						xmlhttp.send(options.data)
+					} else {
+						xmlhttp.send()
+					}
+					return true
+				}
+				
+				function getResponseData(xmlhttp, type) {
+					// 获得字符串形式的响应数据
+					var resData = xmlhttp.responseText
+					if (type === 'json') {
+						return parseJSON(resData)
+					}
+					
+					if (type === 'xml') {
+						// 获得XML形式的响应数据
+						return xmlhttp.responseXML
+					}
+					
+					if (type === 'text') {
+						return resData
+					}
+				}
+				
+				ajax({
+					url: 'data.json',
+					
+					successCall: function(msg) {
+						console.log('成功：', msg)
+					},
+					failureCall: function(xmlRes, resCode) {
+						console.log('失败：', xmlRes, resCode)
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

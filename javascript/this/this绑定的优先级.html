@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>this绑定优先级</title>
+	</head>
+	<body>
+		<p>1、this绑定优先级顺序</p>
+		new 绑定 > 显示绑定（硬绑定 call,apply,bind） > 隐式绑定 > 默认绑定 (在严格模式下，绑定到window；非严格模式下，绑定到undefined)
+		<script>
+			// 1.显式绑定优先级高于隐式绑定
+			function foo () {
+				console.log(this.a)
+			}
+			
+			var obj1 = {
+				a: 2,
+				foo
+			}
+			
+			var obj2 = {
+				a: 3,
+				foo
+			}
+			
+			obj1.foo()
+			obj2.foo()
+			
+			obj1.foo.call(obj2) // 3
+			obj2.foo.call(obj1) // 2
+			
+			// 2.new 绑定优先级高于隐式绑定
+			function foo2 (something) {
+				this.a = something
+			}
+			
+			var obj2 = {
+				foo2
+			}
+			
+			var obj3 = {}
+			
+			obj2.foo2(2) 
+			console.log(obj2.a) // 2
+			
+			obj2.foo2.call(obj3, 3) // 3
+			console.log(obj3.a)
+			
+			var bar2 = new obj2.foo2(4)
+			console.log(obj2.a) // 2 
+			console.log(bar2.a) // 4
+			
+			// 3.
+			// new foo2.call(obj2, 666) // 报错,foo2.call is not a constructor 
+			
+			// 3.new 绑定高于显示绑定
+			function foo4 (something) {
+				this.a = something
+			}
+			
+			var obj4 = {}
+			var bar4 = foo4.bind(obj4)
+			bar4(2)
+			console.log(obj4.a) // 2
+			
+			var baz = new bar4(3)
+			console.log(obj4.a) // 2 注意！！！这里并没有改变obj4的a属性的值
+			console.log(baz.a) // 3
+			
+			
+			
+		</script>
+	</body>
+</html>

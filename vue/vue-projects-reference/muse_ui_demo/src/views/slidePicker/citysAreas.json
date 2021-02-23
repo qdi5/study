@@ -1,0 +1,1082 @@
+{
+    "success": true,
+    "msg": "操作成功!",
+    "id": null,
+    "map": {
+        "total": 119,
+        "data": [
+            {
+                "billNo": "0901-00001",
+                "parentBillNo": "0",
+                "areaCode": "SZ",
+                "areaName": "深圳市",
+                "path": "SZ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "0901-00002",
+                "parentBillNo": "0",
+                "areaCode": "GZ",
+                "areaName": "广州市",
+                "path": "GZ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "0901-00003",
+                "parentBillNo": "0",
+                "areaCode": "HZ",
+                "areaName": "惠州市",
+                "path": "HZ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "0902-00001",
+                "parentBillNo": "0901-00001",
+                "areaCode": "FT",
+                "areaName": "福田区",
+                "path": "SZ.FT",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "090700001",
+                "parentBillNo": "0901-00001",
+                "areaCode": "NSQ",
+                "areaName": "南山区",
+                "path": "SZ.NSQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100002",
+                "parentBillNo": "090700001",
+                "areaCode": "nszxq",
+                "areaName": "南山中心区",
+                "path": "SZ.NSQ.nszxq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100003",
+                "parentBillNo": "090700001",
+                "areaCode": "hqcpc",
+                "areaName": "华侨城片区",
+                "path": "SZ.NSQ.hqcpc",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100004",
+                "parentBillNo": "090700001",
+                "areaCode": "xdpq",
+                "areaName": "西丽片区",
+                "path": "SZ.NSQ.xdpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100005",
+                "parentBillNo": "090700001",
+                "areaCode": "kjypq",
+                "areaName": "科技园片区",
+                "path": "SZ.NSQ.kjypq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100006",
+                "parentBillNo": "090700001",
+                "areaCode": "ntpq",
+                "areaName": "南头片区",
+                "path": "SZ.NSQ.ntpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100007",
+                "parentBillNo": "090700001",
+                "areaCode": "hhpq",
+                "areaName": "后海片区",
+                "path": "SZ.NSQ.hhpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100008",
+                "parentBillNo": "090700001",
+                "areaCode": "skpq",
+                "areaName": "蛇口片区",
+                "path": "SZ.NSQ.skpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100009",
+                "parentBillNo": "090700001",
+                "areaCode": "qhpq",
+                "areaName": "前海片区",
+                "path": "SZ.NSQ.qhpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100010",
+                "parentBillNo": "090700001",
+                "areaCode": "nypq",
+                "areaName": "南油片区",
+                "path": "SZ.NSQ.nypq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100011",
+                "parentBillNo": "0902-00001",
+                "areaCode": "ftzxq",
+                "areaName": "福田中心区",
+                "path": "SZ.FT.ftzxq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100012",
+                "parentBillNo": "0902-00001",
+                "areaCode": "cgm",
+                "areaName": "车公庙片区",
+                "path": "SZ.FT.cgm",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100013",
+                "parentBillNo": "0902-00001",
+                "areaCode": "sxspq",
+                "areaName": "上下沙片区",
+                "path": "SZ.FT.sxspq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100014",
+                "parentBillNo": "0902-00001",
+                "areaCode": "ftqw",
+                "areaName": "福田区委",
+                "path": "SZ.FT.ftqw",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100015",
+                "parentBillNo": "0902-00001",
+                "areaCode": "hgpq",
+                "areaName": "皇岗片区",
+                "path": "SZ.FT.hgpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100016",
+                "parentBillNo": "0902-00001",
+                "areaCode": "xzpq",
+                "areaName": "新洲片区",
+                "path": "SZ.FT.xzpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100018",
+                "parentBillNo": "0902-00001",
+                "areaCode": "gxpq",
+                "areaName": "岗厦片区",
+                "path": "SZ.FT.gxpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100019",
+                "parentBillNo": "0902-00001",
+                "areaCode": "hqnpq",
+                "areaName": "华强南片区",
+                "path": "SZ.FT.hqnpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100020",
+                "parentBillNo": "0902-00001",
+                "areaCode": "bsq",
+                "areaName": "保税区",
+                "path": "SZ.FT.bsq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100021",
+                "parentBillNo": "0901-00001",
+                "areaCode": "LGQ",
+                "areaName": "龙岗区",
+                "path": "SZ.LGQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100022",
+                "parentBillNo": "100100021",
+                "areaCode": "RCPQ",
+                "areaName": "荣超片区",
+                "path": "SZ.LGQ.RCPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100023",
+                "parentBillNo": "0902-00001",
+                "areaCode": "XML",
+                "areaName": "梅林片区",
+                "path": "SZ.FT.XML",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100025",
+                "parentBillNo": "0902-00001",
+                "areaCode": "jt",
+                "areaName": "景田片区",
+                "path": "SZ.FT.jt",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100026",
+                "parentBillNo": "0902-00001",
+                "areaCode": "bgl",
+                "areaName": "八卦岭片区",
+                "path": "SZ.FT.bgl",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100027",
+                "parentBillNo": "0902-00001",
+                "areaCode": "xmh",
+                "areaName": "香蜜湖片区",
+                "path": "SZ.FT.xmh",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100028",
+                "parentBillNo": "0902-00001",
+                "areaCode": "hqb",
+                "areaName": "华强北片区",
+                "path": "SZ.FT.hqb",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100029",
+                "parentBillNo": "100100021",
+                "areaCode": "LZPQ",
+                "areaName": "龙珠片区",
+                "path": "SZ.LGQ.LZPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100030",
+                "parentBillNo": "100100021",
+                "areaCode": "GFYPQ",
+                "areaName": "桂芳园片区",
+                "path": "SZ.LGQ.GFYPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100031",
+                "parentBillNo": "100100021",
+                "areaCode": "ZZXPQ",
+                "areaName": "镇中心片区",
+                "path": "SZ.LGQ.ZZXPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100032",
+                "parentBillNo": "100100021",
+                "areaCode": "BJJPQ",
+                "areaName": "布吉街片区",
+                "path": "SZ.LGQ.BJJPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100033",
+                "parentBillNo": "100100021",
+                "areaCode": "ZHYCPQ",
+                "areaName": "中海怡翠片区",
+                "path": "SZ.LGQ.ZHYCPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100034",
+                "parentBillNo": "0902-00001",
+                "areaCode": "bh",
+                "areaName": "百花片区",
+                "path": "SZ.FT.bh",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100040",
+                "parentBillNo": "0902-00001",
+                "areaCode": "zzl",
+                "areaName": "竹子林片区",
+                "path": "SZ.FT.zzl",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100041",
+                "parentBillNo": "0902-00001",
+                "areaCode": "lh",
+                "areaName": "莲花片区",
+                "path": "SZ.FT.lh",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100044",
+                "parentBillNo": "0902-00001",
+                "areaCode": "FMPQ",
+                "areaName": "福民片区",
+                "path": "SZ.FT.FMPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100046",
+                "parentBillNo": "0902-00001",
+                "areaCode": "YTPQ",
+                "areaName": "益田片区",
+                "path": "SZ.FT.YTPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100047",
+                "parentBillNo": "0901-00001",
+                "areaCode": "LHQ",
+                "areaName": "龙华区",
+                "path": "SZ.LHQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100048",
+                "parentBillNo": "100100047",
+                "areaCode": "MZPQ",
+                "areaName": "民治片区",
+                "path": "SZ.LHQ.MZPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100049",
+                "parentBillNo": "100100047",
+                "areaCode": "JXJNPQ",
+                "areaName": "锦绣江南片区",
+                "path": "SZ.LHQ.JXJNPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100050",
+                "parentBillNo": "100100047",
+                "areaCode": "MLGPQ",
+                "areaName": "梅林关片区",
+                "path": "SZ.LHQ.MLGPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100052",
+                "parentBillNo": "100100047",
+                "areaCode": "BTPQ",
+                "areaName": "坂田片区",
+                "path": "SZ.LHQ.BTPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100053",
+                "parentBillNo": "100100047",
+                "areaCode": "LHZXQ",
+                "areaName": "龙华中心区",
+                "path": "SZ.LHQ.LHZXQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100054",
+                "parentBillNo": "0901-00001",
+                "areaCode": "LHXQ",
+                "areaName": "罗湖区",
+                "path": "SZ.LHXQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100055",
+                "parentBillNo": "100100054",
+                "areaCode": "LTPQ",
+                "areaName": "莲塘片区",
+                "path": "SZ.LHXQ.LTPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100056",
+                "parentBillNo": "100100054",
+                "areaCode": "WJDPQ",
+                "areaName": "文锦渡片区",
+                "path": "SZ.LHXQ.WJDPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100057",
+                "parentBillNo": "100100054",
+                "areaCode": "CFLPQ",
+                "areaName": "春风路片区",
+                "path": "SZ.LHXQ.CFLPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100059",
+                "parentBillNo": "100100054",
+                "areaCode": "DMPQ",
+                "areaName": "东门片区",
+                "path": "SZ.LHXQ.DMPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100060",
+                "parentBillNo": "100100054",
+                "areaCode": "RMNPQ",
+                "areaName": "人民南片区",
+                "path": "SZ.LHXQ.RMNPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100062",
+                "parentBillNo": "100100054",
+                "areaCode": "HCZPQ",
+                "areaName": "火车站片区",
+                "path": "SZ.LHXQ.HCZPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100065",
+                "parentBillNo": "100100054",
+                "areaCode": "BANPQ",
+                "areaName": "宝安南片区",
+                "path": "SZ.LHXQ.BANPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100066",
+                "parentBillNo": "100100054",
+                "areaCode": "BAQPQ",
+                "areaName": "宝安北片区",
+                "path": "SZ.LHXQ.BAQPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100067",
+                "parentBillNo": "100100054",
+                "areaCode": "YHNGPQ",
+                "areaName": "银湖泥岗片区",
+                "path": "SZ.LHXQ.YHNGPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100069",
+                "parentBillNo": "100100054",
+                "areaCode": "QSHPQ",
+                "areaName": "清水河片区",
+                "path": "SZ.LHXQ.QSHPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100070",
+                "parentBillNo": "100100054",
+                "areaCode": "HBLPQ",
+                "areaName": "黄贝岭片区",
+                "path": "SZ.LHXQ.HBLPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100072",
+                "parentBillNo": "100100054",
+                "areaCode": "CZPQ",
+                "areaName": "翠竹片区",
+                "path": "SZ.LHXQ.CZPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100073",
+                "parentBillNo": "100100054",
+                "areaCode": "CPBX",
+                "areaName": "草铺布心片区",
+                "path": "SZ.LHXQ.CPBX",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100075",
+                "parentBillNo": "100100054",
+                "areaCode": "SKPQ",
+                "areaName": "水库片区",
+                "path": "SZ.LHXQ.SKPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100100077",
+                "parentBillNo": "100100054",
+                "areaCode": "HHPQ",
+                "areaName": "洪湖片区",
+                "path": "SZ.LHXQ.HHPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100600001",
+                "parentBillNo": "100100054",
+                "areaCode": "SGPQ",
+                "areaName": "笋岗片区",
+                "path": "SZ.LHXQ.SGPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "100800001",
+                "parentBillNo": "100100021",
+                "areaCode": "PSPQ",
+                "areaName": "坪山片区",
+                "path": "SZ.LGQ.PSPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "101100001",
+                "parentBillNo": "100100021",
+                "areaCode": "ytq",
+                "areaName": "盐田区",
+                "path": "SZ.LGQ.ytq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "110100001",
+                "parentBillNo": "100100054",
+                "areaCode": "XXPQ",
+                "areaName": "新秀片区",
+                "path": "SZ.LHXQ.XXPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "110100002",
+                "parentBillNo": "100100054",
+                "areaCode": "LHQWPQ",
+                "areaName": "罗湖区委片区",
+                "path": "SZ.LHXQ.LHQWPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "110600001",
+                "parentBillNo": "100100054",
+                "areaCode": "CWWDWPQ",
+                "areaName": "蔡屋围地王片区",
+                "path": "SZ.LHXQ.CWWDWPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "110900001",
+                "parentBillNo": "100100054",
+                "areaCode": "LLPQ",
+                "areaName": "螺岭片区",
+                "path": "SZ.LHXQ.LLPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "110900002",
+                "parentBillNo": "0902-00001",
+                "areaCode": "HBGC",
+                "areaName": "海滨广场",
+                "path": "SZ.FT.HBGC",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "111100001",
+                "parentBillNo": "100100054",
+                "areaCode": "TBSBPQ",
+                "areaName": "田贝水贝片区",
+                "path": "SZ.LHXQ.TBSBPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "120200001",
+                "parentBillNo": "100100054",
+                "areaCode": "YMCPQ",
+                "areaName": "渔民村片区",
+                "path": "SZ.LHXQ.YMCPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "120300001",
+                "parentBillNo": "100100054",
+                "areaCode": "NGPQ",
+                "areaName": "泥岗片区",
+                "path": "SZ.LHXQ.NGPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "120800001",
+                "parentBillNo": "100100054",
+                "areaCode": "BXPQ",
+                "areaName": "布心片区",
+                "path": "SZ.LHXQ.BXPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000001",
+                "parentBillNo": "0901-00001",
+                "areaCode": "baq",
+                "areaName": "宝安区",
+                "path": "SZ.baq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000003",
+                "parentBillNo": "121000001",
+                "areaCode": "bnzxq",
+                "areaName": "宝安中心区",
+                "path": "SZ.baq.bnzxq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000004",
+                "parentBillNo": "121000001",
+                "areaCode": "xxpq",
+                "areaName": "西乡片区",
+                "path": "SZ.baq.xxpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000005",
+                "parentBillNo": "121000001",
+                "areaCode": "xapq",
+                "areaName": "新安片区",
+                "path": "SZ.baq.xapq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000007",
+                "parentBillNo": "121000001",
+                "areaCode": "glpq",
+                "areaName": "观澜片区",
+                "path": "SZ.baq.glpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000008",
+                "parentBillNo": "121000001",
+                "areaCode": "sypq",
+                "areaName": "石岩片区",
+                "path": "SZ.baq.sypq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000009",
+                "parentBillNo": "121000001",
+                "areaCode": "sgpq",
+                "areaName": "松岗片区",
+                "path": "SZ.baq.sgpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000010",
+                "parentBillNo": "121000001",
+                "areaCode": "fypq",
+                "areaName": "福永片区",
+                "path": "SZ.baq.fypq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000011",
+                "parentBillNo": "121000001",
+                "areaCode": "sjpq",
+                "areaName": "沙井片区",
+                "path": "SZ.baq.sjpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121000012",
+                "parentBillNo": "121000001",
+                "areaCode": "gmpq",
+                "areaName": "光明片区",
+                "path": "SZ.baq.gmpq",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121100001",
+                "parentBillNo": "121000001",
+                "areaCode": "XZXQ",
+                "areaName": "宝安新中心区",
+                "path": "SZ.baq.XZXQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121100002",
+                "parentBillNo": "121000001",
+                "areaCode": "FSL",
+                "areaName": "翻身路",
+                "path": "SZ.baq.FSL",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121200002",
+                "parentBillNo": "121000001",
+                "areaCode": "GSPQ",
+                "areaName": "固戍片区",
+                "path": "SZ.baq.GSPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "121200003",
+                "parentBillNo": "121000001",
+                "areaCode": "",
+                "areaName": "公明片区",
+                "path": "SZ.baq.",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "130300001",
+                "parentBillNo": "090700001",
+                "areaCode": "HQC",
+                "areaName": "华侨城",
+                "path": "SZ.NSQ.HQC",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "130800001",
+                "parentBillNo": "100100021",
+                "areaCode": "LGZXQ",
+                "areaName": "龙岗中心区",
+                "path": "SZ.LGQ.LGZXQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "140700001",
+                "parentBillNo": "100100021",
+                "areaCode": "PHQ",
+                "areaName": "平湖区",
+                "path": "SZ.LGQ.PHQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180300002",
+                "parentBillNo": "0901-00002",
+                "areaCode": "THQ",
+                "areaName": "天河区",
+                "path": "GZ.THQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180300003",
+                "parentBillNo": "HA180300002",
+                "areaCode": "THZXQ",
+                "areaName": "天河中心区",
+                "path": "GZ.THQ.THZXQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180400002",
+                "parentBillNo": "HA180300002",
+                "areaCode": "ZJXCPQ",
+                "areaName": "珠江新城片区",
+                "path": "GZ.THQ.ZJXCPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180600001",
+                "parentBillNo": "0901-00002",
+                "areaCode": "LWQ",
+                "areaName": "荔湾区",
+                "path": "GZ.LWQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180600002",
+                "parentBillNo": "HA180600001",
+                "areaCode": "BETHXQ",
+                "areaName": "白鹅潭核心区",
+                "path": "GZ.LWQ.BETHXQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180700003",
+                "parentBillNo": "100100021",
+                "areaCode": "HGJPQ",
+                "areaName": "横岗街片区",
+                "path": "SZ.LGQ.HGJPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180700004",
+                "parentBillNo": "100100021",
+                "areaCode": "DPXQ",
+                "areaName": "大鹏新区",
+                "path": "SZ.LGQ.DPXQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180700005",
+                "parentBillNo": "100100021",
+                "areaCode": "PDPQ",
+                "areaName": "坪地片区",
+                "path": "SZ.LGQ.PDPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180800003",
+                "parentBillNo": "HA180600001",
+                "areaCode": "GGXC",
+                "areaName": "广钢新城",
+                "path": "GZ.LWQ.GGXC",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180800004",
+                "parentBillNo": "0901-00002",
+                "areaCode": "HZQ",
+                "areaName": "海珠区",
+                "path": "GZ.HZQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180800005",
+                "parentBillNo": "HA180800004",
+                "areaCode": "BJD",
+                "areaName": "滨江东",
+                "path": "GZ.HZQ.BJD",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180900001",
+                "parentBillNo": "0901-00002",
+                "areaCode": "ZCQ",
+                "areaName": "增城区",
+                "path": "GZ.ZCQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180900002",
+                "parentBillNo": "HA180900001",
+                "areaCode": "FHC",
+                "areaName": "凤凰城",
+                "path": "GZ.ZCQ.FHC",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180900003",
+                "parentBillNo": "0901-00003",
+                "areaCode": "9999",
+                "areaName": "惠阳区",
+                "path": "HZ.9999",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180900004",
+                "parentBillNo": "HA180900003",
+                "areaCode": "HUIZHOUCHANGY",
+                "areaName": "惠州产业园",
+                "path": "HZ.9999.HUIZHOUCHANGY",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180900006",
+                "parentBillNo": "HA180800004",
+                "areaCode": "XGD",
+                "areaName": "新港东",
+                "path": "GZ.HZQ.XGD",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA180900007",
+                "parentBillNo": "HA180300002",
+                "areaCode": "THD",
+                "areaName": "天河东",
+                "path": "GZ.THQ.THD",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA181000001",
+                "parentBillNo": "HA180300002",
+                "areaCode": "THB",
+                "areaName": "天河北",
+                "path": "GZ.THQ.THB",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA181100031",
+                "parentBillNo": "0901-00002",
+                "areaCode": "PY",
+                "areaName": "番禺区",
+                "path": "GZ.PY",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA181100032",
+                "parentBillNo": "HA181100031",
+                "areaCode": "SLZ",
+                "areaName": "石楼镇",
+                "path": "GZ.PY.SLZ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA181100033",
+                "parentBillNo": "HA181100031",
+                "areaCode": "NCZ",
+                "areaName": "南村镇",
+                "path": "GZ.PY.NCZ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA181100034",
+                "parentBillNo": "HA181100031",
+                "areaCode": "SWZ",
+                "areaName": "沙湾镇",
+                "path": "GZ.PY.SWZ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA181200194",
+                "parentBillNo": "100100047",
+                "areaCode": "樟坑一区",
+                "areaName": "樟坑一区",
+                "path": "SZ.LHQ.樟坑一区",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA181200195",
+                "parentBillNo": "100100047",
+                "areaCode": "100100054",
+                "areaName": "观澜街道",
+                "path": "SZ.LHQ.100100054",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA190100001",
+                "parentBillNo": "0901-00002",
+                "areaCode": "HPQ",
+                "areaName": "黄浦区",
+                "path": "GZ.HPQ",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA190100002",
+                "parentBillNo": "HA190100001",
+                "areaCode": "HPDDD",
+                "areaName": "黄埔大道东",
+                "path": "GZ.HPQ.HPDDD",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA190300288",
+                "parentBillNo": "HA180300002",
+                "areaCode": "天河东",
+                "areaName": "THD",
+                "path": "GZ.THQ.天河东",
+                "parentName": null,
+                "children": []
+            },
+            {
+                "billNo": "HA190400323",
+                "parentBillNo": "100100047",
+                "areaCode": "DLJD",
+                "areaName": "大浪街道",
+                "path": "SZ.LHQ.DLJD",
+                "parentName": null,
+                "children": []
+            }
+        ],
+        "success": true
+    }
+}

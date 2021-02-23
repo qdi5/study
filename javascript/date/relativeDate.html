@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>将时间戳转换为相对时间</title>
+	</head>
+	<body>
+		<script>
+			var Time = {
+				getNowDate: function () {
+					return new Date();
+				},
+				// 获取当前时间戳
+				getUnix: function () {
+					return Date.now();
+				},
+				
+				// 获取今天0时0分0秒的时间戳
+				getTodayUnix: function () {
+					var now = this.getNowDate();
+					now.setHours(0);
+					now.setMinutes(0);
+					now.setSeconds(0);
+					now.setMilliseconds(0);
+					console.log(now);
+					return now.getTime();
+				},
+				
+				// 将时间戳转换为日期
+				getStandardDate: function (timestamp) {
+					var dates = new Date(timestamp);
+					var year = dates.getFullYear();
+					var month = dates.getMonth() + 1;
+					var day = dates.getDate();
+					var hour = dates.getHours();
+					var minute = dates.getMinutes();
+					
+					return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+				},
+				
+				// 获取当前月有多少天
+				getMonthDays (year, month) {
+					/*
+					    year代表年份;M代表月数(0-11)，本来月份应该加1(即如果查询6月的天数，在new Date()的时候应该传入7)；
+					    但第三个参数为0，所以不+1(第三个参数要求最小为1， 设置为0就是指M月的最后一天)
+					 * */
+					return new Date(year, month, 0).getDate();
+				},
+				// 格式化为相对时间
+				formatToRelativeDate (timestamp) {
+					var now = this.getNowDate();
+					var today = this.getTodayUnix();
+					
+					// 时间相差值以秒计算
+					var timeDiff = (now - timestamp) / 1000;
+					var tip = ' ';
+					// var days = this.getMonthDays(now.getFullYear(), now.getMonth() + 1);
+					now = now.getTime();
+					
+					if (timeDiff <= 0) {
+						tip = '刚刚';
+					} else if (timeDiff / 60 < 1) { // 一分钟以前都显示"刚刚";
+						tip = '刚刚'
+					} else if (timeDiff / 3600 < 1   ) {
+						tip = Math.floor(timeDiff / 60) + '分钟前';
+					} else if (timeDiff / (3600 * 24) < 1 ) {
+						tip = Math.floor(timeDiff / 3600) + '小时前';
+					} else if (timeDiff / (3600 * 24) <= 31 ) {
+						tip = Math.floor(timeDiff / (3600 * 24)) + '天前';
+					} else {
+						tip = this.getStandardDate(timestamp);	
+					}
+					
+					return tip;
+				},
+				
+				// 获取出生多少天
+				getBornedDays (timestamp) {
+					debugger;
+					
+					console.log('timestamp:', timestamp);
+					var now = this.getNowDate();
+					var nowYear = now.getFullYear();
+					var nowMonth = now.getMonth() + 1;
+					var nowDay = now.getDate();
+					var timestampYear = new Date(timestamp).getFullYear();
+					var timestampMonth = new Date(timestamp).getMonth() + 1;
+					var timestampDay = new Date(timestamp).getDate();
+					var newTimer = now.getTime() - timestamp;
+					var timer = newTimer / 1000;
+					var bornedYear = parseInt(timer/(60*60*24*365), 10);
+					// (nowYear - 1 - timestampYear) * 12 + (12 - timestampMonth) + nowMonth - 1: 出生的总月数
+					// var bornedMonth = ;
+					var allMonthDays = 0;
+					
+					// 算的是总天数
+					for (var currentYear = timestampYear; currentYear <= nowYear; currentYear++) {
+						var initMonth = 1,
+							endMonth = 12;
+							
+						if (currentYear == timestampYear) {
+							initMonth = timestampMonth + 1;
+						}
+						
+						if (currentYear == nowYear) {
+							endMonth = nowMonth - 1;
+						}
+						for (var currentMonth = initMonth; currentMonth <= endMonth; currentMonth++) {
+							allMonthDays += this.getMonthDays(currentYear, currentMonth);
+						}
+					}
+					allMonthDays = allMonthDays + nowDay + this.getMonthDays(timestampYear, timestampMonth) - timestampDay;
+										
+					//var bornedDay = parseInt((newTimer - ( allMonthDays*24*60*60*1000))/(1000*60*60*24), 10);
+					console.log(allMonthDays);
+					// return bornedYear + '岁' + bornedMonth + '月' + bornedDay + '天';
+				}
+			};
+			// 将某个字符串时间转换为时间戳  '2018-05-23 00:00:00'
+			
+			console.log(Time.getBornedDays(new Date('1993-03-03 00:00:00').getTime()));
+/*			// 用当前时间戳减去传入进来的时间戳，得到差值，将差值(时间戳)再转换为相对时间
+			var leaps = [];
+			for (var i = 2000; i<= 2018; i++ ) {
+				
+				if ((i % 100 == 0 && i % 400 == 0) || (i % 100 != 0 && i % 4 == 0)) {
+					console.log(8888);
+					leaps.push(i);
+				}
+			}
+			console.log(leaps);*/
+		</script>
+	</body>
+</html>

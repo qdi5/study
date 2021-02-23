@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			let totalGoodsNumber = 100; // 总共货物
+			let allHorseNumber = 100; // 总共马匹数
+			let x = 0; // 大马数量
+			let y = 0; // 中马数量
+			let z = 0; // 小马数量
+			let n = 0; // 分配方法总数
+			
+			for (x = 0; x < 33; x++) {
+				
+				for (y = 0 ; y < 50; y++) {
+					
+					for (z = 2; z < 100; z+=2) {
+						
+						if ((x + y + z ) === allHorseNumber && (3*x + 2*y + 0.5*z) === totalGoodsNumber) {
+							n++;
+							console.log(x, y, z);
+						}
+					}
+				}
+			}
+			console.log('共有' + n + '方法');
+		</script>
+	</body>
+</html>

@@ -1,0 +1,44 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Promise和基于jquery的button组件封装</title>
+</head>
+<body>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+		/*
+			promise原理实现
+			构造函数 两个参数 
+		*/
+	   (function (root){
+		   var btnFunction = function (data) {
+			   var btn = $('<button></button>')
+			   var element = data
+			   var text = element.element.text
+			   if (element.style) {
+			     btn.css(element.style)
+			   }
+			   btn.text = text
+			   return btn
+		   }
+		   
+	   })(this)
+	</script>
+	<script>
+		var btn = {
+			exp: {
+				on: {
+					click: function () {
+						
+					}
+				}
+			},
+			element: {
+				text: '按钮的值'
+			}
+		}
+	</script>
+</body>
+</html>

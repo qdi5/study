@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>父组件向子组件传递数据(通过props)</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	
+	<!--
+		 这里用v-model绑定了父级的数据parentMessage,当通过输入框任意输入时，
+		子组件接收到的props "message"也会实时响应，并更新组件模板。 
+	-->
+	<div id="app">
+		<input type="text" v-model="parentMessage" />
+        <my-component :message="parentMessage"></my-component>
+    </div>
+    <script>
+    	/*
+    	 有时候，传递的数据并不是直接写死的，而是来自父级的动态数据，这时可以使用指令v-bind来动态绑定props
+    	 的值，当父组件的数据变化时，也会传递给子组件
+    	 * */
+    	Vue.component('my-component', {
+    		props: ['message'],
+    		template: `<div>
+    					  <p>子组件自身的数据:{{ name }},</p>
+    					  <p>来自父组件的数据:<b style="color: red;">{{ message }}</b></p>
+    				   </div>`,
+    		data: function() {
+    			return {
+    				name: '我是子组件自带的数据'
+    			}
+    		}
+    	});
+    	
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	parentMessage: '我是父组件的message',
+            }
+        });
+    </script>
+</body>
+</html>

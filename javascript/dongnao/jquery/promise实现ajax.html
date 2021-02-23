@@ -1,0 +1,47 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>使用promise封装ajax</title>
+</head>
+<body>
+	<script>
+		// 地址,请求方式,参数,是否异步请求
+		function ajax (url, type, param, isAsync) {
+			return new Promise(function (resolve, reject) {
+				var req = new XMLHttpRequest();
+				req.onload = function () {
+					if (req.status == 200 || req.status == 304) {
+						resolve(JSON.parse(req.response))
+					} else {
+						reject(new Error('状态码出错了'))
+					}
+				}
+				req.onerror = function () {
+					reject('接口出错了')
+				}
+				type == null || type.toUpperCase() == "GET" ? type = 'get' : type = 'post'
+				param == formatParam(param)
+				param == null || param == "" ? url = url : url + '?' + param 
+				isAsync == null || isAsync == true ? isAsync = true : isAsync = false 
+				// 
+				req.open(type, url, isAsync)
+				// 发送http请求
+				req.send()
+			})
+		}
+		function formatParam (data) {
+			var arr = []
+			for (var i in data) {
+				arr.push(i + '=' + data[i])
+			}
+			return arr.join('&')
+		}
+		ajax("http://wthrcdn.etouch.cn/weather_mini", 'get', {citykey: 101010100}, true).then(function(response){
+			console.log('请求成功')
+			console.log(JSON.stringify(response))
+		})
+	</script>
+</body>
+</html>

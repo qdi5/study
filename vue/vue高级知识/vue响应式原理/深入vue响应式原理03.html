@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>使用类来存储依赖</title>
+	</head>
+	<body>
+		<script>
+			// Stands for Dependency
+			class Dep {
+				constructor() {
+					// here is our storage
+				    this.subscribers = []
+				}
+				
+				depend() {
+					// if there is a target & we don't already have it
+					if (target && !this.subscribers.includes(target)) {
+						this.subscribers.push(target)
+					}
+				}
+				// Run all our subscribers
+				notify() {
+					this.subscribers.forEach(sub => sub())
+				}
+				
+			}
+			let price = 5
+			let quantity = 2
+			let total = 0
+			
+			let target = () => { total = price * quantity }
+			
+			// dep.depend() // record target
+			// target() 
+			
+			function watcher(myFunc) {
+				target = myFunc
+				dep.depend()
+				target()
+				target = null
+			}
+			
+			
+			
+		</script>
+	</body>
+</html>

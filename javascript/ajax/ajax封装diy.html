@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ajax封装diy</title>
+	</head>
+	<body>
+		<script>
+			/**
+			 * 1、支持GET POST JSONP 请求，传参
+			 * 2、支持直接请求文件(xml, json)
+			 * 2、支持返回 JSON XML TEXT 数据
+			 * 3、请求超时后，中止请求，给出合适的提示
+			 * 4、请求出现了错误，给出合适的提示
+			 * 5、支持CORS跨域请求
+			 */
+			let myAjax = (function(root) {
+				function ajax(options) {
+					// 定义参数
+					let params = {
+						// http地址， 某个文件地址
+						url: options.url || '',
+						// GET POST JSONP 三种请求类型
+						method: options.method && options.method.toUpperCase() || 'GET',
+						// 传递的数据
+						data: options.data || null,
+						// 只有post请求才需要设置请求头
+						isAsync: options.isAsync || true,
+						// 请求头
+						requestHeader: options.requestHeader || 'text/plain',
+						// 响应类型
+						responseType: options.responseType,
+						// 设置超时时间
+						timeout: options.timeout || 3000,
+						success: options.success || function(data){
+							
+						},
+						error:options.error || function(error) {
+							
+						}					 
+					}
+					if (!params.responseType) {
+						params.responseType = (/xml/.test(params.url)) ? 'xml' : 'json'
+					}
+					// 合并参数
+					Object.assign(options, params)
+					let isPost = params.method === 'POST'
+					let isGet = params.method === 'GET'
+					console.log('options:', options)
+					let httpRequest = new XMLHttpRequest()
+					let query
+					if (params.data && isGet) {
+						query = formatData(params.data)
+					}
+					httpRequest.open(params.method, query ? formatURL(params.url, query) : params.url, params.isAsync)
+					httpRequest.timeout = options.timeout
+					httpRequest.onreadystatechange = function() {
+						if (!httpRequest || httpRequest.readyState !== 4) {
+							return false
+						}
+						if (httpRequest.readyState === 4) {
+							if (httpRequest.status === 200) {
+								options.success && options.success.call(this, getResponseData(httpRequest, options.responseType))
+							} else {
+								options.error && options.error.call(this, httpRequest, httpRequest.status)
+							}
+						}
+						httpRequest = null
+					}
+					// 监听中止事件
+					httpRequest.onabort = function() {
+						console.log('http请求被中止了')
+						httpRequest = null
+					}
+					
+					// 监听错误事件
+					httpRequest.onerror = function() {
+						console.log('http请求出错了')
+						httpRequest = null
+					}
+					
+					// 监听超时事件
+					httpRequest.ontimeout = function() {
+						
+						console.log([].slice.call(arguments,0))
+						console.log('http请求超时了')
+						httpRequest = null 
+					}
+					
+					if (isPost) {
+						httpRequest.setRequestHeader('Content-Type', options.requestHeader)
+					}
+					// debugger
+					let sendData = isPost ? (params.data ? params.data : null) : null
+					console.log('sendData:', sendData)
+					httpRequest.send(sendData)
+				}
+				
+				// 获取返回的数据
+				function getResponseData(httpRequest, type) {
+					let resData = httpRequest.responseText
+					type = type && String(type).toLowerCase()
+					if (type === 'json') {
+						let result = null
+						try {
+							result = JSON.parse(resData)
+						} catch(e) {
+							throw e
+						}
+						return result
+					} else if (type === 'xml') {
+						return httpRequest.responseXML
+					} else if (type === 'text') {
+						return resData
+					}
+				}
+				
+				// 将传递的数据,转换为url中查询字符串的格式
+				function formatData(data) {
+					if (typeof data !== 'object') {
+						return ''
+					}
+					let pairs = []
+					for (var item in data) {
+						// 跳过属性值为函数的属性
+						let value = data[item]
+						if (typeof value === 'function') {
+							continue
+						}
+						if (data.hasOwnProperty(item)) {
+							value = value.toString()
+							value = encode(value)
+							name = encode(name)
+							pairs.push(item + '=' + data[item])
+						}
+					}
+					return pairs.join('&')
+				}
+				
+				function formatURL(url, dataStr) {
+					if (url.indexOf('?') !== -1) {
+						url += '&' + dataStr
+					} else {
+						url += '?' + dataStr
+					}
+					return url
+				}
+				
+				// 传递给服务器的URI需要进行一次编码,以便服务器正确的解析参数
+				function encode(val) {
+				    let result = encodeURIComponent(val).
+					    replace(/%40/gi, '@').
+					    replace(/%3A/gi, ':').
+					    replace(/%24/g, '$').
+					    replace(/%2C/gi, ',').
+					    replace(/%20/g, '+').
+					    replace(/%5B/gi, '[').
+					    replace(/%5D/gi, ']');
+					return result
+				}
+				return ajax
+			})(window)
+			
+			/* myAjax({
+				url: 'https://www.easy-mock.com/mock/5c89f53b921ee13656b80321/ajax/get',
+				data: {
+					id: '%40%3A%24%2c%20%5B%5d',
+					age: 12
+				},
+				timeout: 100,
+				success: function(data){
+					console.log(data)
+				},
+				error: function(error) {
+					console.log(error)
+				}
+			})
+			
+			myAjax({
+				url: 'https://www.easy-mock.com/mock/5c89f53b921ee13656b80321/ajax/post',
+				method: 'post',
+				success: function(data) {
+					console.log('post-data:', data)
+				},
+				error: function(error) {
+					console.log('error:', error)
+				}
+			})
+			myAjax({
+				url: 'data.json',
+				success: function(data) {
+					console.log(data)
+				},
+				error: function(error) {
+					console.log('error:', error)
+				}
+			})
+			myAjax({
+				url: 'http://api.wuzhe.online/article/page/1',
+				success: function(data) {
+					console.log('获取第一页文章:\n', data)
+				},
+				error: function(error) {
+					
+				}
+			}) */
+			
+			myAjax({
+				url: 'http://localhost:3000/testGet',
+				data: {
+					id: 123,
+					name: '无阿维拉'
+				},
+				success: function(data) {
+					console.log('带参数的get请求：\n', data)
+				},
+				error: function(error) {
+					console.log('error:', error)
+				}
+			})
+			 
+			myAjax({
+				url: 'http://localhost:3000/testPost',
+				// requestHeader: 'application/json',
+				method: 'post',
+				data: JSON.stringify({
+					id: 789,
+					name: '历史是  什么啊 i[][]'
+				}),
+				success: function(data) {
+					console.log('带参数的post请求：\n', data)
+				},
+				error: function(error) {
+					console.log('error:', error)
+				}
+			})
+			
+		</script>
+	</body>
+</html>

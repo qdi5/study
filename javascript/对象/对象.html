@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>认识对象</title>
+	</head>
+	<body>
+		<script>
+			// 1.在对象中,属性名永远都是字符串.如果你使用string(字面量)以外的其他值作为属性名,
+			// 那它首先会被转换为一个字符串.
+			var myObject = {}
+			// 这里默认调用了myObject.toString(),实际上的键名是 [object Object]
+			myObject[myObject] = 'baz'
+			console.log(myObject['[object Object]'])
+			
+			// 2.ES6新增的 可计算属性名,可以在文字形式中使用[]包裹一个表达式来当作属性名
+			var prefix = 'foo'
+			
+			var myObject = {
+				[prefix + 'bar']: 'hello',
+				[prefix + 'baz']: 'world'
+			}
+			
+			console.log(myObject['foobar'])
+			console.log(myObject['foobaz'])
+		</script>
+	</body>
+</html>

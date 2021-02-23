@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>text-align两端对齐</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			.item {
+			    height: 32px;
+			    line-height: 32px;
+			    margin-bottom: 8px;
+			}
+			.item .label {
+			        display: inline-block;
+			        height: 100%;
+			        width: 100px;
+			        text-align: justify;
+			        vertical-align: top;       
+			 }
+			.item .label::after {
+				display: inline-block;
+				width: 100%;
+				content: '';
+				height: 0;
+			}
+			.item .value {
+			    padding-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="item">
+		    <span class="label" >姓名</span>：
+		    <span class="value">小王</span>
+		</div>
+		<div class="item">
+			<span class="label" >出生年月</span>：
+			<span class="value">1994-01</span>
+		</div>
+		<div class="item">
+			<span class="label" >性别</span>：
+			<span class="value">女</span>
+		</div>
+	</body>
+</html>

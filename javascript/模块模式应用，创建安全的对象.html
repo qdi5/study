@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>使用模块模式构造一个用来产生序列号的对象</title>
+	</head>
+	<body>
+		<script>
+			var serial_marker = function () {
+				var prefix = ''
+				var seq = 0
+				return {
+					// 设置前缀的方法
+					set_prefix: function (p) {
+						prefix = String(p)
+					},
+					// 设置序列号
+					set_seq: function (s) {
+						seq = s
+					},
+					// 生成唯一字符串
+					gensym: function () {
+						var result = prefix + seq
+						seq += 1 
+						return result
+					}
+				}
+			}
+			
+			var seqer = serial_marker()
+			seqer.set_prefix('Q')
+			seqer.set_seq(1000)
+			var unique = seqer.gensym()
+			console.log('unique', unique)
+			
+			var foo = (function CoolModule(id) {
+				function change () {
+					// 修改公共API 
+					publicAPI.identify = identify2
+				}
+				
+				function identify1 () {
+					console.log(id)
+				}
+				
+				function identify2() {
+					console.log(id.toUpperCase())
+				}
+				
+				var publicAPI = {
+					change: change,
+					identify: identify1
+				}
+				
+				return publicAPI
+			})('foo module')
+			
+			foo.identify()
+			foo.change()
+			foo.identify()
+		</script>
+	</body>
+</html>

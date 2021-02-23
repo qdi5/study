@@ -1,0 +1,27 @@
+.main {
+  width: 9.29333333rem;
+}
+.main ul li {
+  width: 1.85333333rem;
+  height: 100%;
+  float: left;
+}
+.main ul li > span {
+  font-size: 0.32rem;
+}
+.main .img-container {
+  width: 1.78666667rem;
+  height: 1.28rem;
+  background-image: url(../images/tmall.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  margin: 0 auto;
+}
+.main .img-container + span {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  text-align: center;
+  font-size: 0.32rem;
+}

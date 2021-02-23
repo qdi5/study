@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>函数</title>
+	</head>
+	<body>
+		<script>
+			// 1、给函数设置默认参数
+			function test ( a = 1, b =2) {
+				a = 6
+				console.log(a, b);
+			}
+			test();
+			
+			function test02 (a, b = 2) {
+				console.log(a, b);
+			}
+			test02();
+			
+			function test03 ({a = 1, b = 2}) {
+				console.log(a, b)	
+			}
+			test03({ a : 5, b : 6});
+			
+			// 2、箭头函数
+			function test04 () {
+				console.log('hello');
+			}
+			test04();
+			
+			// 第一个：名字，第二个参数，第三个方法体
+			let test05 = a => a;
+			console.log(test05(666));
+			
+			let test06 = b => {
+				return 88888;
+			}
+			console.log(test06());
+			
+			let obj = {
+				fn: () => {
+					
+					console.log(this)
+				}
+			};
+			obj.fn();
+			
+			// 
+			function test07 (num) {
+				return {
+					a: function() {
+						return {
+							b: function(){
+								
+							}
+						}
+					}
+				}
+			}
+			
+			let test08 = (num) => (
+				{
+					a:() => {
+						b: ()=> {}
+					}
+				})
+			
+			function Demo() {
+				this.a = "hello";
+				
+				setTimeout(() => {
+				    console.log(this);	
+				});
+			}
+			let dn = new Demo();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>rem适配</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1" />
+		<link rel="stylesheet" href="./css/mobile-reset.css" />
+		<link rel="stylesheet" href="./css/rem.css" />
+		<script>
+		window.addEventListener('resize', remChange);
+		function remChange() {
+			var root = document.querySelector('html');
+			var winWidth = root.getBoundingClientRect().width; // 屏幕宽度
+			// 为了方便rem计算(将网页分成10等份)
+			root.style.fontSize = winWidth / 10 + 'px';
+		}
+		remChange();
+		</script>
+	</head>
+	<body>
+		<div class="main">
+			<ul>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container tmall"></div>
+						<span>天猫</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container ju-hua-suan"></div>
+						<span>聚划算</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container internation"></div>
+						<span>天猫国际</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container take-out"></div>
+						<span>外卖</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container supermarket"></div>
+						<span>天猫超市</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container recharge"></div>
+						<span>充值中心</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container trip"></div>
+						<span>飞猪旅行</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container coins"></div>
+						<span>领金币</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container auction"></div>
+						<span>拍卖</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="img-container type"></div>
+						<span>分类</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

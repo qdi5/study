@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>props数据验证</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		一般当你的组件需要提供给别人使用时，推荐都进行数据验证；如果传入的值类型不对，就会在控制台弹出警告
+		<my-component :prop-a="parentData" :prop-d="count"></my-component>
+    </div>
+    <script>
+		Vue.component('my-component', {
+			template: '<div>props的值为数组时，接收父组件数据：{{ propA }},接收数值类型：{{ propD }}</div>',
+			props: {
+				// 必须是数字类型
+				propA: Number,
+				// 必须是字符串或数字类型
+				propB: [String, Number],
+				// 布尔值，如果没有定义，默认值就是true
+				propC: {
+					type: Boolean,
+					default: true
+				},
+				//数字，而且是必传
+				propD: {
+					type: Number,
+					required: true
+				},
+				//如果是数组或对象，默认值必须是一个函数来返回
+				propE: {
+					type: Array,
+					default: function () {
+						return [];
+					}
+				},
+				//自定义一个验证函数
+				propF: {
+					validator: function (value) {
+						return value > 10;
+					}
+				}
+			}
+		});
+    	var app = new Vue({
+    		el: '#app',
+    		data: {
+    			parentData: 123,
+    			count: 456
+    		}
+    	});
+    	
+    	
+    	
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>数据双向绑定</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="isChecked">
+        <div>{{ isChecked | bool }}</div>
+        <input :disabled="!!isChecked" type="checkbox" v-model="isChecked">aaa</input>
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: { //绑定数据到#app的实例上
+                name: "<div style='color: pink;'>qdi5</div>",
+                isChecked: false,
+                srcs: "http://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1525576495&di=c03df90cbfb54ce6b04ee54832cba3c3&imgtype=jpg&src=http%3A%2F%2Fimg6.bdstatic.com%2Fimg%2Fimage%2Fpcindex%2Ftongmengpctufanbingbing.jpg",
+            	
+            },
+            filters: {
+            	bool: function(val){
+            		return !!val;
+            	}
+            }
+        });
+
+
+
+    </script>
+</body>
+</html>

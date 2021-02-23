@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>移动端一像素问题</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no, viewport-fit=cover"/>
+		<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+		<script src="./lib/eruda-dom.js"></script>
+		<script>
+			eruda.init();
+			eruda.add(erudaDom);
+		</script>
+		<style>
+			.one-pixel {
+				position: relative;
+				width: 100px;
+				height: 100px;
+			}
+			.one-pixel:after {
+				content: '';
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 1px;
+				border-bottom: 1px solid red;
+				transform: scaleY(0.5); 
+			}
+			.onePx {
+				height: 0;
+				border-bottom: 1px solid red;
+			}
+		</style>
+	</head>
+	<body>
+	<div class="one-pixel" id="onePixel">
+		在移动端使用伪类模拟1px的边框
+	</div>
+	<div style="margin-top: 30px;" class="onePx" id="onePx">
+	
+	</div>
+	<script>
+		let elem = document.getElementById('onePixel')
+		let after = window.getComputedStyle(elem, '::after')
+		let afterHeight = after.getPropertyValue('height')
+		let afterBorderBottom = after.getPropertyValue('border-bottom')
+		let transform = after.getPropertyValue('transform')
+		let onePx = document.getElementById('onePx')
+		let height = onePx.getBoundingClientRect().height
+		console.log('伪类模拟1px:', afterHeight)
+		console.log('height02:', onePx.clientHeight)
+	</script>
+	</body>
+</html>

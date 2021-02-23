@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue js动画</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+  <div id="app">
+    <button @click="show = !show">切换显示隐藏</button>
+    <transition
+     @before-enter="handleBeforeEnter" 
+     @enter="handleEnter"
+     @leave="handleLeave"
+    >
+      <div v-show="show">Demo</div>
+    </transition> 
+    
+  </div>
+  <script>
+    new Vue({
+      data: {
+        show: true
+      },
+      el: '#app',
+      methods: {
+        // el 就是执行动画的dom元素
+        handleBeforeEnter (el) {
+          el.style.opacity = 0
+          el.style.transformOrigin = 'left'
+          console.log('beforeEnter event')
+        },
+        // done告诉vue动画执行完毕了
+        handleEnter (el, done) {
+          Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+          Velocity(el, { fontSize: '1em' }, { complete: done })
+        },
+        handleLeave (el, done) {
+          Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+          Velocity(el, { rotateZ: '100deg' }, { loop: 2} )
+          Velocity(el, {
+            rotateZ: '45deg',
+            translateY: '30px',
+            translateX: '30px',
+            opacity: 0
+          }, {
+            complete: done
+          })
+        }
+      }
+    })
+  </script>
+</body>
+</html>

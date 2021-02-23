@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>callbacks与发布订阅</title>
+	</head>
+	<body>
+		<script src="../../jquery.js"></script>
+		<script>
+			function fn1( value ) {
+  			console.log( value );
+			}
+ 
+			function fn2( value ) {
+				console.log( "fn2 says: " + value );
+				return false;
+			}
+
+			var topics = {}
+			jQuery.Topic = function (id) {
+				var callbacks, method,
+				topic = id && topics[id]
+				if (!topic) {
+					callbacks = jQuery.Callbacks()
+					topic = {
+						publish: callbacks.fire,
+						subscribe: callbacks.add,
+						unsubscribe: callbacks.remove
+					}
+					if (id) {
+						topics[id] = topic
+					}
+				}
+				return topic
+			}
+
+			// Subscribers
+			$.Topic('mailArrived').subscribe(fn1)
+			$.Topic('mailArrived').subscribe(fn2)
+			$.Topic('mailSent').subscribe(fn1)
+
+			// Publisher
+			$.Topic( "mailArrived" ).publish( "hello world!" );
+			$.Topic( "mailSent" ).publish( "woo! mail!" );
+		</script>
+	</body>
+</html>

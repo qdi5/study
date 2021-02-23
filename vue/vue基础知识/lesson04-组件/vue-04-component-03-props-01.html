@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>父组件向子组件传递数据(通过props)</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<my-component message="来自父组件的数据" hello="来自父组件的第二条数据"></my-component>	
+		<!-- 由于html特性不区分大小写，当使用DOM模板时，驼峰命名的props名称要转为短横分隔命名
+		(如果使用的是字符串模板(单个vue文件)，可忽略这些限制) -->
+		<my-component-2 warning-text="提示信息"></my-component-2>
+    </div>
+    <script>
+    	Vue.component('my-component', {
+    		props: ['message', 'hello'],
+    		template: '<div>{{ message }}, {{ hello }}</div>'
+    	});
+    	
+    	Vue.component('my-component-2', {
+    		props: ['warningText'],
+    		template: '<div>{{ warningText }}</div>'
+    	});
+    	
+        var app = new Vue({
+
+            //选择元素
+            el: "#app"
+        });
+    </script>
+</body>
+</html>

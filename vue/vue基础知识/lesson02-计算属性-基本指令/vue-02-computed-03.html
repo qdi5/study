@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>计算属性</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+    	{{ all }}	        
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	name: 'wuzhe'
+            },
+            
+            //通过事件触发
+            methods: {
+            	
+            },
+            
+            //实时计算  当数据有变化的时候执行
+            computed: {
+            	all: {
+            		
+            		//当访问all的时候触发
+					get: function() {
+						return this.name;
+					},
+					
+					//当修改的时候触发
+					set: function() {
+						this.name = 666;
+					}
+            	}
+            }
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>h5软键盘在IOS和Android的不同表现</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				text-align: center;
+				color: #fff;
+				background: #0000EE;
+			}
+			.main-wrapper {
+				padding-top: 150px;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: auto;
+				background: red;
+				opacity: 0.5;
+			}
+			.main-wrapper input {
+				height: 30px;
+				
+			}
+			.main-wrapper > div {
+				margin-bottom: 15px;
+			}
+			.main-wrapper input:first-of-type {
+				border: 1px solid red;
+				margin-bottom: 35px;
+			}
+			.footer {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="title">h5软键盘</header>
+		<main class="main-wrapper">
+			<div for="">请输入您的姓名：<input type="text" id="show"></div>
+			<div for="">请输入您的邮箱：<input type="text" id="email"></div>
+			<div>
+				<input type="text" id="readonlyInput" readonly>
+			</div>
+			<div>
+				<input type="text" disabled>
+			</div>
+			<div>
+			    <select name="" id="">
+			    	<option value="">1</option>
+			    	<option value="">2</option>
+			    	<option value="">3</option>
+			    	<option value="">4</option>
+			    	<option value="">5</option>
+			    	<option value="">6</option>
+			    	<option value="">7</option>
+			    	<option value="">8</option>
+			    	<option value="">9</option>
+			    	<option value="">10</option>
+			    </select>	
+			</div>
+			<div>
+			    <input type="radio" name="gander" value="0">女
+				<input type="radio" name="gander" value="1">男
+			</div>
+			<div>
+				<textarea style="width: 100%" rows="4" value="">这里是textarea噢</textarea>
+			</div>
+		</main>
+		<footer class="footer">debugger</footer>
+		<script src="./lib/vconsole.min.js"></script>
+		<script>
+		  // init vConsole
+		  var vConsole = new VConsole();
+		  console.log('Hello world');
+		</script>
+		<script>
+			var inBrowser = typeof window !== 'undefined'
+			var UA = inBrowser && window.navigator.userAgent.toLowerCase()
+			var isIOS = (UA && /iphone|ipad|ipod|ios/.test(UA))
+			var isAndroid = (UA && UA.indexOf('android') > 0)
+			console.log('isIOS:', isIOS)
+			console.log('isAndroid:', isAndroid)
+			var viewport = document.documentElement
+			function calcViewport() {
+				return viewport.clientHeight
+			}
+			var show = document.querySelector('#show')
+			show.value = calcViewport()
+			window.addEventListener('resize', function() {
+				console.log('触发resize，重新计算视口高度')
+				show.value = calcViewport()
+			}, false)
+			
+		   document.body.addEventListener('focusout', function(e) {
+			  // debugger
+			  let relatedTarget = e.relatedTarget
+			  console.log('relatedTarget:', relatedTarget)
+			  let relatedTargetTagName = relatedTarget && relatedTarget.tagName.toLowerCase()
+			  console.log('relatedTargetTagName:', relatedTargetTagName)
+			  // 如果relatedTarget
+			  if (isIOS && (!relatedTargetTagName || ['input', 'textarea', 'select'].indexOf(relatedTargetTagName) < 0)) {
+				//软键盘收起的事件处理
+				console.log('键盘收起了，重置scrollTop:', isIOS)
+				setTimeout(() => {
+				  const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0
+				  window.scrollTo(0, Math.max(scrollHeight - 1, 0))
+				}, 100)
+			  }
+			})
+			document.addEventListener('DOMContentLoaded', function() {
+				console.log('dom加载完成咯……')
+				let readonlyInput = document.getElementById('readonlyInput')
+				readonlyInput.style.pointerEvents = 'none'
+			}, false)
+			
+		</script>
+	</body>
+</html>

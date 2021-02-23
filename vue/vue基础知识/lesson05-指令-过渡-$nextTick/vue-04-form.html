@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>表单</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+    	<input type="radio" value="one" v-model="a" />
+    	<input type="radio" value="two" v-model="a" />
+    	{{ a }}
+    	
+    	<br />
+    	<br />
+    	<input type="checkbox" v-model="b" />
+    	{{ b }}
+    	<br />
+    	<input type="checkbox" value="aaa" v-model="c" />
+    	<input type="checkbox" value="bbb" v-model="c" />
+    	<input type="checkbox" value="ccc" v-model="c" />
+    	{{ c }}
+    	<br />
+    	<select name="" id="" v-model="select">
+    		<option value="a">a</option>
+    		<option value="b">b</option>
+    		<option value="c">c</option>
+    	</select>
+    	{{ select }}
+    	<br />
+    	<select name="" id="" multiple v-model="mutiSelect">
+    		<option value="a">a</option>
+    		<option value="b">b</option>
+    		<option value="c">c</option>
+    	</select>
+    	{{ mutiSelect }}
+    	<br />
+    	<br />
+    	<br />
+    	
+    	<h3>绑定表单的高级用法</h3>
+    	<!-- 失去焦点，才显示值 -->
+    	<input type="text" v-model.lazy="e" />
+    	{{ e }}
+    	<br />
+    	<h3>去掉首尾空格</h3>
+    	<input type="text" v-model.trim="f" />
+    	{{f}}
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	a: '',
+            	b: '',
+            	c: [],
+            	select: '',
+            	mutiSelect: [],
+            	e: '',
+            	f: ''
+            },
+            
+            //通过事件触发
+            methods: {
+            	
+            }
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

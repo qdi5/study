@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>作用域插槽示例2</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 使用自定义属性接收父组件的数据 -->
+			<my-list :books="books">
+				<!-- 作用域插槽也可以是具名的slot -->
+				<template slot="book" slot-scope="props">
+						
+						<!-- 这里的bookName要与slot标签里的属性book-name一致，用于接收插槽的数据 -->
+						<li>{{ props.bookName }}</li>
+
+				</template>
+			</my-list>
+		</div>
+		<script>
+			Vue.component('my-list', {
+				props: {
+					books: {
+						type: Array,
+						default: function () {
+							return [];
+						}
+					}
+				},
+				template: `
+					<ul>
+						<slot name="book" v-for="book in books" :book-name="book.name">
+						</slot>
+					</ul>
+					
+				`
+			});
+			var app = new Vue({
+				el: '#app',
+				data: {
+					books: [
+						{name: '《vue.js实战》'},
+						{name: '《javascript语言精粹》'},
+						{name: '《javascript高级程序设计》'}
+					]
+				}
+			});
+		</script>
+	</body>
+</html>

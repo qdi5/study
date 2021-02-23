@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>align-content</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<style>
+    .wrap {
+        width: 500px;
+        height: 600px;
+        display: flex; /* 弹性盒模型 */
+        /*flex-direction: row;/* 盒模型下的子元素排列方向 */
+        /*flex-wrap: nowrap;/* 子元素是否允许换行，默认不换行挤压在一行 */
+        flex-flow: row wrap; /* flex-direction和flex-wrap的缩写形式 */
+        justify-content: space-between;  /* 水平对齐子元素的方式 */
+        align-items: stretch;  /* 垂直方向对齐 */
+        align-content: center;
+        margin: 50px auto;
+        border: 2px solid red;
+
+    }
+    .wrap div {
+        width: 100px;
+        /*height: 100px;/* edited */
+        height: auto;
+        background: blue;
+        margin: 10px;
+        color: #fff;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .wrap div:nth-child(1) {
+        /*height: 50px; /*deleted*/
+        font-size: 30px;
+    }
+    .wrap div:nth-child(2) {
+        /*height: 80px;/* deleted */
+        font-size: 20px;
+    }
+</style>
+</head>
+<body>
+    <div class="wrap">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+    </div>
+</body>
+</html>

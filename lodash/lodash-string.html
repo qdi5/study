@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>lodash字符串方法</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="./src/css/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="./src/js/lodash.full.js"></script>
+</head>
+<body style="height: 1500px;width: 100%;">
+
+<script src="./src/js/jquery.js"></script>
+<script>
+//1、endsWith(strng, target) /startsWith(string, target) 检测字符串是否以目标字符串结束/开始
+console.log(_.endsWith('abc', 'c'));
+console.log(_.endsWith('abc', 'b'));
+console.log(_.endsWith('abc','a',1));
+
+//2、escape(string) 将字符串中的&、<、>、",'转换为相应的html字符;
+//unescape 与上面相反，将字符串里的 &amp、&lt、&gt、&quot和&#39转换为相应的字符
+document.body.innerHTML = '<div style="color: red;background: #676789;">转义html字符串</div>';
+document.body.appendChild(document.createTextNode(_.escape('<div style="color: red;background: #676789;">转义html字符串</div>')));
+var pElement = document.createElement('p'),
+    text = document.createTextNode('转义html字符串');
+
+    pElement.style = 'color: red;background: #676789;';
+    pElement.appendChild(text);
+    document.body.appendChild(pElement);
+
+//3、escapeRegExp(string) 转义正则表达式
+console.log(_.escapeRegExp('[lodash](https://lodash.com/)'));
+console.log('WUZHE IS A IDIOT'.toLowerCase());
+
+//4、capitalize() / lowerFirst() 将首字母转换为大/小写字母
+console.log(_.lowerFirst('Fancui'));
+console.log(_.lowerFirst('wuzhe'));
+
+//5、pad(string,length,chars) 在字符串前后填上chars、添加后的长度要等于length；如果length小于string的字符串长度，则不填充；
+//   padStart/padEnd
+console.log(_.padStart('cfy', 8, _.random(1000,9999))); //在字符串前面填充随机的5位数
+//6、repeat(string)
+console.log(_.repeat('*', 6));
+console.log(_.repeat('abc', 2));
+console.log(_.repeat('abc', 0));
+//7、replace(string, pattern, replacement)
+
+//8、template(string, options)创建一个已经编译的模板函数,
+
+//9、toLower/toUpper
+console.log(_.toLower('--FOOBAR--'));
+console.log(_.toLower('fooBar'));
+console.log(_.toLower('__FOO_BAR__'));
+
+console.log(_.toUpper('fooBAROOO'));
+console.log(_.toUpper('foobbarr'));
+//upperFirst(string)  将首字母转换为大写
+//10、trim()/trimStart()/trimEnd()
+
+//11、words(string, pattern) 将字符串中的文字分割到数组
+
+console.log(_.words('fred,barney,pebbles'));
+console.log(_.words('fred,barney, & pebbles', /[^, ]+/g));
+</script>
+</body>
+</html>

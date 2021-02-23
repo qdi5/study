@@ -1,0 +1,28 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>javascript原型模式</title>
+</head>
+<body>
+	<script>
+		(function (root) {
+			var jQuery = function () {
+				// init当作构造器函数使用
+				return new jQuery.prototype.init();
+			}
+			
+			jQuery.prototype = {
+				init: function () {
+					console.log('jquery原型上的init');
+				}
+			}
+			
+			jQuery.prototype.init.prototype = jQuery.prototype;
+			root.jQuery = root.$ = jQuery
+		})(this)
+		$().init()
+	</script>
+</body>
+</html>

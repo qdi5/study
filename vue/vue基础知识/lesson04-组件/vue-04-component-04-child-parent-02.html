@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>子组件给父组件传递数据(通过事件$emit)</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		
+		<!-- 子组件给父组件传递数据 -->
+		
+		<!-- 接收发送的change消息 -->
+        <wuzhe @change="abc"></wuzhe>
+    </div>
+    <script>
+    	Vue.component('wuzhe', {
+    		
+    		template: '<div>\
+			    		  {{ name }}\
+			    		  <button @click="handleClick">给父组件传递数据</button>\
+		    		  </div>',
+    		
+    		/* 子组件的data必须是一个函数  */
+    		data: function() {
+    			return {
+    				name: '我是wuzhe'
+    			}
+    		},
+    		
+    		methods: {
+    			handleClick(){
+    				
+    				//向父组件传递数据;
+    				//给父组件发送消息，参数一：事件名称；后面所有的参数是所要传递的消息
+    				this.$emit('change', {a:1,e:2}, 'b', 'c');
+    			}
+    		},
+    	});
+    	
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	name: '我是父组件的name数据',
+            	title: '第二个父组件的title数据'
+            },
+            
+            //通过事件触发
+            methods: {
+            	abc: function() {
+            		console.log(arguments);
+            	}
+            }
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

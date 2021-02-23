@@ -1,0 +1,35 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function PromiseTest (fn) {
+			var callbacks = []; // callbacks为数组,同时有多个回调
+			this.then = function (onFulfilled) {
+				callbacks.push(onFulfilled)
+			}
+			function resolve (val) {
+				callbacks.forEach(function (callback) {
+					callback(val)
+				})
+			}
+			fn(resolve)
+		}
+		let eat = function () {
+			return new PromiseTest(resolve => {
+				console.log('吃饭')
+			})
+		}
+		let sleep = function () {
+			console.log('睡觉')
+		}
+		eat().then(result => {
+			sleep()
+		})
+	</script>
+</body>
+</html>

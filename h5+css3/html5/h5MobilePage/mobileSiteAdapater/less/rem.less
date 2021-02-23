@@ -1,0 +1,30 @@
+@rem: 750 / 10rem; /* 1rem为75px  */
+.main {
+    width: 697/@rem;
+   ul {
+       li {
+          width: 139/@rem;
+          height: 100%;
+          float: left; 
+          & > span {
+              font-size: 24/@rem;
+          }
+       }
+   } 
+    .img-container {
+        width: 134/@rem;
+        height: 96/@rem;
+        background-image: url(../images/tmall.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        margin: 0 auto;
+    & + span {
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+        text-align: center;
+        font-size: 24/@rem;
+    }    
+    }
+}

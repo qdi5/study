@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>reduce</title>
+	</head>
+	<body>
+		<script>
+			const scoresBySection = {
+				math: 10,
+				reading: 10,
+				writing: 10
+			}
+			const sectionNames = Object.keys(scoresBySection)
+			const marks = sectionNames.reduce((accumulator, sectionName) => {
+				// 返回值将作为累加器下一次循环的初始值
+				return accumulator + scoresBySection[sectionName]
+			}, 0)
+			console.log('reduce累加数字:', marks) // 30
+			
+			const textSection = {
+				first: 'web',
+				second: '前端',
+				third: '工程师'
+			}
+			const textName = Object.keys(textSection)
+			const longText = textName.reduce((initData, text) => {
+				// console.log(initData, text)
+				return initData + textSection[text]
+			}, '')
+			console.log('reduce连接字符串：', longText)
+		</script>
+	</body>
+</html>

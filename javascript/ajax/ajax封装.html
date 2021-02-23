@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ajax封装之路</title>
+	</head>
+	<body>
+		<button id="ajaxButton" type="button">发起请求</button>
+		<script>
+			let httpRequest = new XMLHttpRequest()
+			httpRequest.onreadystatechange = function () {
+				if (httpRequest.readyState === 4) { // 请求已完成并且响应已准备好
+					if (httpRequest.status === 200) {
+						// 请求成功
+						
+					}
+				}
+			}
+			httpRequest.open('GET', 'https://www.easy-mock.com/mock/5c89f53b921ee13656b80321/ajax/get')
+			// post请求需要设置请求头
+			// httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+			httpRequest.send() */
+			(function() {
+				var httpRequest
+				document.getElementById('ajaxButton').addEventListener('click', makeRequest)
+				function makeRequest() {
+					httpRequest = new XMLHttpRequest()
+					if (!httpRequest) {
+						throw '无法创建XMLHttpRequest'
+					}
+					httpRequest.onreadystatechange = alertContents
+					httpRequest.open('GET', 'test.xml')
+					httpRequest.send()
+				}
+				
+				function alertContents() {
+					// 在通信错误的事件中(例如服务器宕机），在访问响应状态onreadystatechange方法中会抛出一个例外
+					// 为了缓和这种情况,则可以使用try...catch
+					try {
+					  if (httpRequest.readyState === 4) {
+					  	if (httpRequest.status === 200) {
+					  		var xmldoc = httpRequest.responseXML
+							var root_node = xmldoc.getElementsByTagName('root').item(0)
+							alert(root_node.firstChild.data)
+							
+					  	} else {
+					  		alert('请求出错了')
+					  	}
+					  }	
+					} catch(e) {
+						alert('服务器错误:' + e.description)
+					}
+				}
+			})()
+			
+			
+			
+		</script>
+	</body>
+</html>

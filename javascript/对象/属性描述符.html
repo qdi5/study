@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>属性描述符</title>
+	</head>
+	<body>
+		<script>
+			// 'use strict'
+			var myObject = {
+				a: 2
+			}
+			// 获取对象myObject的属性a的属性描述符
+			let descriptor = Object.getOwnPropertyDescriptor(myObject, 'a')
+			console.log('descriptor:', descriptor)
+			// Object.defineProperty()可以添加一个新属性或者修改一个已有属性(如果它是configurable)
+			Object.defineProperty(myObject, 'name', {
+				value: '吴哲',
+				writable: true,
+				configurable: true,
+				enumerable: true
+			})
+			
+			console.log(myObject, myObject.name)
+			
+			// 一.属性描述符的属性说明
+			// 1.Writable 决定是否可以修改属性的值
+			var myObject = {}
+			Object.defineProperty(myObject, 'a', {
+				value: 2019,
+				writable: false,
+				configurable: true,
+				enumerable: true
+			})
+			myObject.a = 2020 // 这里静默修改失败
+			console.log(myObject.a) // 2019
+			
+			// 2.Configurable 只要属性是可配置的,就可以使用defineProperty()方法来修改属性描述符
+			var myObject = {
+				a: 2
+			}
+			
+			myObject.a = 3
+			console.log(myObject.a)
+			
+			Object.defineProperty(myObject, 'a', {
+				value: 4,
+				writable: true,
+				// 把configurable修改成false是单向操作,无法撤销
+				configurable: false,
+				enumerable: true
+			})
+			
+			console.log('myObject.a:', myObject.a)
+			myObject.a = 5
+			console.log('myObject.a:', myObject.a)
+			
+			/* Object.defineProperty(myObject, 'a', {  // Uncaught TypeError: Cannot redefine property: a
+				value: 6,
+				writable: true,
+				configurable: true,
+				enumerable: true
+			}) */
+			
+			// 除了无法修改,configurable: false还会禁止删除这个属性
+			delete myObject.a // 这步删除属性操作会静默失败
+			console.log(myObject.a) // 5 
+			// 3.Enumerable 这个描述符控制的是属性是否会出现在对象的属性枚举中(比如：for...in)
+			var myObject = {
+				name: 'wuzhe',
+				gander: 1,
+				age: 26
+			}
+			Object.defineProperty(myObject, 'salary', {
+				value: 20000,
+				writable: true,
+				configurable: true,
+				enumerable: false
+			})
+			
+			for (let prop in myObject) {
+				console.log(prop + ':' + myObject[prop]) // salary属性不会被打印出来
+			}
+			console.log('可枚举属性：', myObject.propertyIsEnumerable('name'))
+			console.log('不可枚举属性：', myObject.propertyIsEnumerable('salary'))
+			// 获取对象自身的所有可枚举属性
+			Object.keys(myObject)
+			// 获取对象自身的所有属性(包括不可枚举属性)
+			Object.getOwnPropertyNames(myObject)
+			// 4.getter和setter 
+			// 当你给一个属性定义getter,setter或者两者都有时,这个属性会被定义为"访问描述符"(和"数据描述符"相对)
+			// 对于访问描述符来说,js会忽略它们的value和writable特性,取而代之的是关心set和get(还有configurable和enumerable)特性
+			var myObject = {
+				get a() {
+					return 2
+				}
+			}
+			
+			Object.defineProperty(myObject, 'b', {
+				get () {
+					return this.a * 2
+				},
+				enumerable: true
+			})
+			console.log('访问描述符：', myObject.a)
+			console.log('访问描述符：', myObject.b)
+			//  不管是对象文字语法中的get a() {},还是defineProperty()中的显式定义,二者都会在对象中创建一个不包含
+			// 值得属性,对于这个属性的访问会自动调用一个隐藏函数,它的返回值会被当作属性访问的返回值.
+			var myObject = {
+				get a() {
+					return 2048
+				}
+			}
+			myObject.a = 3
+			console.log('访问描述符：', myObject.a) 
+			
+			// 由于我们只定义了a的getter,所以对a的值进行设置时set操作会忽略赋值操作,不会抛出错误.
+			// 而且即便有合法的setter,由于我们自定义的getter只会返回2,所以set操作是没有意义的.
+			var myObject = {
+				get a () {
+					return this._a_
+				},
+				set a (val) {
+					this._a_ = val * 2
+				}
+			}
+			myObject.a = 2
+			console.log('访问描述符：', myObject.a)
+			
+			// 二.不变性
+			// 所有的方法创建的都是浅不变形,它们只会影响目标对象和它的直接属性.如果目标对象引用了其他对象(数组，对象，函数，等)
+			// 其他对象的内容不受影响,仍然是可变的
+			
+			// 2.1.对象常量,结合writable: false 和 configurable就可以创建一个真正的常量属性(不可修改，重定义或者删除):
+			var myObject = {}
+			Object.defineProperty(myObject, 'FAVORITE_NUMBER', {
+				value: 2030,
+				writable: false,
+				configurable: false
+			})
+			myObject.FAVORITE_NUMBER = 2031  // 无法改变值
+			delete myObject.FAVORITE_NUMBER  // 无法删除属性
+			console.log(myObject.FAVORITE_NUMBER)  
+			
+			/*Object.defineProperty(myObject, 'FAVORITE_NUMBER', {  // 无法重新定义属性的属性描述符
+				value: 3000,
+				writable: true,
+				configurable: true
+			}) */
+			
+			// 2.2.禁止扩展
+			// Object.preventExtensions() 禁止一个对象添加新属性并且保留已有属性
+			var myObject = {
+				a: 2
+			}
+			Object.preventExtensions(myObject)
+			myObject.wuzhe = 26
+			console.log('禁止扩展属性：', myObject.wuzhe)
+			
+			// Object.seal()会创建一个"密封"的对象,这个方法实际上会在一个现有对象上调用
+			// Object.preventExtensions()并把所有现有属性标记为configurable: false.
+			// 密封后不仅不能添加新属性,也不能重新配置或者删除任何现有属性(虽然可以修改属性的值)
+			var myObject = {
+				b: 2022
+			}
+			Object.seal(myObject)
+			myObject.c = 2023  // 无法新增属性
+			delete myObject.b  // 无法删除现有属性
+			console.log(myObject.b, myObject.c)
+			/*Object.defineProperty(myObject, 'b', {  // 无法重新配置现有属性
+				writable: false,
+				configurable: true,
+				enumerable: false
+			})*/
+			
+			// Object.freeze() 冻结对象.相当于Object.seal()的升级版
+			
+			// 三.存在性
+			// 不访问属性值的情况下判断对象中是否存在这个属性
+			// in操作符会检查属性是否在对象及其 [[Prototype]] 原型链中,它实际上检查的是某个属性名是否存在.
+			// 而hasOwnProperty()只会检查属性是否在myObject对象中,不会检查[[Prototype]]链
+			 var myObject = {
+				 a: 2024
+			 }
+			 console.log('判断属性值是否存在：', ('a' in myObject)) // true
+			 console.log('判断属性值是否存在：', ('toString' in myObject))  // true
+			 
+			 console.log(myObject.hasOwnProperty('a'))  // true
+			 console.log(myObject.hasOwnProperty('toString'))  // false  
+			 
+			 
+		</script>
+	</body>
+</html>

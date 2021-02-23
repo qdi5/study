@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,user-scalable=no"/>
+		<title>移动端轮播图transform版本</title>
+		<link rel="stylesheet" href="./css/index.css">
+		<script>
+			(function() {
+				autoRem()
+				window.onresize = function () {
+					autoRem()
+				}
+				function autoRem() {
+					var html = document.querySelector('html')
+					var width = html.getBoundingClientRect().width
+					if (width > 540) {
+						width = 540
+					}
+					html.style.fontSize = width / 10 + 'px'
+				}
+				
+			})()
+		</script>
+	</head>
+	<body>
+		<div class="slide">
+		    <ul>
+		        <li><img src="img/slide1.jpg" width="100%" height="100%" alt=""></li>
+		        <li><img src="img/slide2.jpg" width="100%" height="100%" alt=""></li>
+		        <li><img src="img/slide3.jpg" width="100%" height="100%" alt=""></li>
+		    </ul>
+		    <div class="dot">
+		        <span></span><span></span><span></span>
+		    </div>
+		</div>
+		<script>
+			let oSlide = document.querySelector('.slide')
+			let oUl = oSlide.querySelector('ul')
+			let aLi = oUl.querySelector('li')
+			let oDot = document.querySelector('.dot')
+			let aSpan = oDot.querySelectorAll('span')
+			// 默认手指的位置为0
+			let startPoint = 0
+			// 轮播图最外层元素距离文档左侧的距离
+			let startX = 0
+			let translateX = 0
+			
+			aSpan[0].classList.add('on')
+			
+			// 手指开始触摸事件
+			oSlide.addEventListener('touchstart', function (e) {
+				startPoint = e.changedTouches[0].pageX
+				startX = translateX
+				oUl.style.transition = ''
+			})
+			
+			// 手指滑动事件
+			oSlide.addEventListener('touchmove', function (e) {
+				let newPoint = e.changedTouches[0].pageX
+				// 手指滑动后，轮播图最外层元素位于文档的最新位置
+				translateX = newPoint - startPoint + startX
+				oUl.style.transform = 'translateX(' + translateX + 'px)'
+			})
+			
+			// 手指抬起事件
+			oSlide.addEventListener('touchend', function () {
+				// 四舍五入
+				let num = Math.round(-translateX/oSlide.offsetWidth)
+				console.log('num2', num)
+				translateX = -num * oSlide.offsetWidth
+				oUl.style.transition = '1s'
+				oUl.style.transform = 'translateX(' + translateX + 'px)'
+				for (let i = 0; i < aSpan.length; i++) {
+					if (aSpan[i].classList.contains('on')) {
+						aSpan[i].classList.remove('on')
+						break
+					}				
+				}
+				console.log('num3', num)
+				aSpan[num].classList.add('on')
+			})
+			
+			// 阻止移动端橡皮筋效果
+			document.addEventListener('touchmove', function (e) {
+				e.preventDefault()
+			})
+		</script>
+	</body>
+</html>

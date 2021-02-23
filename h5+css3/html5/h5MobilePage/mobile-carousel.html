@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>移动端轮播图</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<link rel="stylesheet" href="./taobao/css/mobile-reset.css" />
+		<style type="text/css">
+			html,body {
+				width: 100%;
+			}
+			.carousel-wrapper {
+				width: 100%;
+				position: relative;
+			}
+			.carousel-content-wrapper {
+				position: relative;
+				margin-left: -100%;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				width: 1000%;
+			}
+			.transition {
+				transition: all 0.3s;
+			}
+			.carousel-content-wrapper > a {
+				display: block;
+				width: 10%;
+			}
+			.carousel-content-wrapper > a >img {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+			.carousel-direction {
+				width: 100%;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				text-align: right;
+				font-size: 0;
+			}
+			.carousel-direction span {
+				display: inline-block;
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background-color: #fff;
+				margin: 10px 2px;
+			}
+			.carousel-direction span.active {
+				background-color: rgb(255, 80, 0)
+			}
+		</style>
+	</head>
+	<body>
+		<script src="https://cdn.bootcss.com/lodash.js/4.17.10/lodash.min.js"></script>
+		<div class="carousel-wrapper">
+			<div class="carousel-content-wrapper">
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/8.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/1.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/2.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/3.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/4.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/5.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/6.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/7.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/8.jpg" /></a>
+				<a href="javascript:void(0);"><img alt="" src="./taobao/images/wuzhe/1.jpg" /></a>
+			</div>
+			<div class="carousel-direction">
+					<span class="active"></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+			</div>
+		</div>
+		
+		<script>
+			(function(win){
+				/* 分析问题  
+				1、 移动端的触摸事件：
+				touchstart: 
+				touchmove:
+				touchend:
+				* * */
+				// 浏览器可视窗口的宽度
+				var winWidth = document.documentElement.getBoundingClientRect().width;
+				var carouselWrapper = document.querySelector('.carousel-wrapper');
+				var carouselWidth = carouselWrapper.getBoundingClientRect().width;
+				var carouselContent = document.querySelector('.carousel-content-wrapper');
+				var aList = carouselContent.getElementsByTagName('a');
+				
+				// 当前图片的索引(从0开始)
+				var index = 0;
+				
+				// 是否正在移动中的标识(使用了transition时，需要监听transitionend事件，才能确保运动完成)
+				var isMoving = false;
+				
+				// 起始手指的横坐标
+				var startX = 0;
+				
+				// 初始的marginLeft值
+				var startMarginLeft = 0;
+				
+				// 定时器索引
+				var timer = 0;
+				
+				// 标识setInterval执行状态,确保setInterval执行完之后，在执行transitionend
+				var flag = false;
+				carouselWrapper.addEventListener('touchstart', handleStart, false);
+				
+				// 处理touchstart事件
+				function handleStart (e) {
+					// 暂停自动轮播
+					clearInterval(timer);
+					console.log('time', timer);
+					startX = e.changedTouches[0].pageX;
+					
+					// 获取容器开始的左边距，应该在touchstart处理函数中获取
+					startMarginLeft = parseInt(window.getComputedStyle(carouselContent).marginLeft) || 0;
+					console.log('初始marginLeft:',startMarginLeft);
+					carouselWrapper.addEventListener('touchmove', handleMove, false);
+					carouselWrapper.addEventListener('touchend', handleEnd, false);
+				}
+				
+				// 处理touchmove事件
+				function handleMove (e) {
+					var moveX = e.changedTouches[0].pageX;
+					
+					e.preventDefault();
+					
+					console.log( '移动的距离：' , moveX - startX);
+					carouselContent.style.marginLeft = startMarginLeft + moveX - startX + 'px';
+
+				}
+				
+				// 处理touchend事件
+				function handleEnd (e) {
+					
+					/* 不能在滑动的时候给图片容器加过渡动画，这样会导致拖动的时候产生延迟;
+					 * 在每一个transition动画完成之后，立即清除transition过渡的class,避免下一次touchmove产生延迟
+					 */
+					carouselContent.className = 'carousel-content-wrapper transition';
+					
+					var endX = e.changedTouches[0].pageX;
+					
+					// 表示手指向右滑动
+					if (endX - startX > 30) {
+						if (!isMoving) {
+							isMoving = true;
+							
+								index --;
+							// 图片索引与图片容器左边距的关系
+							carouselContent.style.marginLeft =  -((index + 1)* carouselWidth)+ 'px';
+							
+							console.log('向右滑动……',index);
+						} 
+						// 表示手指向左滑动
+					} else if (endX - startX < -30) {
+						
+						if (!isMoving) {
+							isMoving = true;
+							index ++;
+							carouselContent.style.marginLeft = -((index + 1 )* carouselWidth) + 'px';
+							
+							console.log('向左滑动……', index);
+						}
+					} else {
+						console.log('滚回去……', startMarginLeft);
+						carouselContent.style.marginLeft = startMarginLeft + 'px';
+					}
+					
+					// 开启轮播
+					autoPlay();
+					
+					carouselContent.removeEventListener('touchmove', handleMove);
+					carouselContent.removeEventListener('touchend', handleEnd);
+					
+				}
+				/* 
+				 * 动画结束时，清除过渡的class，并检查索引值是否到了边界(第一张或最后一张);
+				 * 如果到了边界，则迅速将图片容器瞬移过去(视差)，形成无缝滚动；
+				*/
+				carouselContent.addEventListener('transitionend', handleTransitionEnd, false);
+				function handleTransitionEnd () {
+					flag = false;
+					carouselContent.className = 'carousel-content-wrapper';
+					isMoving = false;
+					if(index == -1) {
+						index = aList.length - 3;
+					} 
+					if (index == aList.length - 2) {
+						index = 0;
+					}
+					var carouselDirection = document.querySelector('.carousel-direction');
+					console.log(carouselDirection);
+					var directions = carouselDirection.getElementsByTagName('span');
+					for (var i = 0, length = directions.length; i < length; i ++) {
+						directions[i].className = '';
+					}
+					directions[index].className = 'active';
+					carouselContent.style.marginLeft = -((index + 1) * carouselWidth) + 'px';
+				}
+				
+				// 自动轮播
+				function autoPlay() {
+					
+					timer = setInterval(function(){
+						if(!flag) {
+							flag = true;
+							carouselContent.className = 'carousel-content-wrapper transition';
+							index++;
+							carouselContent.style.marginLeft = -((index + 1) * carouselWidth) + 'px';
+							console.log('图片索引', index);
+						}
+					}, 3000);
+				}
+				
+				autoPlay();
+			})(window);
+			
+			
+		</script>
+	</body>
+</html>

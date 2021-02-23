@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.wuzhe {
+				width: 200px;
+				padding: 20px;
+				margin-bottom: 10px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<ul>
+			<li class="wuzhe">01</li>
+			<li class="wuzhe">02</li>
+			<li class="wuzhe">03</li>
+		</ul>
+		<script>
+			// 闭包糟糕的示例
+			
+			var add_the_handlers = function (nodes) {
+				var i
+				for (i = 0; i < nodes.length; i++) {
+					nodes[i].onclick = function (e) {
+						// 这里事件处理器函数绑定了变量i本身,而不是函数在构造时的变量i的值
+						alert(i)
+					}
+				}
+			}
+			// add_the_handlers(document.querySelectorAll('.wuzhe'))
+			
+			// 修正方法一
+			var add_the_handlers = function (nodes) {
+				var i
+				for (i = 0; i < nodes.length; i++) {
+					(function(j){
+					  nodes[j].onclick = function (e) {
+					  	alert(j)
+					  }
+					})(i)
+				}
+			}
+			// add_the_handlers(document.querySelectorAll('.wuzhe'))
+
+			
+			// 修正方法二
+			var add_the_handlers = function (nodes) {
+				// 先在循环之外创建一个辅助函数,让这个辅助函数再返回一个绑定了当前i值的函数
+				var helper = function (i) {
+					
+					return function (e) {
+				      alert(i)
+					}
+				}
+				var i
+				for (i = 0; i < nodes.length; i++) {
+				  nodes[i].onclick = helper(i)
+				}
+			}
+			add_the_handlers(document.querySelectorAll('.wuzhe'))
+			
+			
+			var b = {}
+			
+			function c(a) {
+				console.log('a', a)
+				a = 100
+				console.log('a', a)
+			}
+			c(b)
+			console.log('b', b)
+		</script>
+	</body>
+</html>

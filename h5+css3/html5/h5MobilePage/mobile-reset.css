@@ -1,0 +1,52 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html {
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	
+	/* 关闭字体自动调节大小(允许设置12px以下的字体) */
+	-webkit-text-size-adjust: 100%; 
+	
+	/* a标签及拥有:active伪类的元素都有默认的高亮框 */
+	-webkit-tap-highlight-color: transparent;
+	
+	/* 禁止文本选中 */
+	-webkit-user-select: none;
+}
+body {
+	overflow-x: hidden;
+	/* 开启移动端快速滚动和回弹 */
+	-webkit-overflow-scrolling: touch;
+	font-size: 12px;
+}
+a {
+	color: #333;
+	text-decoration: none;
+}
+img {
+	border: 0;
+	display: block;
+	vertical-align: middle;
+}
+input {
+	-webkit-appearance: none;
+	outline: none;
+	border: none;
+}
+.fl {
+	float: left;
+}
+.fr {
+	float: right;
+}
+.clearfix:after {
+	content: '';
+	display: table;
+	clear: both;
+	height: 0;	
+}
+li,ol {
+	list-style: none;
+}

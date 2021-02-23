@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>event</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+	<div id="app">
+       <my-counter heading="hello" color="vue"></my-counter>
+    </div>
+	<template id="counter-template">
+		<div>
+			<p>{{ heading }} => {{ color }}</p>
+			<p>
+				<button @click="counter++">btn{{ counter }}</button>
+			</p>
+		</div>
+	</template>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	counter: 0
+            },
+            
+            //实例化vue时定义子组件
+            components: {
+            	"my-counter": {
+					template: '#counter-template',
+					
+					props: ['heading', 'color'],
+					data: function () {
+						return {counter: 0}
+					}
+				}
+            }
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

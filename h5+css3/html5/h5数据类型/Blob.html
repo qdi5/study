@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Blob</title>
+	</head>
+	<body>
+		<script>
+			var debug = {hello: 'world'}
+			var blob = new Blob([JSON.stringify(debug, null, 2)], {type: 'application/json'})
+			console.log(blob)
+		</script>
+	</body>
+</html>

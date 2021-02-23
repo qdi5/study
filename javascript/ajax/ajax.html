@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>原生js封装ajax</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			ul {
+				list-style-type: none;
+			}
+			a {
+				text-decoration: none;
+			}
+			body {
+				text-align: center;
+			}
+			#searchWrapper {
+				width: 150px;
+				margin: 0 auto;
+				position: relative
+			}
+			#searchWrapper ul {
+				width: 100%;
+				position: absolute;
+				left: 0;
+				text-align: left;
+				background: #fff;
+			}
+			#searchWrapper ul li {
+				
+				font-size: 12px;
+				padding: 10px;
+				border-bottom: 1px solid #eee
+			}
+			#searchWrapper ul li a {
+				color: 
+			}
+			input {
+				width: 150px;
+				height: 35px;
+				margin-top: 100px;
+				color: purple;
+				font-size: 16px;
+				
+			}
+			#ifm {
+				height: calc(100vh - 100px)
+			}
+		</style>
+	</head>
+	<body>
+		<div id="searchWrapper">
+			<input type="text" id="bdSearch" placeholder="百度搜索" onfocus='return false' autocomplete="off" disableautocomplete>
+		</div>
+		<iframe src="" frameborder="0" id="ifm" width="100%" ></iframe>
+		<script>
+			// 一个HTTP请求由4部分组成
+				// http请求方法或'动作'
+			    // 正在请求的url
+				// 一个可选的请求头集合,其中可能包括身份证信息
+				// 一个可选的请求主体
+			
+			function postMessage (msg) {
+				var request = new XMLHttpRequest()
+				request.open('POST', 'https://www.easy-mock.com/mock/5c89f53b921ee13656b80321/ajax/post')
+				// post请求需要设置请求头
+				request.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8')
+				request.send(msg)
+			}
+			
+			
+			// 获取HTTP响应的onreadystatechange
+			function getText(url, callback) {
+				var request = new XMLHttpRequest()
+				request.open('GET', url)
+				request.onreadystatechange = function() {
+					if (request.readyState === 4 && request.status === 200) {
+						var type = request.getResponseHeader('Content-Type')
+						if (type.match(/^text/)) {
+							callback(request.responseText)
+						}
+					}
+				}
+				request.send(null)
+			} 
+		
+			// 响应解码
+			function get(url, callback) {
+				var request = new XMLHttpRequest()
+				request.open('GET', url)
+				request.onreadystatechange = function() {
+					if (request.readyState === 4 && request.status === 200) {
+						var type = request.getResponseHeader('Content-Type')
+						if (type.indexOf('xml') !== -1 && request.responseXML) {
+							callback(request.responseXML) // Document 对象响应
+						}
+					} else if (type === 'application/json') {
+						callback(JSON.parse(request.responseText)) // JSON响应
+					} else {
+						callback(request.responseText)
+					}
+				}
+				request.send(null)
+			}
+			
+			// 用于HTTP请求的编码对象
+			function encodeFormData(data) {
+				if (!data) {
+					return
+				}
+				var pairs = []
+				for (var name in data) {
+					if (!data.hasOwnProperty(name)) {
+						continue
+					}
+					if (typeof data[name] === 'function') {
+						continue
+					}
+					var value = data[name].toString()
+					name = encodeURIComponent(name.replace('%20', '+'))
+					value = encodeURIComponent(value.replace('%20', '+'))
+					pairs.push(name + '=' + value)
+				}
+				return pairs.join('&')
+			}
+			console.log(encodeFormData({
+				find: 'pizza',
+				zipcode: 02134,
+				radius: '1km'
+			}))
+			
+			// 实现超时
+			function timedGetText(url, timeout, callback) {
+				var request = new XMLHttpRequest()
+				var timedout = false
+				var timer = setTimeout(function() {
+					timedout = true
+					request.abort()
+				}, timeout)
+				request.open('GET', url)
+				request.onreadystatechange = function() {
+					if (request.readyState !== 4) {
+						return false
+					}
+					if (timedout) {
+						return false
+					}
+					clearTimeout(timer)
+					if (request.status === 200) {
+						callback(request.responseText)
+					}
+				}
+				request.send(null)
+			}
+			timedGetText('https://www.easy-mock.com/mock/5c89f53b921ee13656b80321/ajax/get', 10000, function(data) {
+				console.log('data', data)
+			})
+			
+			// JSONP 使用script元素进行Ajax传输得一个主要原因是,它不受同源策略得影响,因此可以使用它们从其他得服务器请求数据
+			// 第二个原因是包含JSON编码数据得响应体会自动解码;
+			// 当通过<script>元素调用数据时,响应内容必须用JavaScript函数名和圆括号包裹起来.例如:
+			// handleResponse([1,2,{'buckle': 'my shoe'}])
+			
+			// JSONP示例
+			getJSONP.counter = 0
+			function getJSONP(url, callback) {
+				// 回调函数的唯一序号(自增)
+				var cbnum = 'cb' + getJSONP.counter++
+				// 回调函数的名字
+				var cbname = 'getJSONP.' + cbnum
+				
+				if (url.indexOf('?') === -1) {
+					url += '?cb=' + cbname
+				} else {
+					url += '&cb=' + cbname
+				}
+				var script = document.createElement('script')
+				// 定义JSONP返回结果后，需要执行的函数
+				getJSONP[cbnum] = function(response) {
+					try {
+						callback(response)
+					} finally {
+						delete getJSONP[cbnum]
+						script.parentNode.removeChild(script)
+					}
+				}
+				script.src = url
+				document.body.appendChild(script)
+			}
+			let ulEle
+			bdSearch.onkeyup = function(e) {
+				let val = this.value
+				let _this = this
+				
+				getJSONP('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + val, function(data) {
+					let now = Date.now()
+					let searchWrapper = document.getElementById('searchWrapper')
+					let list = data.s
+					let fragment = document.createDocumentFragment()
+					let isFirst = false
+					console.log(typeof ulEle === 'undefined')
+					if (typeof ulEle === 'undefined') {
+						ulEle = document.createElement('ul')
+						ulEle.id = 'searchBox' + now
+						isFirst = true
+					} else {
+						ulEle.innerHTML = ''
+					}
+					list.forEach(item => {
+						let liEle = document.createElement('li')
+						let aEle = document.createElement('a')
+						aEle.href = 'javascript:void(0)'
+						aEle.onclick = function() {
+							_this.value = this.textContent
+							ifm.src = `http://www.baidu.com/s?wd=${item}`
+							ulEle.style.display = 'none'
+						}
+						aEle.textContent = item
+						liEle.appendChild(aEle)
+						fragment.appendChild(liEle)
+					})
+					ulEle.appendChild(fragment)
+					if (isFirst) {
+						searchWrapper.appendChild(ulEle)
+						isFirst = false
+					}
+					
+				})
+			}
+			
+			/**
+			 * newElement: 新加入的节点
+			 * targetElement： 参考的目标节点
+			 */
+			function insertAfter(newElement, targetElement) {
+				let parent = targetElement.parentNode
+				if (parent.lastChild == targetElement) {
+					parent.appendChild(newElement)
+				} else {
+					parent.insertBefore(newElement,targetElement.nextSibling)
+				}
+			}
+		</script> 
+	</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "id": "1557244",
+  "name": "map",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "141794",
+      "name": "location-on",
+      "font_class": "locationon",
+      "unicode": "e7be",
+      "unicode_decimal": 59326
+    }
+  ]
+}

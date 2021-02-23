@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>自定义组件使用v-model</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	Vue2.X可以在自定义组件上使用v-model指令
+	<div id="app">
+		<p>总数：{{ total }}</p>
+        <my-component v-model="total"></my-component>
+        
+        <my-component-2 @input="getParentData"></my-component-2>
+    </div>
+    <script>
+    	Vue.component('my-component', {
+    		template: '<button @click="handleClick">+1</button>',
+    		data: function () {
+    			return {
+    				counter: 0
+    			}
+    		},
+    		methods: {
+    			handleClick: function () {
+    				this.counter++;
+    				this.$emit('input', this.counter);
+    			}
+    		}
+    	});
+    	
+    	Vue.component('my-component-2', {
+    		template: '<button @click="handleIncrease">+1</button>',
+    		data: function () {
+    			return {
+    				counter: 0
+    			}
+    		},
+    		methods: {
+    			handleIncrease: function () {
+    				this.counter++;
+    				this.$emit('input', this.counter);
+    			}
+    		}
+    	});
+    	
+    	//以上两种写法，效果是一样的；只是v-model更简洁，方便，不需要使用自定义属性
+    	
+        var app = new Vue({
+            el: "#app",
+            data: {
+            	total: 0
+            },
+            methods: {
+            	getParentData: function (total) {
+            		this.total = total;
+            	}
+            }
+        });
+    </script>
+</body>
+</html>

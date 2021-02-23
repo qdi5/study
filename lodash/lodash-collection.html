@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>lodash常用方法3</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="./src/css/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="./src/js/lodash.full.js"></script>
+</head>
+<body>
+<h3>集合方法</h3>
+<script>
+    //1、at;根据给定集合的key或索引筛选出的元素创建数组
+    console.log(_.at(['1','b',123], [0, 1]));
+    //2、filter/reject; 根据指定条件过滤数组，filter将迭代器返回true的值放到结果集中；reject将迭代器返回false的值放到结果集中；
+    var aryFilter = _.filter([4,2,6,5], function(n) {
+        return n % 2 == 0
+    });//过滤出所有奇数的值
+    console.log(aryFilter);
+
+/*    //3、pluck(collection, path) 从集合里的所有元素中获取path的属性值
+    var usersList = [
+        {
+            'user': 'barney',
+            'age': 36
+        },
+        {
+            'user': 'fred',
+            'age': 40
+        }
+    ];
+
+    console.log(_.pluck(usersList, 'user'));*/
+    //4、reduce(collection,iteratee,accumulator)
+    //这里的total是累加的值，n是当前集合中正在循环的值
+    _.reduce([1,2], function(total, n) {
+        console.log(total, n);
+        return total + n;
+    });
+
+    _.reduce({'a': 1, 'b': 2, 'c': 1}, function(result, value, key){
+        (result[value] || (result[value] = [])).push(key);
+
+        return result;
+    }, {});
+
+    //5、sample(array || object)随机从集合中获取值
+    console.log(_.sample(
+        {
+            'name': '吴哲',
+            'age': 24,
+            'gander': 1,
+            'hobby': '撸码'
+        },
+        )
+    );
+
+    console.log(_.sample(
+       ['篮球', '羽毛球', '乒乓球', '足球', '排球', '高尔夫球']
+        )
+    );
+
+    //6、shuffle(array || object) 乱序(随机洗牌)
+    console.log(_.shuffle([1, 2, 3, 4]));
+
+    //7、size(array || object || string) 返回对象的长度通过返回它的类数组的长度或可枚举的字符串键属性
+    console.log(_.size([1, 2, 3]));
+
+    console.log(_.size(
+        {
+            'a': 1,
+            'b': 2
+        }
+        ));
+
+    console.log(_.size('wuzhe'));
+
+    //8、some(array || object) 只要有一个通过了条件判断，则为真
+    console.log(_.some([null, 0, 'yes', false], Boolean));
+
+    //9、sortBy(array || object); 升序排列的元素
+    var users = [
+        {
+            'user': 'array',
+            'age': 24
+        },
+        {
+            'user': 'fred',
+            'age': 48
+        },
+        {
+            'user': 'barney',
+            'age': 36
+        },
+        {
+            'user': 'fred',
+            'age': 40
+        },
+        {
+            'user': 'barney',
+            'age': 34
+        }
+    ];
+
+    //两种方式实现：先按照用户名排序、再按照年龄排序
+    console.log(_.sortBy(users, [function(o) { return o.user; },
+        function(o) { return o.age; }
+        ]));
+
+    console.log(_.orderBy(users, ['user', 'age']));
+
+    //orderBy(array||object, iteratees, orders)
+    console.log('user正序，age倒序：');
+    console.log(_.orderBy(users, ['user', 'age'], ['asc', 'desc']));
+
+    //10、find(array || object)/findLast 返回集合中第一个通过判断返回true的元素;(findLast是从右向左找)
+    var users = [
+        {
+            'user': 'barney',
+            'age': 36,
+            'active': true,
+        },
+        {
+            'user': 'fred',
+            'age': 40,
+            'active': false
+        },
+        {
+            'user': 'pebbles',
+            'age': 1,
+            'active': true
+        }
+    ];
+
+    console.log(_.find(users, function(o) {
+        return o.age > 36;
+    }));
+
+    //11、flatMap(array || object) 将集合中多维数组改变为一维数组
+    console.log(_.flatMap([1,2,[3,4,5,[6,7,8]]], function(value, index) {
+        return value;
+    }));
+
+    //递归滴将多维数组拆解为一个一维数组
+    console.log(_.flatMapDeep([1,2,[3,4,5,[6,7,8]]], function(value, index) {
+        return value;
+    }));
+
+    //12、forEach(array || object)/forEachRight(array || object) 迭代对象或数组、对于其他具有length属性的类对象，它会把他们当做数组来迭代；因此，对于这种对象迭代最好使用_.forIn或者_.forOwn方法
+    _.forEach([1,2,3,4,5,6], function(value) {
+        console.log(value);
+    });
+
+    _.forEach({ 'a': 1, 'b': 2}, function(value, key) {
+        console.log(key,value);
+    });
+
+    //13、groupBy(array||object) 从运行每一个集合元素的迭代器产生的结果生成的key组成的对象；grouped的值的顺序由他们在集合中的顺序决定;
+    console.log(_.groupBy([6.1, 7,7.2,4.2, 6.3], Math.floor));
+
+    //14、includes(array||object||string, value) 检查值是否在集合中;如果集合是个字符串，则查找字符是否存在于这个字符串中;
+    console.log(_.includes([1, 2, 3], 1));
+
+    //在索引未0的位置是否有个元素为1
+    console.log(_.includes([1, 2, 3], 1, 0));
+
+    console.log(_.includes({'a': 1, 'b': 2}, 1));
+
+    console.log(_.includes('abcd', 'bc'));
+
+    //15、invokeMap(array || object, path) 给每一个集合里的元素调用path对应的方法
+    console.log(_.invokeMap([[5, 1, 7], [3, 2, 1]], 'sort'));
+
+    console.log(_.invokeMap([123, 456], String.prototype.split, ''));
+
+    //16、keyBy(array||object) 创建一个由key组成的对象，这个key通过迭代器迭代每个集合里的元素生成，每个key对应的值是最新的负责生成key的元素
+    var array = [
+        {'dir': 'left', 'code': 97},
+        {'dir': 'right', 'code': 100}
+    ];
+
+    //这里的key是由函数的返回值决定的，key对应的值就是当前循环的对象o
+    console.log(_.keyBy(array, function(o) {
+        return String.fromCharCode(o.code);
+    }));
+
+    console.log(_.keyBy(array, 'code'));
+    //17、
+</script>
+</body>
+</html>

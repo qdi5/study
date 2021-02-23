@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>异步更新队列和$nextTick</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+	.highlight {
+		color: red;
+	}
+</style>
+</head>
+<body>
+	<div id="app">
+        <div id="div" v-if="showDiv">这是一段文本</div>
+        <button @click="getText">获取div内容</button>
+        <p>
+        	Vue在观察到数据变化时并不是直接更新DOM，而是<b class="highlight">开启一个队列</b>，并<b class="highlight">缓冲</b>在同一事件循环中发生的所有数据改变。<br/>
+        在缓冲时会去除重复数据，从而避免不必要的计算和DOM操作。然后，在下一个事件循环tick中，Vue刷新队列并执行实际(已去重的)工作。	
+        </p>
+        <hr />
+        <pre>
+        	所以，如果你用一个for循环来动态改变数据100次，其实它只会应用最后一次改变，如果没有这种机制，DOM就要重绘100次，这固然是一个很大的开销。
+        </pre>
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	showDiv: false
+            },
+            
+            //通过事件触发
+            methods: {
+            	getText: function() {
+            		this.showDiv = true;
+					
+            		this.$nextTick(function() {
+            			var text = document.getElementById('div').innerHTML;
+            			console.log(text);
+            		});
+            	}
+            }
+        });
+        // 上面代码执行后，会抛出一个错误： cannot read property 'innerHTML' of null
+       
+    </script>
+</body>
+</html>

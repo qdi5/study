@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组件自定义事件之sync</title>
+</head>
+<body>
+  <div id="app">
+    <h4>1、使用sync修饰符</h4>
+    <z2 :title.sync="doc.title"></z2>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+    /* 
+      之前的父子组件通信：
+      子组件触发一个自定义事件，告知父组件修改某一个props；
+      父组件调用子组件时，使用v-bind将父组件的修改同步给子组件
+    */
+    Vue.component('z2', {
+      props: {
+        title: String
+      },
+      template: `
+        <div>
+          <h2>{{ title }}</h2>
+          {{ message }}
+          <button @click="updateTitle">修改标题</button>
+        </div>`,
+      data () {
+        return {
+          message: 'vue子组件'
+        }
+      },
+      methods: {
+        updateTitle () {
+          this.title = '修改后的标题'
+        }
+      }
+    })
+    var app = new Vue({
+      el: '#app',
+      data: {
+        doc: {
+          title: '初始标题'
+        }
+      }
+    })
+  </script>  
+</body>
+</html>

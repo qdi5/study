@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue js动画</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <script src="./velocity.min.js"></script>
+  <div id="app">
+    <transition
+     appear
+     @before-enter="handleBeforeEnter" 
+     @enter="handleEnter"
+     @after-enter="handleAfterEnter"
+     @before-leave="hanldeBeforeLeave"
+     @leave="handleLeave"
+     @after-leave="handleAfterLeave"
+    >
+      <div v-show="show">vue transition动画</div>
+    </transition> 
+    <button @click="show = !show">切换显示隐藏</button>
+  </div>
+  <script>
+    new Vue({
+      data: {
+        show: true
+      },
+      el: '#app',
+      methods: {
+        // el 就是执行动画的dom元素
+        handleBeforeEnter (el) {
+          el.style.opacity = 0
+          console.log('beforeEnter event')
+        },
+        // done告诉vue动画执行完毕了
+        handleEnter (el, done) {
+          console.log('enter event')
+          el.velocity({ opacity: 1 }, {
+            duration: 1000,
+            complete: done
+          })
+        },
+        handleAfterEnter (el) {
+          console.log('afterEnter event')
+          el.style.color = 'blue'
+        },
+        hanldeBeforeLeave (el) {
+          console.log('beforeLeave event')
+          el.style.opacity = 1
+        },
+        handleLeave (el, done) {
+          console.log('leave event')
+          el.velocity({opacity: 0}, {
+            duration: 1000,
+            complete: done
+          })
+        },
+        handleAfterLeave (el) {
+          console.log('afterLeave event')
+          el.style.color = 'yellow'
+        }
+      }
+    })
+  </script>
+</body>
+</html>

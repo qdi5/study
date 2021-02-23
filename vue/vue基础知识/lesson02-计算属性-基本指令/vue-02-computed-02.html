@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>计算属性get和set</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+	.price {
+		display: inline-block;
+		text-decoration: line-through;
+	}
+</style>
+</head>
+<body>
+	
+	<div id="app">
+    	<div v-once>
+    		原价: <div :class="classname">{{ price }}</div> &yen;
+    	</div>
+    	<p>促销价: <input @input="getValue($event)" name="sale"/></p>
+    	<p>传递给后台的值：{{ cents }}</p>
+    </div>
+    <script>
+    	//
+        var app = new Vue({
+            el: "#app",
+            data: {
+            	cents: 100000, //后端传过来的以'分'为单位的money
+            	classname: 'price'
+            },
+            methods: {
+            	getValue ($event, arg2) {
+            		this.price = $event.target.value || 0;
+            		console.log(this.price);
+            	}
+            },
+            //实时计算  当数据有变化的时候执行
+            computed: {
+            	price: {
+            		set (newValue) {
+            			console.log(parseFloat(newValue));
+            			this.cents = parseFloat(newValue)* 100;
+            		},
+            		get () {
+            			return (this.cents/100).toFixed(2);
+            		}
+            	}
+            }
+        });
+		
+    </script>
+</body>
+</html>

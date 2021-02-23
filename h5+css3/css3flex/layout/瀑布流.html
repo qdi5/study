@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>css3分栏布局</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .wrap {
+        width: 1000px;
+        margin: auto;
+
+        /* 分栏的最小宽度 */
+        -webkit-column-width: 100px;
+        column-width: 100px;
+
+        column-count: 4;
+/*
+        当列数大到每列的宽度小于最小宽度200px时，以最小宽度200px显示
+        -webkit-column-count: 2; 列数
+        column-count: 2;
+
+        优先按照最小宽度显示列数
+        -webkit-column-gap: 20px; 间距
+        column-gap: 20px;
+
+        -webkit-column-rule: 1px solid red;
+        column-rule: 1px solid red; */
+    }
+
+    .wrap img {
+        width: 100%;
+        display: block;
+    }
+    .count {
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <div class="count">
+        <input type="text" class="num">
+        <button id="btn">css3瀑布流</button>
+    </div>
+    <div class="wrap">
+        <img src="../images/1.jpg" alt="">
+        <img src="../images/2.jpg" alt="">
+        <img src="../images/3.jpg" alt="">
+        <img src="../images/4.jpg" alt="">
+        <img src="../images/5.jpg" alt="">
+        <img src="../images/6.jpg" alt="">
+        <img src="../images/7.jpg" alt="">
+        <img src="../images/8.jpg" alt="">
+        <img src="../images/9.jpg" alt="">
+        <img src="../images/1.jpg" alt="">
+        <img src="../images/2.jpg" alt="">
+        <img src="../images/3.jpg" alt="">
+        <img src="../images/4.jpg" alt="">
+        <img src="../images/5.jpg" alt="">
+        <img src="../images/6.jpg" alt="">
+        <img src="../images/7.jpg" alt="">
+        <img src="../images/8.jpg" alt="">
+        <img src="../images/9.jpg" alt="">
+        <img src="../images/1.jpg" alt="">
+        <img src="../images/2.jpg" alt="">
+        <img src="../images/3.jpg" alt="">
+        <img src="../images/4.jpg" alt="">
+        <img src="../images/5.jpg" alt="">
+        <img src="../images/6.jpg" alt="">
+        <img src="../images/7.jpg" alt="">
+        <img src="../images/8.jpg" alt="">
+        <img src="../images/9.jpg" alt="">
+        <img src="../images/1.jpg" alt="">
+        <img src="../images/2.jpg" alt="">
+        <img src="../images/3.jpg" alt="">
+        <img src="../images/4.jpg" alt="">
+        <img src="../images/5.jpg" alt="">
+        <img src="../images/6.jpg" alt="">
+        <img src="../images/7.jpg" alt="">
+        <img src="../images/8.jpg" alt="">
+        <img src="../images/9.jpg" alt="">
+    </div>
+    <script>
+        var num = document.querySelector('.num');
+        var btn = document.getElementById('btn');
+        var wrap = document.querySelector('.wrap');
+
+        btn.onclick = function() {
+            var column = num.value;
+            console.log(column);
+            wrap.style.columnCount = column;
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es7 async异常捕获</title>
+	</head>
+	<body>
+		<h3>基本规则</h3>
+		1、async标识这是一个异步函数，await只能应用在这个async函数里面
+		2、await表示在这里，会等待Promise返回结果之后再继续执行
+		3、await后面跟着的应该是一个Promise对象，但是如果不是，也就是返回其他值，不会报错，但是就不会出现同步的效果了
+		<blockquto>提示:
+		<p>
+			
+		</p>
+		</blockquto>
+		<script>
+			var sleep = function ( time ) {
+				return new Promise(function (resolve, reject) {
+					setTimeout(() => {
+						console.log('休眠结束…………');
+						resolve();
+					}, time);
+				});
+			}
+			
+			/* async： 给方法一个标识，告诉他这是一个需要异步的函数
+			var start = async function () {
+				// await处理异常的方法
+				try {
+					console.log('开始休眠……');
+					await sleep(3000);
+					console.log('苏醒了……');
+				} catch(err) {
+					console.log(err);
+				}
+			}
+			start();*/
+			
+			// await必须在async上下文中
+			var arr = [1,2,3];
+			var fn = async function () {
+				// 这里用forEach就会报错await无效
+				/*arr.forEach(v => {
+					await sleep(2000);
+				});*/
+				for (let v of arr) {
+					console.log(v);
+					await sleep(2000);
+				}
+			};
+			fn();
+		</script>
+	</body>
+</html>

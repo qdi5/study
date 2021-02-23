@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>promise</title>
+	</head>
+	<body>
+		<script>
+			function one () {
+				return new Promise(function(resolve, reject){
+					setTimeout(()=>{
+						console.log('煮水');
+						resolve();
+					}, 3000);
+					
+				});
+			}
+			
+			function two () {
+				return new Promise(function(resolve, reject){
+					setTimeout(()=>{
+						console.log('洗杯子');
+						resolve();
+					}, 2000);
+					
+				});
+			}
+			
+			function three () {
+				return new Promise(function(resolve, reject){
+					setTimeout(()=>{
+						console.log('泡茶叶');
+						resolve();
+					}, 1000);
+					
+				});
+			}
+			
+			/*console.time('promise');
+			
+			one().
+			then(function () {
+				return two();
+			}).
+			then(function () {
+				return three();
+			}).
+			then(function(){
+				console.timeEnd('promise');
+			});*/
+			
+			
+			
+			// 按照顺序执行，但是谁先执行完就输出
+			// 这里就相当于一个跑步比赛，不是那个先跑就先到终点
+			// 最后的then表示最后一名选手成功达到终点
+			console.time('promiseAll');
+			Promise.all([one(), two(), three()]).then(function(){
+					console.timeEnd('promiseAll');
+			},function(error){
+				console.log(error)
+			});
+		</script>
+	</body>
+</html>

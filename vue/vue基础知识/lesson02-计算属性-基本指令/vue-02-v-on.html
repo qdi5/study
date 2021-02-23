@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!-- v-on 绑定事件 -->
+	<div id="app">
+        <button v-on:click="fn()">点我点我点我</button>
+        <button @click="fn1()">简写点我点我</button>
+        <div v-show="show">显示/隐藏</div>
+        <button @click="fn()">按钮</button>
+        <button @click="show=!show">事件函数直接写在html里</button>
+        <button @click="fn2(this)">html里的事件this指向</button>
+        <button @click="fn3(show)">html里的事件传递data里的数据</button>
+    </div>
+    <script>
+        var app = new Vue({
+
+            //选择元素
+            el: "#app",
+            data: {
+            	show: true
+            },
+            methods: {
+            	fn(){
+            		
+            		//this指向当前vue实例
+            		this.show = !this.show;
+            	},
+            	fn2(_this){
+            		alert(_this);
+            	},
+            	fn3(show){
+            		alert(show);
+            	}
+            }
+        });
+		
+		console.log(app);
+    </script>
+</body>
+</html>

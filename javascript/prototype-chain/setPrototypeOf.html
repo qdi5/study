@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			function a () {
+			    var fn = function () {};
+			    //var fn = Object.create(proto);
+			    
+			    // 设置fn关联的构造器的原型为proto(效果跟fn.__proto__=proto)
+			    Object.setPrototypeOf(fn, proto);
+			    return fn;
+			}
+			
+			var proto = {};
+			
+			proto = {
+				getMoney: function () {
+					return 10000;
+				}
+			}
+			
+			var fn = a();
+			console.log(a());
+			console.log(fn.getMoney());
+		</script>
+	</body>
+</html>

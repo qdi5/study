@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>原型继承</title>
+	</head>
+	<body>
+		<script>
+			
+			// 构造函数
+			function Animal (name, age, height, weight) {
+				this.name = name;
+				this.age = age;
+				this.height = height;
+				this.weight = weight;
+			}
+			
+			Animal.prototype = {
+				eat: function () {
+					console.log(this.name + '正在吃饭');
+				},
+				drink: function() {
+					console.log(this.name + '正在喝水');
+				}
+			}
+			// 构造函数 Student 子类
+			function Person () {
+				Animal.apply(this, arguments);
+			}
+			
+			//1、继承一：共享原型 
+			// Student.prototype = Person.prototype;
+			
+			// 2、继承二： 复制原型对象
+			/*for (let key in Person.prototype) {
+				Student.prototype[key] = Person.prototype[key];
+			}*/
+			
+			// 3、继承三：利用原型链(子类的原型指向父类的实例)
+			let cat = new Animal();
+			Person.prototype = cat;
+			
+			if (!Person.prototype['think']) {
+					Person.prototype.think = function () {
+					console.log(this.name + "正在思考");
+				}
+			}
+			
+			let stu = new Person("小明", 15, 160, 80);
+			stu.eat();
+			stu.think();
+			let dog = new Animal("小黄", 3, 50, 60);
+			dog.think();
+		</script>
+	</body>
+</html>

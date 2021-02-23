@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>模拟new的实现</title>
+	</head>
+	<body>
+		<script>
+			Function.prototype.method = Function.prototype.method || function (name, fn) {
+				if (!this.prototype[name]) {
+					this.prototype[name] = fn
+				}
+				return this
+			}
+			
+			Function.method('new', function () {
+				debugger
+				// 创建一个新的对象,它继承自构造器函数的原型对象
+				var that = Object.create(this.prototype)
+				// 调用构造器函数,绑定this到新对象上
+				// 下面代码里的this指向的是Function的实例,也就是在that这个上下文中调用这个实例方法
+				var other = this.apply(that, arguments) 
+				//如果它的返回值不是一个对象,就返回该新对象
+				return (typeof other === 'object' && other) || that
+			})
+			console.log(Object.new({age: 26, name: '吴哲'}))
+			console.log(Object({age: 18, name: '吴婉'}))
+			
+			function Person (name, age) {
+				this.name = name
+				this.age = age
+			}
+			var a = new Person()
+		</script>
+	</body>
+</html>

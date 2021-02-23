@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>手写实现promise</title>
+	</head>
+	<body>
+		<script>
+			function MyPromise (fn) {
+				var callback = null;
+				this.then = function (cb) {
+					callback = cb;
+					
+					console.log('then method is loading');
+				}
+				
+				function resolve(value) {
+					callback(value);
+				}
+				fn(resolve);
+			}
+		</script>
+		<script>
+			function test () {
+				return new MyPromise(function () {
+					
+				});
+			}
+			test().then();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>BFC用途，清除浮动-避免文字环绕</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			#wrapper {
+				width: 500px;
+				padding: 10px;
+				border: 1px solid black;
+			}
+			img {
+				float: left;
+			}
+			#content {
+				background-color: #ffacac;
+				/* 创建一个BFC，使得float元素不与文字区域重叠 */
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<img src="./video/poster.jpg" alt="" width="100" height="100">
+			<div id="content">
+				水陆草木之花，可爱者甚蕃。晋陶渊明独爱菊；自李唐来，世人甚爱牡
+丹；予独爱莲之出淤泥而不染，濯清涟而不妖，中通外直，不蔓不枝，香远益清，亭亭净植， 可远观而不可亵玩焉。
+予谓菊，花之隐逸者也；牡丹，花之富贵者也；莲，花之君子者也。噫！菊之爱，陶后鲜有闻；莲之爱，同予者何人？牡丹之爱，宜乎众矣。
+水陆草木之花，可爱者甚蕃。晋陶渊明独爱菊；自李唐来，世人甚爱牡
+丹；予独爱莲之出淤泥而不染，濯清涟而不妖，中通外直，不蔓不枝，香远益清，亭亭净植， 可远观而不可亵玩焉。
+予谓菊，花之隐逸者也；牡丹，花之富贵者也；莲，花之君子者也。噫！菊之爱，陶后鲜有闻；莲之爱，同予者何人？牡丹之爱，宜乎众矣。
+			</div>
+		</div>
+	</body>
+</html>
