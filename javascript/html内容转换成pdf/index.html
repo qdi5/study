@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" style="font-family: WeiRuanYaHei;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content">
+        系统设置是对开拓者量化平台使用过程中的一些基本参数进行设置的窗口，单击导航栏按钮，或系统菜单[系统]-[系统设置]打开。
+    </div>
+    
+    <div id="elementH"></div>
+    <script src="./html2canvas.js"></script>
+    <script src="./purify.js"></script>
+    <script src="./jspdf.umd.js"></script>
+    <script src="./WeiRuanYaHei-normal.js"></script>
+    
+    <script>
+        /* const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFont("WeiRuanYaHei");
+        // doc.text("你好啊！嘿嘿嘿！！！", 10, 10);
+        let content = document.getElementById('content').textContent
+       doc.text(content, 10, 10)
+       doc.save() */
+    </script>
+    <script>
+        const { jsPDF } = window.jspdf;
+        // 将html元素转换为pdf
+        var doc = new jsPDF();
+        doc.setFont("WeiRuanYaHei")
+        doc.setFontSize(16)
+        doc.html('<h1>你好啊</h1>', {
+            callback: function (doc) {
+                doc.save();
+            },
+            x: 10,
+            y: 10
+        });
+    </script>
+</body>
+</html>

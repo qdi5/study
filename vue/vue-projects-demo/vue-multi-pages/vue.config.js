@@ -1,5 +1,9 @@
 const glob = require('glob')
+const path = require('path') 
 
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
 function getEntry(url) {
   let entrys = {}
   glob.sync(url).forEach(item => {
@@ -16,5 +20,15 @@ function getEntry(url) {
 }
 let pages = getEntry('./src/pages/**?/*.html')
 module.exports = {
-  pages
+  pages,
+  chainWebpack: (config) => {
+    config.resolve.alias.set('components', resolve('src/components'))
+  },
+  devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true,
+    port: 3001,
+    open: true,
+    hotOnly: true
+  }
 }
