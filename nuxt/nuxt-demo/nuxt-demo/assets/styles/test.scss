@@ -1,0 +1,22 @@
+$test: 333;
+@warn $test;
+@debug 'hello debug sass: #{$test}';
+.hello {
+  color: red;
+}
+$spacer: 8px;
+$spacers: map-merge($map1: (
+  0: 0,
+  1: 1 * $spacer,
+  2: 2 * $spacer,
+  3: 3 * $spacer,
+  4: 4 * $spacer,
+  5: 5 * $spacer
+), $map2: ());
+
+@each $key, $value in $spacers {
+  .p-#{$key} {
+    padding: $value;
+  }
+}
+
