@@ -1,7 +1,11 @@
 <template>
-  <Tutorial/>
+  <div>首页</div>
 </template>
 
 <script>
-export default {}
+export default {
+  asyncData({ $config }) {
+    console.log(`$config:`, $config)
+  },
+}
 </script>

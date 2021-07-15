@@ -15,7 +15,16 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-
+  // 定义公共环境变量
+  publicRuntimeConfig: {
+    // 自定义的全局公共变量，用于区分项目运行时的不同场景（开发、测试、开发&移动端、开发&PC）
+    mode: process.env.NODE_ENV,
+    baseURL: '测试nuxt runtime config'
+  },
+  // 定义私有环境变量
+  privateRuntimeConfig: {
+    apiSecret: 'jflsja'
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'element-ui/lib/theme-chalk/index.css'
@@ -23,7 +32,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    'plugins/nuxt-ready.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,6 +49,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // dev.auth.nuxtjs.org
+    '@nuxtjs/auth'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
