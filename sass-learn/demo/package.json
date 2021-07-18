@@ -1,0 +1,13 @@
+{
+  "name": "sass",
+  "version": "1.0.0",
+  "description": "sass有两种语法格式。首先是SCSS，这种格式仅在CSS3语法的基础上进行扩展，所有CSS3语法在SCSS中都是通用的，同时加入Sass的特色功能。此外，SCSS也支持大多数CSS hacks写法以及浏览器前缀写法（vendor-specific syntax），以及早期的IE滤镜写法。这种格式以`.scss`作为扩展名。",
+  "main": "index.js",
+  "scripts": {
+    "sass:test": "sass -i",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
