@@ -1,0 +1,17 @@
+// 定义自己的bootstrap变量，覆盖默认bootstrap的值
+$wuzhe-color: purple;
+
+/* end */
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+
+// $xs-bks
+$xs-bks: nth(nth($grid-breakpoints, 1), 2);
+// $sm-bks
+$sm-bks: nth(nth($grid-breakpoints, 2), 2);
+// $md-bks
+$md-bks: nth(nth($grid-breakpoints, 3), 2);
+// $lg-bks
+$lg-bks: nth(nth($grid-breakpoints, 4), 2);
+// $xl-bks
+$xl-bks: nth(nth($grid-breakpoints, 5), 2);
