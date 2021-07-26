@@ -5,6 +5,7 @@ $wuzhe-color: purple;
 @import "../../../../node_modules/bootstrap/scss/functions";
 @import "../../../../node_modules/bootstrap/scss/_variables";
 
+// 新增全局scss变量
 // $xs-bks
 $xs-bks: nth(nth($grid-breakpoints, 1), 2);
 // $sm-bks

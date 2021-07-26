@@ -1,6 +1,7 @@
 <template>
   <div>
     <tb-header></tb-header>
+    <router-link :to="{name: 'About'}">about</router-link>
     <tb-footer></tb-footer>
   </div>
 </template>
@@ -17,6 +18,7 @@ export default {
         dialogVisible: false
       };
     },
+    
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
@@ -31,6 +33,15 @@ export default {
           })
           .catch(() => {});
       }
+    },
+    mounted () {
+      debugger
+      if(window.name == ""){
+   console.log("首次被加载");
+   window.name = "isReload"; // 在首次进入页面时我们可以给window.name设置一个固定值 
+   }else if(window.name == "isReload"){
+   console.log("页面被刷新");
+   }
     }
   }
 </script>
