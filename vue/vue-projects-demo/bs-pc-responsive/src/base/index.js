@@ -26,6 +26,9 @@ import {
 } from "element-ui";
 import TbHeader from "./TbHeader";
 import TbFooter from "./TbFooter/TbFooter";
+import TbTriangle from "./TbTriangle"
+import LoadRemotejs from "./LoadRemotejs"
+import TbLayout from "./Layout"
 const components = {
     Row,
     Col, 
@@ -51,7 +54,10 @@ const components = {
     Backtop,
     Scrollbar,
     TbHeader,
-    TbFooter
+    TbFooter,
+    TbTriangle,
+    LoadRemotejs,
+    TbLayout
 }
 const install = app => {
     Object.keys(components).forEach(key => {

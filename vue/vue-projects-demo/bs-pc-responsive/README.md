@@ -233,6 +233,31 @@ Bootstrap的网格包括五层预定义的类，用于构建复杂的响应式�
 
 `<b-row>`属性中指定的值是每行要创建的列数。（而`<b-col>`上的属性指的是要占用的列数）
 
+**表单验证**
+
+***工作原理 ***
+- html表单通过CSS的`:invalid`和`:valid`伪类来应用验证；它应用在`<input>`、`<select>`和`<textarea>`元素上。    
+- Bootstrap scopes`:invalid`和`:valid`样式到父元素`.was-validated`类，通常应用到`<form>`元素。不然，在页面加载时候，任何必填的字段为空会显示invalid。这样，你可以选择何时去触发他们（通常在表单尝试提交之后）    
+- 为了重置表单的外观（比如，使用AJAX动态提交表单的情况），在提交后，再一次从`<form>`元素移除`.was-validated`类
+- 作为备选，在服务端验证时，`.is-invalid`和`.is-valid`类可能替代伪类被使用；
+- 由于CSS工作原理的限制，我们目前不能给一个在一个form control之前生成的`<label>`应用样式，在没有自定义js帮助的dom中。
+- 所有浏览器都支持[constraint validation API](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#the-constraint-validation-api)，一系列js方法用于验证表单
+- 反馈信息可以使用浏览器默认的（每个浏览器都不一样，并且无法通过CSS改变样式），或者使用我们自定义的用了额外的HTML和CSS的反馈样式。    
+- 你可以在js里使用`setCustomValidity`提供一个自定义的验证信息
+
+***自定义样式***
+为了自定义Bootstrap表单验证信息，你需要在`<form>`元素上添加`novalidate`布尔属性，这会禁止浏览器默认的反馈弹框，但是仍然提供JS访问表单验证API；当提交表单的时候，你将会看到`:invalid`和`:valid`样式会应用到你的form controls。    
+自定义反馈样式应用自定义的colors,borders,focus styles和背景图标。对于`<select>`背景图标仅仅可以使用在`.custom-select`上，不是`.form-control`  
+
+
+
+## Swiper  
+1、loop模式下，生成了2份重复的dom元素，一共三份    
+2、
+
+## 问题
+1、css中使用到的图片，在开发环境和生产环境下使用不同的路径
+
 
 
 

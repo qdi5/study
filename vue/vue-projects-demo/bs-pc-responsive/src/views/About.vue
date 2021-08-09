@@ -195,17 +195,7 @@
 
 <script>
 export default {
-      mounted () {
-      if(window.name == ""){
-   console.log("首次被加载");
-   window.name = "isReload"; // 在首次进入页面时我们可以给window.name设置一个固定值 
-   }else if(window.name == "isReload"){
-   console.log("页面被刷新");
-   }
-    },
-    destroyed() {
-      window.name=""
-    }
+    
 }
 </script>
 
